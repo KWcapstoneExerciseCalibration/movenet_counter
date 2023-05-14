@@ -37,14 +37,39 @@ class zFinder {
         //  z값은 카메라와 가까울수록 -, 멀수록 +
 
         var nowOrder: Int = 0
-        // person.keyPoints[].coordinate.x
-        var shouldLen = sqrt((person.keyPoints[BodyPart.LEFT_SHOULDER.position].coordinate.x - person.keyPoints[BodyPart.RIGHT_SHOULDER.position].coordinate.x).pow(2)
-                    + (person.keyPoints[BodyPart.LEFT_SHOULDER.position].coordinate.y - person.keyPoints[BodyPart.RIGHT_SHOULDER.position].coordinate.y).pow(2))
+        var lenRate: Float = 0.0f
 
-        shouldLen /= shoulder;
+        when(poseNum) {
+            1 -> {
+                // 스쿼트
+                lenRate = sqrt(
+                    (person.keyPoints[BodyPart.LEFT_SHOULDER.position].coordinate.x - person.keyPoints[BodyPart.RIGHT_SHOULDER.position].coordinate.x).pow(
+                        2
+                    )
+                            + (person.keyPoints[BodyPart.LEFT_SHOULDER.position].coordinate.y - person.keyPoints[BodyPart.RIGHT_SHOULDER.position].coordinate.y).pow(
+                        2
+                    )
+                )
+
+                lenRate /= shoulder;
+            }
+            2 -> {
+                // 팔굽혀펴기
+                lenRate = sqrt(
+                    (person.keyPoints[BodyPart.LEFT_ANKLE.position].coordinate.x - person.keyPoints[BodyPart.LEFT_KNEE.position].coordinate.x).pow(
+                        2
+                    )
+                            + (person.keyPoints[BodyPart.LEFT_ANKLE.position].coordinate.y - person.keyPoints[BodyPart.LEFT_KNEE.position].coordinate.y).pow(
+                        2
+                    )
+                )
+
+                lenRate /= lastKeypointLength[0]
+            }
+        }
 
         for(i in 0..lastKeypointLength.size-1)
-            lastKeypointLength[i] = lastKeypointLength[i]  * shouldLen
+            lastKeypointLength[i] = lastKeypointLength[i]  * lenRate
 
         bodyJoints.forEach {
             val pointA = Pair(person.keyPoints[it.first.position].coordinate.x, person.keyPoints[it.first.position].coordinate.y)
@@ -62,8 +87,8 @@ class zFinder {
         }
 
         when (poseNum){
-            // 스쿼트
             1 -> {
+                // 스쿼트
                 person.keyPoints[BodyPart.LEFT_KNEE.position].z = person.keyPoints[BodyPart.LEFT_ANKLE.position].z - person.keyPoints[BodyPart.LEFT_KNEE.position].z
                 person.keyPoints[BodyPart.RIGHT_KNEE.position].z = person.keyPoints[BodyPart.RIGHT_ANKLE.position].z - person.keyPoints[BodyPart.RIGHT_KNEE.position].z
                 person.keyPoints[BodyPart.LEFT_HIP.position].z = person.keyPoints[BodyPart.LEFT_KNEE.position].z + person.keyPoints[BodyPart.LEFT_HIP.position].z
@@ -75,11 +100,21 @@ class zFinder {
                 person.keyPoints[BodyPart.LEFT_WRIST.position].z = person.keyPoints[BodyPart.LEFT_ELBOW.position].z - person.keyPoints[BodyPart.LEFT_WRIST.position].z
                 person.keyPoints[BodyPart.RIGHT_WRIST.position].z = person.keyPoints[BodyPart.RIGHT_ELBOW.position].z - person.keyPoints[BodyPart.RIGHT_WRIST.position].z
                 }
-            // 팔굽혀펴기
-            2->{
 
+            2->{
+                // 팔굽혀펴기
+                person.keyPoints[BodyPart.LEFT_KNEE.position].z = person.keyPoints[BodyPart.LEFT_ANKLE.position].z - person.keyPoints[BodyPart.LEFT_KNEE.position].z
+                person.keyPoints[BodyPart.RIGHT_KNEE.position].z = person.keyPoints[BodyPart.RIGHT_ANKLE.position].z + person.keyPoints[BodyPart.RIGHT_KNEE.position].z
+                person.keyPoints[BodyPart.LEFT_HIP.position].z = person.keyPoints[BodyPart.LEFT_KNEE.position].z - person.keyPoints[BodyPart.LEFT_HIP.position].z
+                person.keyPoints[BodyPart.RIGHT_HIP.position].z = person.keyPoints[BodyPart.RIGHT_KNEE.position].z + person.keyPoints[BodyPart.RIGHT_HIP.position].z
+                person.keyPoints[BodyPart.LEFT_SHOULDER.position].z = person.keyPoints[BodyPart.LEFT_HIP.position].z - person.keyPoints[BodyPart.LEFT_SHOULDER.position].z
+                person.keyPoints[BodyPart.RIGHT_SHOULDER.position].z = person.keyPoints[BodyPart.RIGHT_HIP.position].z + person.keyPoints[BodyPart.RIGHT_SHOULDER.position].z
+                person.keyPoints[BodyPart.LEFT_ELBOW.position].z = person.keyPoints[BodyPart.LEFT_SHOULDER.position].z - person.keyPoints[BodyPart.LEFT_ELBOW.position].z
+                person.keyPoints[BodyPart.RIGHT_ELBOW.position].z = person.keyPoints[BodyPart.RIGHT_SHOULDER.position].z + person.keyPoints[BodyPart.RIGHT_ELBOW.position].z
+                person.keyPoints[BodyPart.LEFT_WRIST.position].z = person.keyPoints[BodyPart.LEFT_ELBOW.position].z - person.keyPoints[BodyPart.LEFT_WRIST.position].z
+                person.keyPoints[BodyPart.RIGHT_WRIST.position].z = person.keyPoints[BodyPart.RIGHT_ELBOW.position].z + person.keyPoints[BodyPart.RIGHT_WRIST.position].z
             }
-            }
+        }
 
         nowOrder = 0
         bodyAngleJoints.forEach{
