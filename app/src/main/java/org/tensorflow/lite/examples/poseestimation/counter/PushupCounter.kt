@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import org.tensorflow.lite.examples.poseestimation.data.BodyPart
 import org.tensorflow.lite.examples.poseestimation.data.Person
+import org.tensorflow.lite.examples.poseestimation.finder.zFinder
 
 class PushupCounter : WorkoutCounter() {
 
@@ -14,14 +15,14 @@ class PushupCounter : WorkoutCounter() {
     var flag = 0
 
     override fun countAlgorithm(person: Person): Int {
+        var human = zFinder().findZPerson(person, 2)
 
         Log.d("PushUpCounter", "PushUp Algorithm")
 
+        if (human.keyPoints[BodyPart.LEFT_SHOULDER.ordinal].score >= MIN_CONFIDENCE &&
+            human.keyPoints[BodyPart.RIGHT_SHOULDER.ordinal].score >= MIN_CONFIDENCE) {
 
-        if (person.keyPoints[BodyPart.LEFT_SHOULDER.ordinal].score >= MIN_CONFIDENCE &&
-                person.keyPoints[BodyPart.RIGHT_SHOULDER.ordinal].score >= MIN_CONFIDENCE) {
-
-            var angle = person.keyPoints[BodyPart.LEFT_ELBOW.ordinal].angle
+            var angle = human.keyPoints[BodyPart.LEFT_ELBOW.ordinal].angle
 
             Log.d("left angle", angle.toString())
 
@@ -37,6 +38,7 @@ class PushupCounter : WorkoutCounter() {
         }
 
         Log.d("개수", "$count 개")
+
 
         return count
     }

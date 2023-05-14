@@ -75,6 +75,10 @@ class zFinder {
                 person.keyPoints[BodyPart.LEFT_WRIST.position].z = person.keyPoints[BodyPart.LEFT_ELBOW.position].z - person.keyPoints[BodyPart.LEFT_WRIST.position].z
                 person.keyPoints[BodyPart.RIGHT_WRIST.position].z = person.keyPoints[BodyPart.RIGHT_ELBOW.position].z - person.keyPoints[BodyPart.RIGHT_WRIST.position].z
                 }
+            // 팔굽혀펴기
+            2->{
+
+            }
             }
 
         nowOrder = 0
