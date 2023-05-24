@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools">
 
 <data>
     <variable
-        name="dailylog"
+        name="statistics"
         type="org.tensorflow.lite.examples.poseestimation.ui.statistic.StatisticFragment" />
 </data>
 
