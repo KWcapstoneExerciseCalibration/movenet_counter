@@ -27,4 +27,9 @@
         <item>BoundingBox</item>
         <item>Keypoint</item>
     </string-array>
+
+    <string name="app_name">MoveUp</string>
+    <string name="title_home">홈</string>
+    <string name="title_dailylog">일지</string>
+    <string name="title_statistics">통계</string>
 </resources>
