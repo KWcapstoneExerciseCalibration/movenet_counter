@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="home"
-            type="org.tensorflow.lite.examples.poseestimation.HomeActivity" />
-    </data>
+<data>
+    <variable
+        name="dailylog"
+        type="org.tensorflow.lite.examples.poseestimation.ui.home.HomeFragment" />
+</data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HomeActivity">
+        tools:context=".ui.home.HomeFragment">
 
         <TextView
             android:id="@+id/textLvl"
@@ -69,7 +69,7 @@
             android:layout_height="104dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="130dp"
-            android:onClick="onClick"
+            android:onClick="onButtonClick"
             android:text="운동 시작"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -33,7 +33,7 @@ import android.util.Log
 import android.view.Surface
 import android.view.SurfaceView
 import kotlinx.coroutines.suspendCancellableCoroutine
-import org.tensorflow.lite.examples.poseestimation.MainActivity
+import org.tensorflow.lite.examples.poseestimation.CameraActivity
 import org.tensorflow.lite.examples.poseestimation.VisualizationUtils
 import org.tensorflow.lite.examples.poseestimation.YuvToRgbConverter
 import org.tensorflow.lite.examples.poseestimation.data.Person
@@ -268,8 +268,8 @@ class CameraSource(
             listener?.onDetectedInfo(persons[0].score, classificationResult)
 
             // Start: 운동 count 알고리즘 실행
-            MainActivity.personForCount = persons
-            MainActivity.workoutCounter.countAlgorithm(persons[0])
+            CameraActivity.personForCount = persons
+            CameraActivity.workoutCounter.countAlgorithm(persons[0])
             // End
         }
         visualize(persons, bitmap)

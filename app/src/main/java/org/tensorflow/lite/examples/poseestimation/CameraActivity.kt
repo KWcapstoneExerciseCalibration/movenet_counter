@@ -41,7 +41,7 @@ import org.tensorflow.lite.examples.poseestimation.data.Device
 import org.tensorflow.lite.examples.poseestimation.data.Person
 import org.tensorflow.lite.examples.poseestimation.ml.*
 
-class MainActivity : AppCompatActivity() {
+class CameraActivity : AppCompatActivity() {
     companion object {
         private const val FRAGMENT_DIALOG = "dialog"
 
@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_camera)
         // keep screen on while app is running
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 

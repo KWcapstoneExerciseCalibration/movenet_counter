@@ -12,7 +12,7 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.PoseEstimation">
-        <activity android:name=".HomeActivity"
+        <activity android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".CameraActivity"
             android:exported="true">
         </activity>
     </application>
