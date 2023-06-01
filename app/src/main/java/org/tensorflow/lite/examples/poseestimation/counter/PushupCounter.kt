@@ -61,25 +61,4 @@ class PushupCounter : WorkoutCounter() {
 
         return count
     }
-
-    override fun correctAlgorithm(person: Person): Int {
-        Log.d("PushUpCorrect", "PushUp correct Algorithm")
-
-        var human = zFinder().findZPerson(person, 2)
-
-        // 사용하는 신체 좌표 값들이 최소 정확도를 넘는지(넘지 않는다면 사람 형태가 카메라에 잡히지 않는 것)
-        if (   human.keyPoints[BodyPart.RIGHT_WRIST.ordinal].score >= MIN_CONFIDENCE
-            && human.keyPoints[BodyPart.RIGHT_ELBOW.ordinal].score >= MIN_CONFIDENCE
-            && human.keyPoints[BodyPart.RIGHT_SHOULDER.ordinal].score >= MIN_CONFIDENCE
-            && human.keyPoints[BodyPart.RIGHT_HIP.ordinal].score >= MIN_CONFIDENCE
-            && human.keyPoints[BodyPart.RIGHT_KNEE.ordinal].score >= MIN_CONFIDENCE
-            && human.keyPoints[BodyPart.NOSE.ordinal].score >= MIN_CONFIDENCE) {
-
-
-            
-            // 조건 쓰기
-        }
-
-        return correct
-    }
 }

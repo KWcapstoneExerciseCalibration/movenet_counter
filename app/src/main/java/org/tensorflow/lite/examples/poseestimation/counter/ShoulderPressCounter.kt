@@ -25,14 +25,4 @@ class ShoulderPressCounter: WorkoutCounter() {
 
         return count
     }
-
-    override fun correctAlgorithm(person: Person): Int {
-        Log.d("ShoulderPressCorrect", "Shoulder Press correct Algorithm")
-
-        var human = zFinder().findZPerson(person, 1)
-
-        // 조건 쓰기
-
-        return correct
-    }
 }

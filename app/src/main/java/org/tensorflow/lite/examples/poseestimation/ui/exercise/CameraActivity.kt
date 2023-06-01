@@ -168,14 +168,14 @@ class CameraActivity : AppCompatActivity() {
         // 운동 종료 버튼
         btn_stop.setOnClickListener{
             val intent = Intent(this, ResultActivity::class.java)
-            intent.getIntExtra("correct", workoutCounter.correct)
+            intent.putExtra("correct", workoutCounter.correct)
             startActivity(intent)
         }
         
         // 자동 종료
         if (workoutCounter.count == workoutCounter.goal) {
             val intent = Intent(this, ResultActivity::class.java)
-            intent.getIntExtra("correct", workoutCounter.correct)
+            intent.putExtra("correct", workoutCounter.correct)
             startActivity(intent)
         }
     }

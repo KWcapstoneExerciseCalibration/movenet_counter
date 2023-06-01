@@ -160,7 +160,6 @@ object VisualizationUtils {
 
             // Start: 운동 count 알고리즘 실행
             CameraActivity.workoutCounter.countAlgorithm(person)
-            CameraActivity.workoutCounter.correctAlgorithm(person)
             // End
         }
 

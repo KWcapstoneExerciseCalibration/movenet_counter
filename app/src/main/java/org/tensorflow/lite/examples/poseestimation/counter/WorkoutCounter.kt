@@ -16,8 +16,6 @@ abstract class WorkoutCounter() {
 
     abstract fun countAlgorithm(person : Person) : Int
 
-    abstract fun correctAlgorithm(person: Person): Int
-
     // 운동 개수 초기화
     fun reset() {
         count = 0
