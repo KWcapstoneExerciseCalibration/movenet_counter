@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.exercise.MenuActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btn_pushup"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_margin="30dp"
+            android:textSize="17dp"
+            android:text="팔굽혀펴기" />
+
+        <Button
+            android:id="@+id/btn_squat"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_margin="30dp"
+            android:textSize="17dp"
+            android:text="스쿼트" />
+
+        <Button
+            android:id="@+id/btn_shoulderpress"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_margin="30dp"
+            android:textSize="17dp"
+            android:text="숄더프레스" />
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
