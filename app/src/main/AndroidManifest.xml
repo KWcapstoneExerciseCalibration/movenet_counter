@@ -35,5 +35,4 @@
         <activity android:name=".ui.exercise.GuideActivity" >
         </activity>
     </application>
-
 </manifest>
