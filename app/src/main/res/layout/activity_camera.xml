@@ -40,6 +40,7 @@
     <include
         layout="@layout/bottom_sheet_layout"
         app:layout_anchor="@+id/surfaceView"
-        app:layout_anchorGravity="center" />
+        app:layout_anchorGravity="center"
+        android:visibility="invisible"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

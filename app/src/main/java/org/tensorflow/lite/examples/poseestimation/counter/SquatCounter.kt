@@ -4,6 +4,7 @@ import android.util.Log
 import org.tensorflow.lite.examples.poseestimation.data.BodyPart
 import org.tensorflow.lite.examples.poseestimation.data.Person
 import org.tensorflow.lite.examples.poseestimation.finder.zFinder
+import org.tensorflow.lite.examples.poseestimation.ui.exercise.CameraActivity
 
 // 스쿼트 counter class
 class SquatCounter : WorkoutCounter() {
@@ -68,9 +69,9 @@ class SquatCounter : WorkoutCounter() {
             // upPosition: 왼쪽 다리가 펴진 상태, 스쿼트를 했다면 count + 1
             if ((leftkneeAngle >= 160 || leftkneeAngle == 0) && nosePosition) {
                 if (downPosition == true) {
-                    // tts 프로그램
                     correct += 5
                     count++
+                    CameraActivity.getInstance()?.ttsSpeak("$count 개")
                     Log.d("wrongPo", wrongPosition.toString())
                     if (wrongPosition == true)
                         wrongPosition = false

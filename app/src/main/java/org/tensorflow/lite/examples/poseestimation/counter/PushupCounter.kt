@@ -1,9 +1,11 @@
 package org.tensorflow.lite.examples.poseestimation.counter
 
 import android.util.Log
+import org.tensorflow.lite.examples.poseestimation.MainActivity
 import org.tensorflow.lite.examples.poseestimation.data.BodyPart
 import org.tensorflow.lite.examples.poseestimation.data.Person
 import org.tensorflow.lite.examples.poseestimation.finder.zFinder
+import org.tensorflow.lite.examples.poseestimation.ui.exercise.CameraActivity
 
 // 팔굽혀펴기 counter class
 class PushupCounter : WorkoutCounter() {
@@ -42,9 +44,9 @@ class PushupCounter : WorkoutCounter() {
             // upPosition: 어깨 각도가 펴진 상태일 때, 팔굽혀펴기를 한 후라면 count + 1
             if (elbowAngle >= 140 || elbowAngle == 0) {
                 if (downPosition == true) {
-                    // tts 프로그램
                     correct += 5
                     count++
+                    CameraActivity.getInstance()?.ttsSpeak("$count 개")
                 }
 
                 upPosition = true

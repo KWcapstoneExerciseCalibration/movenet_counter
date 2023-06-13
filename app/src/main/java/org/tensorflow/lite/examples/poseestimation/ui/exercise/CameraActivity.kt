@@ -19,6 +19,7 @@ package org.tensorflow.lite.examples.poseestimation.ui.exercise
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -44,10 +45,22 @@ import org.tensorflow.lite.examples.poseestimation.counter.SquatCounter
 import org.tensorflow.lite.examples.poseestimation.counter.WorkoutCounter
 import org.tensorflow.lite.examples.poseestimation.data.Device
 import org.tensorflow.lite.examples.poseestimation.ml.*
+import java.util.Locale
 
 class CameraActivity : AppCompatActivity() {
+    // 다른 class에서 main함수 불러오기 용
+    init{
+        instance = this
+    }
+
     companion object {
         private const val FRAGMENT_DIALOG = "dialog"
+
+        // 다른 class에서 maintain 불러오기 용
+        private var instance: CameraActivity? = null
+        fun getInstance(): CameraActivity? {
+            return instance
+        }
 
         // Start: 운동 숫자 count
         var workoutCounter : WorkoutCounter = PushupCounter()
@@ -57,12 +70,7 @@ class CameraActivity : AppCompatActivity() {
     /** A [SurfaceView] for camera preview.   */
     private lateinit var surfaceView: SurfaceView
 
-    /** Default pose estimation model is 1 (MoveNet Thunder)
-     * 0 == MoveNet Lightning model
-     * 1 == MoveNet Thunder model
-     * 2 == MoveNet MultiPose model
-     * 3 == PoseNet model
-     **/
+    /** Default pose estimation model is 1 (MoveNet Thunder) **/
     private var modelPos = 1
 
     /** Default device is CPU */
@@ -72,6 +80,12 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var count_text: TextView
     private lateinit var btn_stop: Button
     // End
+
+    // tts
+    private var tts: android.speech.tts.TextToSpeech? = null
+
+    // AlertDialog가 띄워져 있는지
+    private var alter: Boolean = false
 
     private lateinit var spnDevice: Spinner
     private lateinit var spnModel: Spinner
@@ -116,7 +130,7 @@ class CameraActivity : AppCompatActivity() {
 
     private var changeDeviceListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            changeDevice(position)
+            // Do nothing
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -126,7 +140,7 @@ class CameraActivity : AppCompatActivity() {
 
     private var changeTrackerListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            changeTracker(position)
+            // Do nothing
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -152,6 +166,7 @@ class CameraActivity : AppCompatActivity() {
         surfaceView = findViewById(R.id.surfaceView)
         swClassification = findViewById(R.id.swPoseClassification)
         vClassificationOption = findViewById(R.id.vClassificationOption)
+        initTTS()
         initSpinner()
         spnModel.setSelection(modelPos)
         if (!isCameraPermissionGranted()) {
@@ -167,13 +182,6 @@ class CameraActivity : AppCompatActivity() {
         
         // 운동 종료 버튼
         btn_stop.setOnClickListener{
-            val intent = Intent(this, ResultActivity::class.java)
-            intent.putExtra("correct", workoutCounter.correct)
-            startActivity(intent)
-        }
-        
-        // 자동 종료
-        if (workoutCounter.count == workoutCounter.goal) {
             val intent = Intent(this, ResultActivity::class.java)
             intent.putExtra("correct", workoutCounter.correct)
             startActivity(intent)
@@ -224,6 +232,24 @@ class CameraActivity : AppCompatActivity() {
                             var goal = workoutCounter.goal
                             count_text.text = "목표 : $cnt / $goal !"
                             // End
+
+                            // 분기: 목표와 현재의 갯수가 같아지면, 나갈지 더할지 선택
+                            if(cnt == goal && alter == false && cameraSource != null) {
+                                alter = true
+                                ttsSpeak("빠밤")
+                                var builder = AlertDialog.Builder(this@CameraActivity)
+                                builder.setTitle("멋져요! 목표치에 도달하셨습니다!")
+                                    .setMessage("운동을 더 하시겠습니까?")
+                                    .setPositiveButton("네",
+                                        DialogInterface.OnClickListener { dialog, id ->
+                                            // Do nothing
+                                        })
+                                    .setNegativeButton("아니오",
+                                        DialogInterface.OnClickListener { dialog, id ->
+                                            exitResultActivity()
+                                        })
+                                builder.show()
+                            }
                         }
 
                     }).apply {
@@ -238,9 +264,10 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    private fun convertPoseLabels(pair: Pair<String, Float>?): String {
-        if (pair == null) return "empty"
-        return "${pair.first} (${String.format("%.2f", pair.second)})"
+    private fun exitResultActivity(){
+        val intent = Intent(this, ResultActivity::class.java)
+        intent.putExtra("correct", workoutCounter.correct)
+        startActivity(intent)
     }
 
     private fun isPoseClassifier() {
@@ -282,34 +309,30 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
+    fun initTTS(){
+        tts = android.speech.tts.TextToSpeech(this) {
+            if (it == android.speech.tts.TextToSpeech.SUCCESS) {
+                val result = tts?.setLanguage(Locale.KOREAN)
+                if (result == android.speech.tts.TextToSpeech.LANG_MISSING_DATA || result == android.speech.tts.TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.d("TextToSpeech", "Language not supported")
+                } else {
+                    Log.d("TextToSpeech", "TTS setting succeed")
+                }
+            } else {
+                Log.d("TextToSpeech", "TTS init failed")
+            }
+        }
+    }
+
+    fun ttsSpeak(strTTS:String){
+        tts?.speak(strTTS, android.speech.tts.TextToSpeech.QUEUE_ADD, null, null)
+    }
+
     // Change model when app is running
     private fun changeModel(position: Int) {
         if (modelPos == position) return
-        modelPos = position
+        modelPos = 1
         createPoseEstimator()
-    }
-
-    // Change device (accelerator) type when app is running
-    private fun changeDevice(position: Int) {
-        val targetDevice = when (position) {
-            0 -> Device.CPU
-            1 -> Device.GPU
-            else -> Device.NNAPI
-        }
-        if (device == targetDevice) return
-        device = targetDevice
-        createPoseEstimator()
-    }
-
-    // Change tracker for Movenet MultiPose model
-    private fun changeTracker(position: Int) {
-        cameraSource?.setTracker(
-            when (position) {
-                1 -> TrackerType.BOUNDING_BOX
-                2 -> TrackerType.KEYPOINTS
-                else -> TrackerType.OFF
-            }
-        )
     }
 
     private fun createPoseEstimator() {
@@ -330,27 +353,6 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    // Show/hide the pose classification option.
-    private fun showPoseClassifier(isVisible: Boolean) {
-        vClassificationOption.visibility = if (isVisible) View.VISIBLE else View.GONE
-        if (!isVisible) {
-            swClassification.isChecked = false
-        }
-    }
-
-    // Show/hide the tracking options.
-    private fun showTracker(isVisible: Boolean) {
-        if (isVisible) {
-            // Show tracker options and enable Bounding Box tracker.
-            vTrackerOption.visibility = View.VISIBLE
-            spnTracker.setSelection(1)
-        } else {
-            // Set tracker type to off and hide tracker option.
-            vTrackerOption.visibility = View.GONE
-            spnTracker.setSelection(0)
-        }
-    }
-
     private fun requestPermission() {
         when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(
@@ -368,10 +370,6 @@ class CameraActivity : AppCompatActivity() {
                 )
             }
         }
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     /**
