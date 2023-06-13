@@ -24,21 +24,21 @@ class MenuActivity : AppCompatActivity(){
 
         btn_pushup.setOnClickListener {
             exercise = "PushUp"
-            val intent = Intent(this, CameraActivity::class.java)
+            val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)
             startActivity(intent)
         }
 
         btn_squat.setOnClickListener {
             exercise = "Squat"
-            val intent = Intent(this, CameraActivity::class.java)
+            val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)
             startActivity(intent)
         }
 
         btn_shoulderpress.setOnClickListener {
             exercise = "ShoulderPress"
-            val intent = Intent(this, CameraActivity::class.java)
+            val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)
             startActivity(intent)
         }

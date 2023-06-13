@@ -30,17 +30,17 @@
         android:textColor="@color/white"
         android:text="목표: 0/10!" />
 
-    <!-- Airysm: 중요 각도 ProgressBar -->
-    <!-- ProgressBar 만들자 -->
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#66000000" />
+        android:background="#66000000"
+        app:layout_anchor="@+id/toolbar"
+        app:layout_anchorGravity="center" />
 
     <include
         layout="@layout/bottom_sheet_layout"
         app:layout_anchor="@+id/surfaceView"
         app:layout_anchorGravity="center" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

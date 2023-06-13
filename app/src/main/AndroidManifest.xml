@@ -31,6 +31,9 @@
 
         <activity android:name=".ui.exercise.MenuActivity" >
         </activity>
+
+        <activity android:name=".ui.exercise.GuideActivity" >
+        </activity>
     </application>
 
 </manifest>
