@@ -131,6 +131,7 @@ object VisualizationUtils {
 
             // 카메라 Movenet z좌표값 표시
             /* var human = zFinder().findZPerson(person, 2)
+            var human = zFinder().findZPerson(person, 1)
 
             bodyAngleJoints.forEach {
                 if (it == BodyPart.LEFT_SHOULDER || it == BodyPart.LEFT_ELBOW || it == BodyPart.LEFT_HIP || it == BodyPart.LEFT_KNEE)
@@ -162,7 +163,6 @@ object VisualizationUtils {
             CameraActivity.workoutCounter.countAlgorithm(person)
             // End
         }
-
         return output
     }
 }

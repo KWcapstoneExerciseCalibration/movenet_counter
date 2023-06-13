@@ -13,8 +13,13 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
+<<<<<<< HEAD
                             <option name="x" value="-1024" />
                             <option name="y" value="-224" />
+=======
+                            <option name="x" value="-169" />
+                            <option name="y" value="-148" />
+>>>>>>> origin/UI-Experiment
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -25,8 +30,13 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
+<<<<<<< HEAD
                             <option name="x" value="-1282" />
                             <option name="y" value="-121" />
+=======
+                            <option name="x" value="-675" />
+                            <option name="y" value="-144" />
+>>>>>>> origin/UI-Experiment
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -37,8 +47,13 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
+<<<<<<< HEAD
                             <option name="x" value="-1034" />
                             <option name="y" value="109" />
+=======
+                            <option name="x" value="-439" />
+                            <option name="y" value="-109" />
+>>>>>>> origin/UI-Experiment
                           </Point>
                         </option>
                       </LayoutPositions>

@@ -14,15 +14,152 @@ xmlns:tools="http://schemas.android.com/tools">
         android:layout_height="match_parent"
         tools:context=".ui.dailylog.DailylogFragment">
 
+        <LinearLayout
+            android:id="@+id/DateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="-43dp">
+
+            <TextView
+                android:id="@+id/textMon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="1"
+                android:textAlignment="center"
+                android:textSize="34sp" />
+
+            <TextView
+                android:id="@+id/textThu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="2"
+                android:textAlignment="center"
+                android:textSize="34sp" />
+
+            <TextView
+                android:id="@+id/textWed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="3"
+                android:textAlignment="center"
+                android:textSize="34sp" />
+
+            <TextView
+                android:id="@+id/textThur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="4"
+                android:textAlignment="center"
+                android:textSize="34sp" />
+
+            <TextView
+                android:id="@+id/textFri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="5"
+                android:textAlignment="center"
+                android:textSize="34sp" />
+
+            <TextView
+                android:id="@+id/textSat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="6"
+                android:textAlignment="center"
+                android:textSize="34sp" />
+
+            <TextView
+                android:id="@+id/textSun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="7"
+                android:textAlignment="center"
+                android:textSize="34sp" />
+        </LinearLayout>
+
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="일지"
+            android:id="@+id/textWorkoutList"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/workout_list"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/DateLayout" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="181dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textWorkoutList"></LinearLayout>
+
+        <TextView
+            android:id="@+id/textWorkoutIntensity"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/workout_intensity"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="408dp"
+            android:layout_height="102dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textWorkoutIntensity">
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textWorkoutIntensity2"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/workout_symptoms"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+        <LinearLayout
+            android:layout_width="407dp"
+            android:layout_height="381dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textWorkoutIntensity2"></LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
