@@ -35,5 +35,5 @@
 
     <string name="workout_list">오늘 한 운동</string>
     <string name="workout_intensity">오늘 운동 강도</string>
-    <string name="workout_symptoms">오늘 후 증상</string>
+    <string name="workout_symptoms">운동 후 증상</string>
 </resources>
