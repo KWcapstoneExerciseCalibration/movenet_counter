@@ -1,9 +1,8 @@
 package org.tensorflow.lite.examples.poseestimation.counter
 
 import android.util.Log
-import org.tensorflow.lite.examples.poseestimation.data.BodyPart
 import org.tensorflow.lite.examples.poseestimation.data.Person
-import org.tensorflow.lite.examples.poseestimation.finder.zFinder
+import org.tensorflow.lite.examples.poseestimation.data.zFinder
 
 class ShoulderPressCounter: WorkoutCounter() {
 

@@ -27,6 +27,7 @@ class MenuActivity : AppCompatActivity(){
             val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)
             startActivity(intent)
+            finish()
         }
 
         btn_squat.setOnClickListener {
@@ -34,6 +35,7 @@ class MenuActivity : AppCompatActivity(){
             val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)
             startActivity(intent)
+            finish()
         }
 
         btn_shoulderpress.setOnClickListener {
@@ -41,6 +43,7 @@ class MenuActivity : AppCompatActivity(){
             val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)
             startActivity(intent)
+            finish()
         }
     }
 }

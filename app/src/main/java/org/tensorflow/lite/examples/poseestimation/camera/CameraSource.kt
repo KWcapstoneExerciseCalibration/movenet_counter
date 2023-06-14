@@ -92,6 +92,10 @@ class CameraSource(
     private var imageReaderHandler: Handler? = null
     private var cameraId: String = ""
 
+    fun lengthCamera(bitmap:Bitmap):Bitmap{
+        return processImage(bitmap)
+    }
+
     suspend fun initCamera() {
         camera = openCamera(cameraManager, cameraId)
         imageReader =
@@ -110,9 +114,15 @@ class CameraSource(
                 yuvConverter.yuvToRgb(image, imageBitmap)
                 // Create rotated version for portrait display
                 val rotateMatrix = Matrix()
-                rotateMatrix.setScale(1.0f, -1.0f)
-                // back rotation = 90.0f
-                rotateMatrix.postRotate(270.0f)
+
+                if(!VisualizationUtils.lengthCal) {
+                    rotateMatrix.postRotate(90.0f)
+                }
+                else {
+                    rotateMatrix.setScale(1.0f, -1.0f)
+                    // back rotation = 90.0f
+                    rotateMatrix.postRotate(270.0f)
+                }
 
                 val rotatedBitmap = Bitmap.createBitmap(
                     imageBitmap, 0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT,
@@ -200,14 +210,6 @@ class CameraSource(
         }
     }
 
-    /**
-     * Set Tracker for Movenet MuiltiPose model.
-     */
-    fun setTracker(trackerType: TrackerType) {
-        isTrackerEnabled = trackerType != TrackerType.OFF
-        (this.detector as? MoveNetMultiPose)?.setTracker(trackerType)
-    }
-
     fun resume() {
         imageReaderThread = HandlerThread("imageReaderThread").apply { start() }
         imageReaderHandler = Handler(imageReaderThread!!.looper)
@@ -243,7 +245,7 @@ class CameraSource(
     }
 
     // process image
-    private fun processImage(bitmap: Bitmap) {
+    private fun processImage(bitmap: Bitmap): Bitmap  {
         val persons = mutableListOf<Person>()
         var classificationResult: List<Pair<String, Float>>? = null
 
@@ -269,10 +271,12 @@ class CameraSource(
         if (persons.isNotEmpty()) {
             listener?.onDetectedInfo(persons[0].score, classificationResult)
         }
-        visualize(persons, bitmap)
+        val bitMap = visualize(persons, bitmap)
+
+        return bitMap
     }
 
-    private fun visualize(persons: List<Person>, bitmap: Bitmap) {
+    private fun visualize(persons: List<Person>, bitmap: Bitmap): Bitmap  {
 
         val outputBitmap = VisualizationUtils.drawBodyKeypoints(
             bitmap,
@@ -309,6 +313,8 @@ class CameraSource(
             )
             surfaceView.holder.unlockCanvasAndPost(canvas)
         }
+
+        return outputBitmap
     }
 
     private fun stopImageReaderThread() {

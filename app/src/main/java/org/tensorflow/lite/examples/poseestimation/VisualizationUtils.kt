@@ -20,13 +20,17 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import org.tensorflow.lite.examples.poseestimation.ColorVisualization.colorChange
 import org.tensorflow.lite.examples.poseestimation.data.BodyPart
 import org.tensorflow.lite.examples.poseestimation.data.Person
-import org.tensorflow.lite.examples.poseestimation.finder.zFinder
+import org.tensorflow.lite.examples.poseestimation.data.zFinder
 import org.tensorflow.lite.examples.poseestimation.ui.exercise.CameraActivity
 import kotlin.math.max
 
 object VisualizationUtils {
+    // length 측정 중인지 확인용 bool
+    var lengthCal: Boolean = false
+
     /** Radius of circle used to draw keypoints.  */
     private const val CIRCLE_RADIUS = 6f
 
@@ -72,6 +76,21 @@ object VisualizationUtils {
         BodyPart.RIGHT_HIP,
         BodyPart.LEFT_KNEE,
         BodyPart.RIGHT_KNEE
+    )
+
+
+    /** Need to print that How much length of body **/
+    private val bodyLength = listOf(
+        Pair(BodyPart.LEFT_ANKLE, BodyPart.LEFT_KNEE),
+        Pair(BodyPart.RIGHT_ANKLE, BodyPart.RIGHT_KNEE),
+        Pair(BodyPart.LEFT_KNEE, BodyPart.LEFT_HIP),
+        Pair(BodyPart.RIGHT_KNEE, BodyPart.RIGHT_HIP),
+        Pair(BodyPart.LEFT_HIP, BodyPart.LEFT_SHOULDER),
+        Pair(BodyPart.RIGHT_HIP, BodyPart.RIGHT_SHOULDER),
+        Pair(BodyPart.LEFT_SHOULDER, BodyPart.LEFT_ELBOW),
+        Pair(BodyPart.RIGHT_SHOULDER, BodyPart.RIGHT_ELBOW),
+        Pair(BodyPart.LEFT_ELBOW, BodyPart.LEFT_WRIST),
+        Pair(BodyPart.RIGHT_ELBOW, BodyPart.RIGHT_WRIST)
     )
 
     // Draw line and point indicate body pose
@@ -129,21 +148,26 @@ object VisualizationUtils {
                 originalSizeCanvas.drawLine(pointA.x, pointA.y, pointB.x, pointB.y, paintLine)
             }
 
-            // 카메라 Movenet z좌표값 표시
-            /* var human = zFinder().findZPerson(person, 2)
-            var human = zFinder().findZPerson(person, 1)
+            if(lengthCal){
+                val human = zFinder().findLengthPerson(person)
 
-            bodyAngleJoints.forEach {
-                if (it == BodyPart.LEFT_SHOULDER || it == BodyPart.LEFT_ELBOW || it == BodyPart.LEFT_HIP || it == BodyPart.LEFT_KNEE)
-                    paintAngleText.textAlign = Paint.Align.LEFT
-                else if(it == BodyPart.RIGHT_SHOULDER || it == BodyPart.RIGHT_ELBOW || it == BodyPart.RIGHT_HIP || it == BodyPart.RIGHT_KNEE)
-                    paintAngleText.textAlign = Paint.Align.RIGHT
+                bodyLength.forEach {
+                    if (it.second == BodyPart.LEFT_SHOULDER || it.second == BodyPart.LEFT_ELBOW || it.second == BodyPart.LEFT_HIP || it.second == BodyPart.LEFT_KNEE)
+                        paintAngleText.textAlign = Paint.Align.LEFT
+                    else if (it.second == BodyPart.RIGHT_SHOULDER || it.second == BodyPart.RIGHT_ELBOW || it.second== BodyPart.RIGHT_HIP || it.second == BodyPart.RIGHT_KNEE)
+                        paintAngleText.textAlign = Paint.Align.RIGHT
 
-                val point = human.keyPoints[it.position].coordinate
-                originalSizeCanvas.drawText(human.keyPoints[it.position].angle.toString(), point.x, point.y, paintAngleText)
+                    val point1 = human.keyPoints[it.first.position].coordinate
+                    val point2 = human.keyPoints[it.second.position].coordinate
+
+                    originalSizeCanvas.drawText(
+                        human.keyPoints[it.second.position].z.toString(),
+                        (point1.x + point2.x)/2,
+                        (point1.y + point2.y)/2,
+                        paintAngleText
+                    )
+                }
             }
-             */
-
 
             person.keyPoints.forEach { point ->
                 originalSizeCanvas.drawCircle(
@@ -153,16 +177,17 @@ object VisualizationUtils {
                     paintCircle
                 )
             }
+
+            // 색 바꾸는 부분
             val lineBool:List<Boolean> = listOf(true, false, true, false, true, false, true, false, true, false, false, true, false, false, true, false, true, false)
             val jointBool:List<Boolean> = listOf(false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false)
-
-            // 선 색깔 바꾸는 함수
-            //colorChange(originalSizeCanvas, person, lineBool, jointBool)
+            // colorChange(originalSizeCanvas, person, lineBool, jointBool)
 
             // Start: 운동 count 알고리즘 실행
             CameraActivity.workoutCounter.countAlgorithm(person)
             // End
         }
+
         return output
     }
 }

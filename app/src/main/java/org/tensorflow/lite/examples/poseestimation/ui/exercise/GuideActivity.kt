@@ -41,6 +41,7 @@ class GuideActivity : AppCompatActivity() {
             val intent = Intent(this, CameraActivity::class.java)
             intent.putExtra("exercise",intent.getStringExtra("exercise"))
             startActivity(intent)
+            finish()
         }
     }
 }

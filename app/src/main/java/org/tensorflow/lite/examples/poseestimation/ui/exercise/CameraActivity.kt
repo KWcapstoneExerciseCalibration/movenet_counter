@@ -17,6 +17,7 @@ limitations under the License.
 package org.tensorflow.lite.examples.poseestimation.ui.exercise
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
@@ -45,6 +46,7 @@ import org.tensorflow.lite.examples.poseestimation.counter.SquatCounter
 import org.tensorflow.lite.examples.poseestimation.counter.WorkoutCounter
 import org.tensorflow.lite.examples.poseestimation.data.Device
 import org.tensorflow.lite.examples.poseestimation.ml.*
+import org.tensorflow.lite.examples.poseestimation.ui.length.LengthActivity
 import java.util.Locale
 
 class CameraActivity : AppCompatActivity() {
@@ -57,7 +59,9 @@ class CameraActivity : AppCompatActivity() {
         private const val FRAGMENT_DIALOG = "dialog"
 
         // 다른 class에서 maintain 불러오기 용
+        @SuppressLint("StaticFieldLeak")
         private var instance: CameraActivity? = null
+
         fun getInstance(): CameraActivity? {
             return instance
         }
@@ -80,6 +84,9 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var count_text: TextView
     private lateinit var btn_stop: Button
     // End
+
+    // 길이 측정 버튼
+    private lateinit var len_btn: Button
 
     // tts
     private var tts: android.speech.tts.TextToSpeech? = null
@@ -157,6 +164,7 @@ class CameraActivity : AppCompatActivity() {
         // Start: 연동
         count_text = findViewById(R.id.count_tv)
         btn_stop = findViewById(R.id.btn_stop)
+        len_btn = findViewById(R.id.len_btn)
         // End
 
         spnModel = findViewById(R.id.spnModel)
@@ -185,6 +193,12 @@ class CameraActivity : AppCompatActivity() {
             val intent = Intent(this, ResultActivity::class.java)
             intent.putExtra("correct", workoutCounter.correct)
             startActivity(intent)
+            finish()
+        }
+
+        // 운동 종료 버튼
+        len_btn.setOnClickListener{
+            startActivity(Intent(this, LengthActivity::class.java))
         }
     }
 

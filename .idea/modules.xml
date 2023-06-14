@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TFLite_Pose_Estimation.iml" filepath="$PROJECT_DIR$/.idea/modules/TFLite_Pose_Estimation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/TFLite_Pose_Estimation.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/TFLite_Pose_Estimation.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/TFLite_Pose_Estimation.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/TFLite_Pose_Estimation.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/TFLite_Pose_Estimation.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/TFLite_Pose_Estimation.app.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/TFLite_Pose_Estimation.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/TFLite_Pose_Estimation.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MoveUP.iml" filepath="$PROJECT_DIR$/.idea/modules/MoveUP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MoveUP.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MoveUP.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MoveUP.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MoveUP.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MoveUP.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MoveUP.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MoveUP.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MoveUP.app.unitTest.iml" />
     </modules>
   </component>
 </project>
