@@ -8,6 +8,12 @@ class zFinder {
 
     data class BodyLen(var shoulder: Float, var arr: Array<Float>, var human: Person)
 
+    // DB / Data Base / 지민님 : 어깨 길이와 각 신체길이 불러오기 (float 11개)
+    val shoulder = 56.8F
+    val lastKeypointLength = mutableListOf(47.8f, 47.8f, 57.7f, 57.7f, 66.2f, 66.2f, 37.9f, 37.9f, 38.0f, 38.0f)
+    //  (종아리/0, 1), (허벅지/ 2 ,3), (상체/ 4, 5), (윗팔/ 6 ,7), (아래팔/ 8, 9)
+
+
     private val bodyJoints = listOf(
         Pair(BodyPart.LEFT_ANKLE, BodyPart.LEFT_KNEE),
         Pair(BodyPart.RIGHT_ANKLE, BodyPart.RIGHT_KNEE),
@@ -34,12 +40,6 @@ class zFinder {
     /** poseNum: 1(스쿼트), 2(팔굽혀펴기) **/
     // 사람 class와 자세 번호 입력시, z값과 각도 입력 후 return
     fun findZPerson(person: Person, poseNum: Int): Person {
-        
-        // DB / Data Base / 지민님 : 어깨 길이와 각 신체길이 불러오기 (float 11개)
-        val shoulder = 56.8F
-        var lastKeypointLength = mutableListOf(47.8f, 47.8f, 57.7f, 57.7f, 66.2f, 66.2f, 37.9f, 37.9f, 38.0f, 38.0f)
-        //  (종아리/0, 1), (허벅지/ 2 ,3), (상체/ 4, 5), (윗팔/ 6 ,7), (아래팔/ 8, 9)
-
         var nowOrder: Int = 0
         var lenRate: Float = 0.0f
 

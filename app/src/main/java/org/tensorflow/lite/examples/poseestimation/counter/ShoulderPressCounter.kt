@@ -3,6 +3,8 @@ package org.tensorflow.lite.examples.poseestimation.counter
 import android.util.Log
 import org.tensorflow.lite.examples.poseestimation.data.Person
 import org.tensorflow.lite.examples.poseestimation.data.zFinder
+import org.tensorflow.lite.examples.poseestimation.data.BodyPart
+import kotlin.math.acos
 
 class ShoulderPressCounter: WorkoutCounter() {
 
@@ -17,10 +19,7 @@ class ShoulderPressCounter: WorkoutCounter() {
 
     override fun countAlgorithm(person: Person): Int {
         Log.d("ShoulderPressCounter", "Shoulder Press count Algorithm")
-
         var human = zFinder().findZPerson(person, 1)
-        
-        // 조건 쓰기
 
         return count
     }

@@ -115,7 +115,7 @@ class CameraSource(
                 // Create rotated version for portrait display
                 val rotateMatrix = Matrix()
 
-                if(!VisualizationUtils.lengthCal) {
+                if(VisualizationUtils.lengthCal) {
                     rotateMatrix.postRotate(90.0f)
                 }
                 else {
