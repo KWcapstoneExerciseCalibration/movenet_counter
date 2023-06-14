@@ -59,38 +59,12 @@
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center|center_horizontal"
                 android:gravity="center|center_vertical"
-                android:text="운동1"
+                android:text="TempVal"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center|center_horizontal"
-                android:gravity="center|center_vertical"
-                android:text="운동2"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center|center_horizontal"
-                android:gravity="center|center_vertical"
-                android:text="운동3"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center|center_horizontal"
-                android:gravity="center|center_vertical"
-                android:text="운동4"
-                android:textSize="20sp" />
 
             <Space
                 android:layout_width="match_parent"
@@ -182,11 +156,13 @@
             android:id="@+id/textWorkoutIntensity2"
             android:layout_width="0dp"
             android:layout_height="60dp"
+            android:layout_marginTop="32dp"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/workout_symptoms"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
@@ -198,7 +174,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textWorkoutIntensity2"
-            app:layout_constraintVertical_bias="0.0"></LinearLayout>
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="121dp"
+                android:text="TextView"
+                android:textSize="24sp" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

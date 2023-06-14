@@ -1,4 +1,4 @@
-package org.tensorflow.lite.examples.poseestimation.database.Calender;
+package org.tensorflow.lite.examples.poseestimation.database.calendarDB;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

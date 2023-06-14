@@ -6,5 +6,6 @@ import androidx.room.PrimaryKey
 data class CalSchema(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val date: Int,
-    val note: String
+    val exercise: String,
+    val note: String,
 )
