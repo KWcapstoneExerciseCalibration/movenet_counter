@@ -1,0 +1,27 @@
+task downloadMovenetThunderModel(type: DownloadUrlTask) {
+    def modelMovenetThunderDownloadUrl = "https://tfhub.dev/google/lite-model/movenet/singlepose/thunder/tflite/float16/4?lite-format=tflite"
+    doFirst {
+        println "Downloading ${modelMovenetThunderDownloadUrl}"
+    }
+    sourceUrl = "${modelMovenetThunderDownloadUrl}"
+    target = file("src/main/assets/movenet_thunder.tflite")
+}
+
+task downloadModel {
+    dependsOn downloadMovenetThunderModel
+}
+
+class DownloadUrlTask extends DefaultTask {
+    @Input
+    String sourceUrl
+
+    @OutputFile
+    File target
+
+    @TaskAction
+    void download() {
+        ant.get(src: sourceUrl, dest: target)
+    }
+}
+
+preBuild.dependsOn downloadModel

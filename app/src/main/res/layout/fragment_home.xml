@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools">
+
+<data>
+    <variable
+        name="home"
+        type="org.tensorflow.lite.examples.poseestimation.ui.home.HomeFragment" />
+</data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.HomeFragment">
+
+        <LinearLayout
+            android:id="@+id/LevelInfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textLvl"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Lv. 23"
+                android:textAlignment="center"
+                android:textSize="34sp" />
+
+            <ImageView
+                android:id="@+id/imageMoreInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@android:drawable/ic_menu_add" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textExp"
+            android:layout_width="129dp"
+            android:layout_height="33dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="80 / 100"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/imageProfile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressBarLvl"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ProgressBar
+            android:id="@+id/progressBarLvl"
+            style="?android:attr/progressBarStyleHorizontal"
+
+            android:layout_width="250dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="10dp"
+            android:max="100"
+            android:progress="80"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/LevelInfoLayout" />
+
+        <ImageView
+            android:id="@+id/imageProfile"
+            android:layout_width="257dp"
+            android:layout_height="273dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonWorkoutStart"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textExp"
+            app:srcCompat="@drawable/ham"
+            tools:src="@drawable/ham"
+            tools:srcCompat="@drawable/ham" />
+
+        <Button
+            android:id="@+id/buttonWorkoutStart"
+            android:layout_width="198dp"
+            android:layout_height="104dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="130dp"
+            android:onClick="onClick"
+            android:text="운동 시작"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageProfile"
+            app:layout_constraintVertical_bias="0.96" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
