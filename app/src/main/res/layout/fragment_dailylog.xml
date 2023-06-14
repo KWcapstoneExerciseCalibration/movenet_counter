@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-<data>
-    <variable
-        name="dailylog"
-        type="org.tensorflow.lite.examples.poseestimation.ui.dailylog.DailylogFragment" />
-</data>
+    <data>
+        <variable
+            name="dailylog"
+            type="org.tensorflow.lite.examples.poseestimation.ui.dailylog.DailylogFragment" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,37 +24,7 @@ xmlns:tools="http://schemas.android.com/tools">
             tools:layout_editor_absoluteX="-43dp">
 
             <TextView
-                android:id="@+id/textMon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="1"
-                android:textAlignment="center"
-                android:textSize="34sp" />
-
-            <TextView
-                android:id="@+id/textThu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="2"
-                android:textAlignment="center"
-                android:textSize="34sp" />
-
-            <TextView
-                android:id="@+id/textWed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="3"
-                android:textAlignment="center"
-                android:textSize="34sp" />
-
-            <TextView
-                android:id="@+id/textThur"
+                android:id="@+id/textToday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -63,35 +33,6 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:textAlignment="center"
                 android:textSize="34sp" />
 
-            <TextView
-                android:id="@+id/textFri"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="5"
-                android:textAlignment="center"
-                android:textSize="34sp" />
-
-            <TextView
-                android:id="@+id/textSat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="6"
-                android:textAlignment="center"
-                android:textSize="34sp" />
-
-            <TextView
-                android:id="@+id/textSun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="7"
-                android:textAlignment="center"
-                android:textSize="34sp" />
         </LinearLayout>
 
         <TextView
