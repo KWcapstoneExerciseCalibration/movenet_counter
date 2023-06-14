@@ -42,6 +42,7 @@ class ShoulderPressCounter: WorkoutCounter() {
             // wrongPosition
             // 좀 더 각도 체크해서 조정하자
 
+
             //
             wristPosition = (person.keyPoints[BodyPart.RIGHT_ELBOW.ordinal].coordinate.y > person.keyPoints[BodyPart.RIGHT_WRIST.ordinal].coordinate.y)
                     && (person.keyPoints[BodyPart.LEFT_ELBOW.ordinal].coordinate.y > person.keyPoints[BodyPart.LEFT_WRIST.ordinal].coordinate.y)
