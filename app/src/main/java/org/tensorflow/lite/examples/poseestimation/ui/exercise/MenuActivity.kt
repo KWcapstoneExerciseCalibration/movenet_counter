@@ -44,7 +44,7 @@ class MenuActivity : AppCompatActivity(){
                 var dbCalSchema = database.calDao().readAll()[0]
                 Log.d("logDB", "insert -> $dbCalSchema")
             }
-        }
+        }1
         */
 
 
