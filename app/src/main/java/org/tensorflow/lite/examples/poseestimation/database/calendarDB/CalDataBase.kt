@@ -1,6 +1,5 @@
+package org.tensorflow.lite.examples.poseestimation.database.calenderDB
 
-
-import CalSchema
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
