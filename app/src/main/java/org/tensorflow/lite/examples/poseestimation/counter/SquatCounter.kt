@@ -17,10 +17,6 @@ class SquatCounter : WorkoutCounter() {
     var rightbackAngle = 0
     // 오른쪽 무릎 각도
     var rightkneeAngle = 0
-    // 코 y 좌표
-    var noseYaxis = 0.0F
-    // 코 y 좌표(flag)
-    var nosePosition = false
     // 스쿼트 자세가 위인지(flag)
     var upPosition = false
     // 스쿼트 자세가 아래인지(flag)
@@ -53,30 +49,22 @@ class SquatCounter : WorkoutCounter() {
             rightkneeAngle = human.keyPoints[BodyPart.RIGHT_KNEE.ordinal].angle
             // Log.d("rightkneeAngle", rightkneeAngle.toString())
 
-            // 코 y좌표 조건문
-            if (noseYaxis > person.keyPoints[BodyPart.NOSE.ordinal].coordinate.y)
-                nosePosition = true
-            else if (noseYaxis < person.keyPoints[BodyPart.NOSE.ordinal].coordinate.y)
-                nosePosition = false
-
-            noseYaxis = human.keyPoints[BodyPart.NOSE.ordinal].coordinate.y
-
             // wrongPosition: 다리 각도가 30도 이하라면 잘못된 자세
             // 좀 더 각도 체크해서 조정하자
             if ((leftkneeAngle <= 40) && (leftkneeAngle >= 1))
                 wrongPosition = true
 
             // upPosition: 왼쪽 다리가 펴진 상태, 스쿼트를 했다면 count + 1
-            if ((leftkneeAngle >= 160 || leftkneeAngle == 0) && nosePosition) {
+            if ((leftkneeAngle >= 160 || leftkneeAngle == 0)) {
                 if (downPosition == true) {
-                    correct += 5
+                    score += 5
                     count++
                     CameraActivity.getInstance()?.ttsSpeak("$count 개")
                     Log.d("wrongPo", wrongPosition.toString())
                     if (wrongPosition == true)
                         wrongPosition = false
                     else
-                        correct += 5
+                        score += 5
                 }
 
                 upPosition = true

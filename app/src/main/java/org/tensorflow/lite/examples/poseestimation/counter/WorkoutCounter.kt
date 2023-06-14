@@ -9,8 +9,8 @@ abstract class WorkoutCounter() {
     open var MIN_CONFIDENCE = 0.5
     // 운동 한 개수
     var count = 0
-    // 교정 점수
-    var correct = 0
+    // 점수
+    var score = 0
     // 운동 목표 개수(임의로 10 설정)
     var goal = 10
 
@@ -19,5 +19,6 @@ abstract class WorkoutCounter() {
     // 운동 개수 초기화
     fun reset() {
         count = 0
+        score = 0
     }
 }

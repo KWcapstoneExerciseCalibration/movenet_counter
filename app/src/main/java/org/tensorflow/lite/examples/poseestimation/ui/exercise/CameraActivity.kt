@@ -191,7 +191,8 @@ class CameraActivity : AppCompatActivity() {
         // 운동 종료 버튼
         btn_stop.setOnClickListener{
             val intent = Intent(this, ResultActivity::class.java)
-            intent.putExtra("correct", workoutCounter.correct)
+            intent.putExtra("score", workoutCounter.score)
+            workoutCounter.reset()
             startActivity(intent)
             finish()
         }
@@ -280,7 +281,7 @@ class CameraActivity : AppCompatActivity() {
 
     private fun exitResultActivity(){
         val intent = Intent(this, ResultActivity::class.java)
-        intent.putExtra("correct", workoutCounter.correct)
+        intent.putExtra("score", workoutCounter.score)
         startActivity(intent)
     }
 
