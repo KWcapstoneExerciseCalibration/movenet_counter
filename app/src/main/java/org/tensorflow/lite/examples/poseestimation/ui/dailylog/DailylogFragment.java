@@ -39,6 +39,7 @@ public class DailylogFragment extends Fragment {
 
         TextView dateText = root.findViewById(R.id.textToday);
         TextView dateNote = root.findViewById(R.id.textView5);
+        TextView dateExer = root.findViewById(R.id.textView);
         dateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,7 +50,8 @@ public class DailylogFragment extends Fragment {
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         String date = "" + day;
                         dateText.setText(date);
-                        dateNote.setText(date);
+                        dateExer.setText("팔굽혀펴기");
+                        dateNote.setText("hard");
                     }
                 }, 2023, 5, calender.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
