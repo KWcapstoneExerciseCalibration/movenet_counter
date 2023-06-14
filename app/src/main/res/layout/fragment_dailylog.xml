@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-<data>
-    <variable
-        name="dailylog"
-        type="org.tensorflow.lite.examples.poseestimation.ui.dailylog.DailylogFragment" />
-</data>
+    <data>
+        <variable
+            name="dailylog"
+            type="org.tensorflow.lite.examples.poseestimation.ui.dailylog.DailylogFragment" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,74 +24,15 @@ xmlns:tools="http://schemas.android.com/tools">
             tools:layout_editor_absoluteX="-43dp">
 
             <TextView
-                android:id="@+id/textMon"
+                android:id="@+id/textToday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:text="1"
+                android:text="Today"
                 android:textAlignment="center"
                 android:textSize="34sp" />
 
-            <TextView
-                android:id="@+id/textThu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="2"
-                android:textAlignment="center"
-                android:textSize="34sp" />
-
-            <TextView
-                android:id="@+id/textWed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="3"
-                android:textAlignment="center"
-                android:textSize="34sp" />
-
-            <TextView
-                android:id="@+id/textThur"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="4"
-                android:textAlignment="center"
-                android:textSize="34sp" />
-
-            <TextView
-                android:id="@+id/textFri"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="5"
-                android:textAlignment="center"
-                android:textSize="34sp" />
-
-            <TextView
-                android:id="@+id/textSat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="6"
-                android:textAlignment="center"
-                android:textSize="34sp" />
-
-            <TextView
-                android:id="@+id/textSun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="7"
-                android:textAlignment="center"
-                android:textSize="34sp" />
         </LinearLayout>
 
         <TextView
@@ -109,11 +50,27 @@ xmlns:tools="http://schemas.android.com/tools">
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="0dp"
-            android:layout_height="181dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textWorkoutList"></LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/textWorkoutList">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="center|center_horizontal"
+                android:gravity="center|center_vertical"
+                android:text="~"
+                android:textSize="20sp" />
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textWorkoutIntensity"
@@ -130,35 +87,102 @@ xmlns:tools="http://schemas.android.com/tools">
 
         <LinearLayout
             android:id="@+id/linearLayout2"
-            android:layout_width="408dp"
-            android:layout_height="102dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textWorkoutIntensity">
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="75dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/white_circle"
+                android:text="매우 쉬움"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="75dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/white_circle"
+                android:text="쉬움"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="75dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/white_circle"
+                android:text="무난함"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="75dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/white_circle"
+                android:text="힘듦"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="75dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/white_circle"
+                android:text="매우 힘듦"
+                android:textSize="12sp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/textWorkoutIntensity2"
             android:layout_width="0dp"
             android:layout_height="60dp"
+            android:layout_marginTop="32dp"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/workout_symptoms"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
         <LinearLayout
-            android:layout_width="407dp"
-            android:layout_height="381dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textWorkoutIntensity2"></LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/textWorkoutIntensity2"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="121dp"
+                android:text="-"
+                android:textSize="24sp" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
