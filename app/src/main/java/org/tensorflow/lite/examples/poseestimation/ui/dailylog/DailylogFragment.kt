@@ -46,7 +46,7 @@ class DailylogFragment : Fragment() {
                 CoroutineScope(Dispatchers.IO).launch {
                     dateNote.text = dao.getNote(day)
                     dateExer.text = dao.getExer(day)
-                    //dao.deleteAllUsers()
+
                 }
             }, 2023, 5, calendar.get(Calendar.DAY_OF_MONTH))
             datePickerDialog!!.show()

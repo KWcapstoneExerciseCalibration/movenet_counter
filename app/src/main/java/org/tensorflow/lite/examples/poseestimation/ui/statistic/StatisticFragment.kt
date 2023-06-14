@@ -1,34 +1,46 @@
-package org.tensorflow.lite.examples.poseestimation.ui.statistic;
+package org.tensorflow.lite.examples.poseestimation.ui.statistic
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDao
+import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
+import org.tensorflow.lite.examples.poseestimation.databinding.FragmentStatisticsBinding
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+class StatisticFragment : Fragment() {
+    private var binding: FragmentStatisticsBinding? = null
+    private lateinit var dao: CalDao
+    override fun onCreateView(
 
-import org.tensorflow.lite.examples.poseestimation.databinding.FragmentStatisticsBinding;
-
-public class StatisticFragment extends Fragment {
-
-    private FragmentStatisticsBinding binding;
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        StatisticViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(StatisticViewModel.class);
-
-        binding = FragmentStatisticsBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        return root;
+        inflater: LayoutInflater,
+        container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        val notificationsViewModel =
+            ViewModelProvider(this).get(
+                StatisticViewModel::class.java
+            )
+        dao = CalDataBase.getInstance(requireContext()).calDao()
+        CoroutineScope(Dispatchers.IO).launch {
+            dao.deleteAllUsers()
+        }
+        binding =
+            FragmentStatisticsBinding.inflate(
+                inflater,
+                container,
+                false
+            )
+        return binding!!.root
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }
