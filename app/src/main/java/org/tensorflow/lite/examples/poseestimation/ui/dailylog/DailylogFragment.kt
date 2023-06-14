@@ -1,69 +1,61 @@
-package org.tensorflow.lite.examples.poseestimation.ui.dailylog;
+package org.tensorflow.lite.examples.poseestimation.ui.dailylog
 
-import android.app.DatePickerDialog;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.TextView;
+import android.app.DatePickerDialog
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.tensorflow.lite.examples.poseestimation.R
+import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDao
+import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
+import org.tensorflow.lite.examples.poseestimation.databinding.FragmentDailylogBinding
+import java.util.*
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Room;
 
-import org.tensorflow.lite.examples.poseestimation.R;
-import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase;
-import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalSchema;
-import org.tensorflow.lite.examples.poseestimation.databinding.FragmentDailylogBinding;
-import org.tensorflow.lite.examples.poseestimation.ui.dailylog.DailylogViewModel;
+class DailylogFragment : Fragment() {
+    var datePickerDialog: DatePickerDialog? = null
+    private var binding: FragmentDailylogBinding? = null
+    private lateinit var dao: CalDao
 
-import java.util.Calendar;
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        val dashboardViewModel = ViewModelProvider(this).get(
+            DailylogViewModel::class.java
+        )
+        binding = FragmentDailylogBinding.inflate(inflater, container, false)
+        val root = binding!!.root
 
-public class DailylogFragment extends Fragment {
-    DatePickerDialog datePickerDialog;
-    private FragmentDailylogBinding binding;
+        dao = CalDataBase.getInstance(requireContext()).calDao()
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        DailylogViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DailylogViewModel.class);
-
-        binding = FragmentDailylogBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final CalDataBase database = Room.databaseBuilder(getActivity(), CalDataBase.class, "calenderDB")
-                .allowMainThreadQueries()
-                .build();
-
-        TextView dateText = root.findViewById(R.id.textToday);
-        TextView dateNote = root.findViewById(R.id.textView5);
-        TextView dateExer = root.findViewById(R.id.textView);
-        dateText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar calender = Calendar.getInstance();
-
-                datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        String date = "" + day;
-                        dateText.setText(date);
-                        dateExer.setText("팔굽혀펴기");
-                        dateNote.setText("hard");
-                    }
-                }, 2023, 5, calender.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();
-            }
-        });
-
-        return root;
+        val dateText = root.findViewById<TextView>(R.id.textToday)
+        val dateNote = root.findViewById<TextView>(R.id.textView5)
+        val dateExer = root.findViewById<TextView>(R.id.textView)
+        dateText.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            datePickerDialog = DatePickerDialog(requireActivity(), { datePicker, year, month, day ->
+                val date = "" + day
+                dateText.text = date
+                CoroutineScope(Dispatchers.IO).launch {
+                    dateNote.text = dao.getNote(day)
+                    dateExer.text = dao.getExer(day)
+                    //dao.deleteAllUsers()
+                }
+            }, 2023, 5, calendar.get(Calendar.DAY_OF_MONTH))
+            datePickerDialog!!.show()
+        }
+        return root
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

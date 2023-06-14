@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,15 +37,13 @@ class MenuActivity : AppCompatActivity(){
 
 
         dao = CalDataBase.getInstance(applicationContext).calDao()
-
+        val calendar = Calendar.getInstance()
 
         fun pushtoDB (exercise: String){
-            val calSchema = CalSchema(0, Calendar.DAY_OF_MONTH, exercise, "")
+            val calSchema = CalSchema(0, calendar.get(Calendar.DAY_OF_MONTH), exercise, "testNote")
             CoroutineScope(Dispatchers.IO).launch {
                 dao.create(calSchema)
 
-                var dbCalSchema = dao.readAll()[0]
-                Log.d("logDB", "insert -> $dbCalSchema")
             }
         }
 
@@ -55,7 +52,7 @@ class MenuActivity : AppCompatActivity(){
 
         btn_pushup.setOnClickListener {
             exercise = "PushUp"
-            //pushtoDB(exercise)
+            pushtoDB(exercise)
 
             val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)
@@ -65,7 +62,7 @@ class MenuActivity : AppCompatActivity(){
 
         btn_squat.setOnClickListener {
             exercise = "Squat"
-            //pushtoDB(exercise)
+            pushtoDB(exercise)
 
             val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)
@@ -75,7 +72,7 @@ class MenuActivity : AppCompatActivity(){
 
         btn_shoulderpress.setOnClickListener {
             exercise = "ShoulderPress"
-            //pushtoDB(exercise)
+            pushtoDB(exercise)
 
             val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)
