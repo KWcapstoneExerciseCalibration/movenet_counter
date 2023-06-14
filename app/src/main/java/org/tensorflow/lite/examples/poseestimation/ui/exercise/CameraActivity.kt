@@ -183,7 +183,8 @@ class CameraActivity : AppCompatActivity() {
         // 운동 종료 버튼
         btn_stop.setOnClickListener{
             val intent = Intent(this, ResultActivity::class.java)
-            intent.putExtra("correct", workoutCounter.correct)
+            intent.putExtra("score", workoutCounter.score)
+            workoutCounter.reset()
             startActivity(intent)
         }
     }
@@ -237,6 +238,7 @@ class CameraActivity : AppCompatActivity() {
                             if(cnt == goal && alter == false && cameraSource != null) {
                                 alter = true
                                 ttsSpeak("빠밤")
+                                workoutCounter.reset()
                                 var builder = AlertDialog.Builder(this@CameraActivity)
                                 builder.setTitle("멋져요! 목표치에 도달하셨습니다!")
                                     .setMessage("운동을 더 하시겠습니까?")
@@ -266,7 +268,7 @@ class CameraActivity : AppCompatActivity() {
 
     private fun exitResultActivity(){
         val intent = Intent(this, ResultActivity::class.java)
-        intent.putExtra("correct", workoutCounter.correct)
+        intent.putExtra("score", workoutCounter.score)
         startActivity(intent)
     }
 

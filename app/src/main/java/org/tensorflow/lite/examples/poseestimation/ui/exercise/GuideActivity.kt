@@ -26,7 +26,9 @@ class GuideActivity : AppCompatActivity() {
         tv_exercise = findViewById(R.id.tvExercise)
         btn_start = findViewById(R.id.btn_start)
 
-        when(intent.getStringExtra("exercise")) {
+        var exercise = intent.getStringExtra("exercise")
+
+        when(exercise) {
             // PushUp, ShoulderPress 이미지 바꿔주기
             "PushUp"        -> {img_exercise.setImageResource(R.drawable.pushup)
                                 tv_exercise.setText("팔굽혀펴기")}
@@ -39,7 +41,7 @@ class GuideActivity : AppCompatActivity() {
 
         btn_start.setOnClickListener {
             val intent = Intent(this, CameraActivity::class.java)
-            intent.putExtra("exercise",intent.getStringExtra("exercise"))
+            intent.putExtra("exercise",exercise)
             startActivity(intent)
         }
     }

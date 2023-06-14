@@ -20,26 +20,21 @@ class MenuActivity : AppCompatActivity(){
         btn_squat = findViewById(R.id.btn_squat)
         btn_shoulderpress = findViewById(R.id.btn_shoulderpress)
 
-        var exercise: String
-
         btn_pushup.setOnClickListener {
-            exercise = "PushUp"
             val intent = Intent(this, GuideActivity::class.java)
-            intent.putExtra("exercise",exercise)
+            intent.putExtra("exercise","PushUp")
             startActivity(intent)
         }
 
         btn_squat.setOnClickListener {
-            exercise = "Squat"
             val intent = Intent(this, GuideActivity::class.java)
-            intent.putExtra("exercise",exercise)
+            intent.putExtra("exercise","Squat")
             startActivity(intent)
         }
 
         btn_shoulderpress.setOnClickListener {
-            exercise = "ShoulderPress"
             val intent = Intent(this, GuideActivity::class.java)
-            intent.putExtra("exercise",exercise)
+            intent.putExtra("exercise","ShoulderPress")
             startActivity(intent)
         }
     }

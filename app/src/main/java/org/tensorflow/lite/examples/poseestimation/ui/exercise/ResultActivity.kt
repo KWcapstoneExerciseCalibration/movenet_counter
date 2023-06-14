@@ -21,7 +21,7 @@ class ResultActivity : AppCompatActivity() {
         correct_text = findViewById(R.id.correct_text)
         btn_close = findViewById(R.id.btnClose)
 
-        correct_text.text = "점수 결과: " + intent.getIntExtra("correct", 0).toString() + "점"
+        correct_text.text = "점수 결과: " + intent.getIntExtra("score", 0).toString() + "점"
 
         btn_close.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
