@@ -13,6 +13,8 @@ class ShoulderPressCounter: WorkoutCounter() {
     var leftelbowAngle = 0
     // 오른쪽 어깨 각도
     var rightelbowAngle = 0
+    // 틀린지 확인하는 정수
+    var wrongValue = 0f
     // 숄더프레스 자세가 위인지(flag)
     var upPosition = false
     // 숄더프레스 자세가 아래인지(flag)
@@ -41,7 +43,7 @@ class ShoulderPressCounter: WorkoutCounter() {
 
             // wrongPosition
             // 좀 더 각도 체크해서 조정하자
-
+            wrongValue = person.keyPoints[BodyPart.RIGHT_ELBOW.ordinal].coordinate.y - person.keyPoints[BodyPart.LEFT_ELBOW.ordinal].coordinate.y
 
             //
             wristPosition = (person.keyPoints[BodyPart.RIGHT_ELBOW.ordinal].coordinate.y > person.keyPoints[BodyPart.RIGHT_WRIST.ordinal].coordinate.y)
@@ -49,12 +51,16 @@ class ShoulderPressCounter: WorkoutCounter() {
 
             // upPosition: 왼쪽 다리가 펴진 상태, 스쿼트를 했다면 count + 1
             if (wristPosition && (leftelbowAngle >= 140 || leftelbowAngle == 0) && (rightelbowAngle >= 140 || rightelbowAngle == 0)) {
+                if (wrongValue >= 40f || wrongValue <= -40f)
+                    wrongPosition = true
                 if (downPosition == true) {
                     score += 5
                     count++
                     CameraActivity.getInstance()?.ttsSpeak("$count 개")
-                    if (wrongPosition == true)
+                    if (wrongPosition == true) {
+                        // wrongValue를 통해 tts로 잘못된 부분 알려주자
                         wrongPosition = false
+                    }
                     else
                         score += 5
                 }
@@ -65,6 +71,8 @@ class ShoulderPressCounter: WorkoutCounter() {
 
             // downPosition: 왼쪽 다리 각도가 100도라면 스쿼트를 하는 자세인 것
             if (wristPosition && (leftelbowAngle >= 70) && (leftelbowAngle <= 110) && (rightelbowAngle >= 70) && (rightelbowAngle <= 110)) {
+                if (wrongValue >= 40f || wrongValue <= -40f)
+                    wrongPosition = true
                 downPosition = true
                 upPosition = false
             }
