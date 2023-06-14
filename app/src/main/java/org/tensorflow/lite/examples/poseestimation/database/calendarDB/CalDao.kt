@@ -17,6 +17,6 @@ interface CalDao {
     suspend fun readAll(): List<CalSchema>
 
     @Query("SELECT note FROM table_calender WHERE date=:date")
-    suspend fun getNote(date: Int):String
+    suspend fun getNote(date: String): String
 
 }
