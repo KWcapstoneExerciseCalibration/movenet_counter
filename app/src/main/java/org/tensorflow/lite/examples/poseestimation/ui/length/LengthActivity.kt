@@ -186,7 +186,7 @@ class LengthActivity : AppCompatActivity() {
                 val builder = AlertDialog.Builder(this)
                 builder
                     .setTitle("사진 촬영시 주의 사항!")
-                    .setMessage("사진처럼 최대한 카메라를 향하여 잘 측정될 수 있게 서주세요!")
+                    .setMessage("최대한 카메라를 향하여 잘 측정될 수 있게 서 주세요!"+"\n"+"운동할 환경과 가능한 동일한 카메라 세팅이 필요합니다!")
                     .setPositiveButton("Start",
                         DialogInterface.OnClickListener { dialog, id ->
                             // Start 버튼 선택시 수행
