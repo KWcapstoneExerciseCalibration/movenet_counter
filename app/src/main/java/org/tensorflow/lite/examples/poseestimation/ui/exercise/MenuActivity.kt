@@ -36,13 +36,18 @@ class MenuActivity : AppCompatActivity(){
         var exercise: String
 
 
-        dao = CalDataBase.getInstance(applicationContext).calDao()
         val calendar = Calendar.getInstance()
+        dao = CalDataBase.getInstance(applicationContext).calDao()
+        val calSchema = CalSchema(0, calendar.get(Calendar.DAY_OF_MONTH), "-", "-", 0, 0)
+        CoroutineScope(Dispatchers.IO).launch {
+            dao.create(calSchema)
+
+        }
+
 
         fun pushtoDB (exercise: String){
-            val calSchema = CalSchema(0, calendar.get(Calendar.DAY_OF_MONTH), exercise, "testNote")
             CoroutineScope(Dispatchers.IO).launch {
-                dao.create(calSchema)
+                dao.updateExer(exercise, calendar.get(Calendar.DAY_OF_MONTH),)
 
             }
         }

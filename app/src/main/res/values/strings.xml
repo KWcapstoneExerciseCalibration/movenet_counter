@@ -33,7 +33,7 @@
     <string name="title_dailylog">일지</string>
     <string name="title_statistics">통계</string>
 
-    <string name="workout_list">오늘 한 운동</string>
-    <string name="workout_intensity">오늘 운동 강도</string>
+    <string name="workout_list">최근 운동</string>
+    <string name="workout_intensity"> 운동 강도</string>
     <string name="workout_symptoms">운동 후 증상</string>
 </resources>

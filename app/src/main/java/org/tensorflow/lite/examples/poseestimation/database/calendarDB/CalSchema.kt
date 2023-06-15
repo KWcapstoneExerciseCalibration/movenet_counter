@@ -8,4 +8,6 @@ data class CalSchema(
     val date: Int,
     val exercise: String,
     val note: String,
+    val count: Int,
+    val score: Int
 )

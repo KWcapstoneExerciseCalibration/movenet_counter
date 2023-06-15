@@ -192,6 +192,7 @@ class CameraActivity : AppCompatActivity() {
         btn_stop.setOnClickListener{
             val intent = Intent(this, ResultActivity::class.java)
             intent.putExtra("score", workoutCounter.score)
+            intent.putExtra("count", workoutCounter.count)
             workoutCounter.reset()
             startActivity(intent)
             finish()

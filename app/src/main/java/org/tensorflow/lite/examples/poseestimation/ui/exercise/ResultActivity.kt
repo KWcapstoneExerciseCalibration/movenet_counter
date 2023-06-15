@@ -39,6 +39,8 @@ class ResultActivity : AppCompatActivity() {
                 if (actionId == EditorInfo.IME_ACTION_DONE){
                     CoroutineScope(Dispatchers.IO).launch {
                         dao.updateNote(txt.text.toString(), calendar.get(Calendar.DAY_OF_MONTH))
+                       // dao.updateScore(intent.getIntExtra("score",0), calendar.get(Calendar.DAY_OF_MONTH))
+                        //dao.updateCount(intent.getIntExtra("count",0), calendar.get(Calendar.DAY_OF_MONTH))
                     }
                     return true
                 }
