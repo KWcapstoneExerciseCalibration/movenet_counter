@@ -283,6 +283,7 @@ class CameraActivity : AppCompatActivity() {
     private fun exitResultActivity(){
         val intent = Intent(this, ResultActivity::class.java)
         intent.putExtra("score", workoutCounter.score)
+        intent.putExtra("count", workoutCounter.count)
         startActivity(intent)
     }
 
