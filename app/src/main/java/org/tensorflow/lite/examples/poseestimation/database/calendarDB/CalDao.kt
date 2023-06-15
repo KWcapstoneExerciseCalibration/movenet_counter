@@ -33,7 +33,7 @@ interface CalDao {
     @Query("UPDATE table_calender SET exercise=:exercise WHERE date=:date")
     suspend fun updateExer(exercise: String, date: Int)
 
-    /*
+
     @Query("SELECT score FROM table_calender WHERE date=:date")
     suspend fun getScore(date: Int): Int
 
@@ -46,6 +46,6 @@ interface CalDao {
     @Query("UPDATE table_calender SET count=:count WHERE date=:date")
     suspend fun updateCount(count: Int, date: Int)
 
-     */
+
 
 }

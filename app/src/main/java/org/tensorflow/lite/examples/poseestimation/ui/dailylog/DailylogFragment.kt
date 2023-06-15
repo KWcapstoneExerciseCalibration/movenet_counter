@@ -43,7 +43,7 @@ class DailylogFragment : Fragment() {
         dateText.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
         CoroutineScope(Dispatchers.IO).launch {
             dateNote.text = dao.getNote(calendar.get(Calendar.DAY_OF_MONTH))
-            dateExer.text = dao.getExer(calendar.get(Calendar.DAY_OF_MONTH))
+            dateExer.text = dao.getExer(calendar.get(Calendar.DAY_OF_MONTH)) + " " + dao.getCount(calendar.get(Calendar.DAY_OF_MONTH)) + "회 " + dao.getScore(calendar.get(Calendar.DAY_OF_MONTH)) + "점"
         }
             dateText.setOnClickListener {
 
@@ -52,7 +52,7 @@ class DailylogFragment : Fragment() {
                 dateText.text = date
                 CoroutineScope(Dispatchers.IO).launch {
                     dateNote.text = dao.getNote(day)
-                    //dateExer.text = dao.getExer(day) + " " + dao.getCount(day) + "회 " + dao.getScore(day) + "점"
+                    dateExer.text = dao.getExer(day) + " " + dao.getCount(day) + "회 " + dao.getScore(day) + "점"
 
                 }
             }, 2023, 5, calendar.get(Calendar.DAY_OF_MONTH))
