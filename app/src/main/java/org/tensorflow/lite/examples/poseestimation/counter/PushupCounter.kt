@@ -23,7 +23,9 @@ class PushupCounter : WorkoutCounter() {
     override fun countAlgorithm(person: Person): Int {
         Log.d("PushUpCounter", "PushUp count Algorithm")
 
-        var human = zFinder().findZPerson(person, 1)
+        // 팔굽혀 펴기가 잘 안되던 이유는 poseNum이 제대로 자정이 안 되어 있던거 때문인거 같아요
+        // 지난번에 수정했던게 merge 과정에서 누락 되었나 봐요
+        var human = zFinder().findZPerson(person, 2)
 
         // 오른쪽: 사용하는 신체 좌표 값들이 최소 정확도를 넘는지(넘지 않는다면 사람 형태가 카메라에 잡히지 않는 것)
         if ( true/*human.keyPoints[BodyPart.NOSE.ordinal].score >= MIN_CONFIDENCE

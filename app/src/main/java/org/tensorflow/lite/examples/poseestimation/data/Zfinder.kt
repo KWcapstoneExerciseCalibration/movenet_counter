@@ -39,7 +39,7 @@ class zFinder {
 
     /** poseNum: 1(스쿼트), 2(팔굽혀펴기) **/
     // 사람 class와 자세 번호 입력시, z값과 각도 입력 후 return
-    fun findZPerson(person: Person, poseNum: Int): Person {
+    fun findZPerson(person: Person, poseNum: Int = 1): Person {
         var nowOrder: Int = 0
         var lenRate: Float = 0.0f
 
@@ -61,12 +61,8 @@ class zFinder {
             2 -> {
                 // 팔굽혀 펴기의 경우, 왼 종아리 길이를 기준으로 비율 조정
                 lenRate = sqrt(
-                    (person.keyPoints[BodyPart.LEFT_ANKLE.position].coordinate.x - person.keyPoints[BodyPart.LEFT_KNEE.position].coordinate.x).pow(
-                        2
-                    )
-                            + (person.keyPoints[BodyPart.LEFT_ANKLE.position].coordinate.y - person.keyPoints[BodyPart.LEFT_KNEE.position].coordinate.y).pow(
-                        2
-                    )
+                    (person.keyPoints[BodyPart.LEFT_ANKLE.position].coordinate.x - person.keyPoints[BodyPart.LEFT_KNEE.position].coordinate.x).pow(2)
+                            + (person.keyPoints[BodyPart.LEFT_ANKLE.position].coordinate.y - person.keyPoints[BodyPart.LEFT_KNEE.position].coordinate.y).pow(2)
                 )
 
                 lenRate /= lastKeypointLength[0]
