@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import org.tensorflow.lite.examples.poseestimation.R
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDao
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
+import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalSchema
 import org.tensorflow.lite.examples.poseestimation.databinding.FragmentDailylogBinding
 import java.util.*
 
@@ -39,6 +40,13 @@ class DailylogFragment : Fragment() {
         val dateNote = root.findViewById<TextView>(R.id.textView5)
         val dateExer = root.findViewById<TextView>(R.id.textView)
         val calendar = Calendar.getInstance()
+
+        dao = CalDataBase.getInstance(requireActivity()).calDao()
+        val calSchema = CalSchema(0, calendar.get(Calendar.DAY_OF_MONTH), "-", "-", 0, 0)
+        CoroutineScope(Dispatchers.IO).launch {
+            dao.create(calSchema)
+
+        }
 
         dateText.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
         CoroutineScope(Dispatchers.IO).launch {
