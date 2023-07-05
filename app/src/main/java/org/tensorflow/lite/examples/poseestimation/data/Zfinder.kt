@@ -107,15 +107,15 @@ class zFinder {
             2->{
                 // 팔굽혀펴기
                 person.keyPoints[BodyPart.LEFT_KNEE.position].z = person.keyPoints[BodyPart.LEFT_ANKLE.position].z - person.keyPoints[BodyPart.LEFT_KNEE.position].z
-                person.keyPoints[BodyPart.RIGHT_KNEE.position].z = person.keyPoints[BodyPart.RIGHT_ANKLE.position].z + person.keyPoints[BodyPart.RIGHT_KNEE.position].z
+                person.keyPoints[BodyPart.RIGHT_KNEE.position].z = person.keyPoints[BodyPart.RIGHT_ANKLE.position].z - person.keyPoints[BodyPart.RIGHT_KNEE.position].z
                 person.keyPoints[BodyPart.LEFT_HIP.position].z = person.keyPoints[BodyPart.LEFT_KNEE.position].z - person.keyPoints[BodyPart.LEFT_HIP.position].z
-                person.keyPoints[BodyPart.RIGHT_HIP.position].z = person.keyPoints[BodyPart.RIGHT_KNEE.position].z + person.keyPoints[BodyPart.RIGHT_HIP.position].z
+                person.keyPoints[BodyPart.RIGHT_HIP.position].z = person.keyPoints[BodyPart.RIGHT_KNEE.position].z - person.keyPoints[BodyPart.RIGHT_HIP.position].z
                 person.keyPoints[BodyPart.LEFT_SHOULDER.position].z = person.keyPoints[BodyPart.LEFT_HIP.position].z - person.keyPoints[BodyPart.LEFT_SHOULDER.position].z
-                person.keyPoints[BodyPart.RIGHT_SHOULDER.position].z = person.keyPoints[BodyPart.RIGHT_HIP.position].z + person.keyPoints[BodyPart.RIGHT_SHOULDER.position].z
+                person.keyPoints[BodyPart.RIGHT_SHOULDER.position].z = person.keyPoints[BodyPart.RIGHT_HIP.position].z - person.keyPoints[BodyPart.RIGHT_SHOULDER.position].z
                 person.keyPoints[BodyPart.LEFT_ELBOW.position].z = person.keyPoints[BodyPart.LEFT_SHOULDER.position].z - person.keyPoints[BodyPart.LEFT_ELBOW.position].z
-                person.keyPoints[BodyPart.RIGHT_ELBOW.position].z = person.keyPoints[BodyPart.RIGHT_SHOULDER.position].z + person.keyPoints[BodyPart.RIGHT_ELBOW.position].z
+                person.keyPoints[BodyPart.RIGHT_ELBOW.position].z = person.keyPoints[BodyPart.RIGHT_SHOULDER.position].z - person.keyPoints[BodyPart.RIGHT_ELBOW.position].z
                 person.keyPoints[BodyPart.LEFT_WRIST.position].z = person.keyPoints[BodyPart.LEFT_ELBOW.position].z - person.keyPoints[BodyPart.LEFT_WRIST.position].z
-                person.keyPoints[BodyPart.RIGHT_WRIST.position].z = person.keyPoints[BodyPart.RIGHT_ELBOW.position].z + person.keyPoints[BodyPart.RIGHT_WRIST.position].z
+                person.keyPoints[BodyPart.RIGHT_WRIST.position].z = person.keyPoints[BodyPart.RIGHT_ELBOW.position].z - person.keyPoints[BodyPart.RIGHT_WRIST.position].z
             }
         }
 
