@@ -1,6 +1,7 @@
 package org.tensorflow.lite.examples.poseestimation.ui.exercise
 
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -18,6 +19,7 @@ import java.util.*
 class ResultActivity : AppCompatActivity() {
 
     private lateinit var correct_text: TextView
+    private lateinit var wrong_text: TextView
     private lateinit var btn_close: Button
     private lateinit var dao: CalDao
 
@@ -26,9 +28,17 @@ class ResultActivity : AppCompatActivity() {
         setContentView(R.layout.activity_result)
 
         correct_text = findViewById(R.id.correct_text)
+        wrong_text = findViewById(R.id.wrong_tv)
         btn_close = findViewById(R.id.btnClose)
 
+        var wrongArray = intent.getStringArrayListExtra("wrongArrayList")
+        var wrongString : String = ""
+
+        // ArrayList<String> wrongPosition 정보를 String 배열로 저장했습니다.
+        wrongArray?.forEach { wrongString += (it + "\n") }
+
         correct_text.text = "점수 결과: " + intent.getIntExtra("score", 0).toString() + "점"
+        wrong_text.text = wrongString
 
         dao = CalDataBase.getInstance(applicationContext).calDao()
         val calendar = Calendar.getInstance()

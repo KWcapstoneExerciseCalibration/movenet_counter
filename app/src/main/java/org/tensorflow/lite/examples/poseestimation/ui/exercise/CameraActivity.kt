@@ -200,6 +200,7 @@ class CameraActivity : AppCompatActivity() {
             val intent = Intent(this, ResultActivity::class.java)
             intent.putExtra("score", workoutCounter.score)
             intent.putExtra("count", workoutCounter.count)
+            intent.putExtra("wrongArrayList", workoutCounter.wrongArray)
             workoutCounter.reset()
             startActivity(intent)
             finish()
@@ -294,6 +295,8 @@ class CameraActivity : AppCompatActivity() {
         val intent = Intent(this, ResultActivity::class.java)
         intent.putExtra("score", workoutCounter.score)
         intent.putExtra("count", workoutCounter.count)
+        intent.putExtra("wrongArray", workoutCounter.wrongArray)
+        workoutCounter.reset()
         startActivity(intent)
     }
 

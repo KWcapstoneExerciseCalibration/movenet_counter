@@ -62,10 +62,17 @@ class ShoulderPressCounter: WorkoutCounter() {
                     count++
                     CameraActivity.getInstance()?.ttsSpeak("$count 개")
                     if (wrongPosition == true) {
-                        if (wrongflag)
+                        if (wrongflag) {
                             CameraActivity.getInstance()?.ttsSpeak("팔을 직각으로 해주세요")
-                        if (wrongflag2)
+                            var wrongString: String = ""
+                            if (!(wrongArray.contains("팔을 직각으로 해주세요")))
+                                wrongArray.add("팔을 직각으로 해주세요")
+                        }
+                        if (wrongflag2) {
                             CameraActivity.getInstance()?.ttsSpeak("몸을 기울이지 마세요")
+                            if (!(wrongArray.contains("몸을 기울이지 마세요")))
+                                wrongArray.add("몸을 기울이지 마세요")
+                        }
                         wrongPosition = false
                         wrongflag = false
                         wrongflag2 = false

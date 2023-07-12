@@ -81,7 +81,7 @@ class SquatCounter : WorkoutCounter() {
             Log.d("leftkneeAngle", leftkneeAngle.toString())
 
             // downPosition: 왼쪽 다리 각도가 100도라면 스쿼트를 하는 자세인 것
-            if ((leftkneeAngle >= 80) && (leftkneeAngle <= 120)) {
+            if ((leftkneeAngle >= 75) && (leftkneeAngle <= 125)) {
                 if (wrongValue >= 40f || wrongValue <= -40f)
                     wrongPosition = true
                 downPosition = true
