@@ -6,6 +6,7 @@ import org.tensorflow.lite.examples.poseestimation.data.zFinder
 import org.tensorflow.lite.examples.poseestimation.data.BodyPart
 import org.tensorflow.lite.examples.poseestimation.ui.exercise.CameraActivity
 import kotlin.math.acos
+import kotlin.math.max
 
 class ShoulderPressCounter: WorkoutCounter() {
 
@@ -50,7 +51,7 @@ class ShoulderPressCounter: WorkoutCounter() {
             wristPosition = (person.keyPoints[BodyPart.RIGHT_ELBOW.ordinal].coordinate.y > person.keyPoints[BodyPart.RIGHT_WRIST.ordinal].coordinate.y)
                     && (person.keyPoints[BodyPart.LEFT_ELBOW.ordinal].coordinate.y > person.keyPoints[BodyPart.LEFT_WRIST.ordinal].coordinate.y)
 
-            // upPosition: 왼쪽 다리가 펴진 상태, 스쿼트를 했다면 count + 1
+            // upPosition: 왼쪽 다리가 펴진 상태, 숄더프레스를 했다면 count + 1
             if (wristPosition && (leftelbowAngle >= 140 || leftelbowAngle == 0) && (rightelbowAngle >= 140 || rightelbowAngle == 0)) {
                 if (wrongValue >= 40f || wrongValue <= -40f) {
                     wrongflag2 = true
@@ -87,6 +88,13 @@ class ShoulderPressCounter: WorkoutCounter() {
                 wrongPosition = true
                 wrongflag = true
             }
+
+            // 현재 프로그래스 바 값 조정
+            // 펴진거 판정 최저값(140), 접힌거 판정 최저값(70)
+            if(leftelbowAngle == 0)
+                now_progress = 70
+            else
+                now_progress = max(leftelbowAngle - 70, 0)
 
             Log.d("개수", "$count 개")
         }

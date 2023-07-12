@@ -27,30 +27,37 @@
         android:layout_margin="5dp"
         android:text="종료" />
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:layout_gravity="center_horizontal"
+        android:progressDrawable="@drawable/circle_progressbar"
+        android:progressBackgroundTint="@color/gray"
+        android:progressTint="@color/purple_500"/>
+
     <!-- Airysm: 목표 개수 count -->
     <TextView
         android:id="@+id/count_tv"
         android:layout_width="match_parent"
-        android:layout_height="34dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_gravity="left"
-        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="29dp"
         android:textSize="22dp"
         android:textColor="@color/white"
-        android:text="목표: 0/10!" />
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#66000000"
-        app:layout_anchor="@+id/toolbar"
-        app:layout_anchorGravity="center" />
+        android:text="목표\n0 / 10" />
 
     <include
         layout="@layout/bottom_sheet_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
         app:layout_anchor="@+id/surfaceView"
-        app:layout_anchorGravity="center"
-        android:visibility="invisible"/>
+        app:layout_anchorGravity="bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -85,6 +85,9 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var btn_stop: Button
     // End
 
+    // progressbar
+    private lateinit var progress:ProgressBar
+
     // 길이 측정 버튼
     private lateinit var len_btn: Button
 
@@ -165,6 +168,7 @@ class CameraActivity : AppCompatActivity() {
         count_text = findViewById(R.id.count_tv)
         btn_stop = findViewById(R.id.btn_stop)
         len_btn = findViewById(R.id.len_btn)
+        progress = findViewById(R.id.progressbar)
         // End
 
         spnModel = findViewById(R.id.spnModel)
@@ -182,9 +186,12 @@ class CameraActivity : AppCompatActivity() {
         }
 
         when(intent.getStringExtra("exercise")) {
-            "PushUp"        -> workoutCounter = PushupCounter()
-            "Squat"         -> workoutCounter = SquatCounter()
-            "ShoulderPress" -> workoutCounter = ShoulderPressCounter()
+            "PushUp"        -> {workoutCounter = PushupCounter()
+                                progress.max = 90}
+            "Squat"         -> {workoutCounter = SquatCounter()
+                                progress.max = 80}
+            "ShoulderPress" -> {workoutCounter = ShoulderPressCounter()
+                                progress.max = 70}
             else            -> Log.d("error", "운동 종류 선택 에러")
         }
         
@@ -246,8 +253,11 @@ class CameraActivity : AppCompatActivity() {
                             // Start: 목표 count 보여주는 textView
                             var cnt = workoutCounter.count
                             var goal = workoutCounter.goal
-                            count_text.text = "목표 : $cnt / $goal !"
+                            count_text.text = "목표\n$cnt / $goal"
                             // End
+
+                            // 프로그래스바: 게이지 수정
+                            progress.progress = workoutCounter.now_progress
 
                             // 분기: 목표와 현재의 갯수가 같아지면, 나갈지 더할지 선택
                             if(cnt == goal && alter == false && cameraSource != null) {

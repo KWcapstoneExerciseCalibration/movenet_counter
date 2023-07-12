@@ -5,6 +5,8 @@ import org.tensorflow.lite.examples.poseestimation.data.BodyPart
 import org.tensorflow.lite.examples.poseestimation.data.Person
 import org.tensorflow.lite.examples.poseestimation.data.zFinder
 import org.tensorflow.lite.examples.poseestimation.ui.exercise.CameraActivity
+import kotlin.math.max
+import kotlin.math.min
 
 // 스쿼트 counter class
 class SquatCounter : WorkoutCounter() {
@@ -59,7 +61,7 @@ class SquatCounter : WorkoutCounter() {
             if ((leftkneeAngle >= 160 || leftkneeAngle == 0)) {
                 if (wrongValue >= 40f || wrongValue <= -40f)
                     wrongPosition = true
-                if (downPosition == true) {
+                if (downPosition) {
                     score += 5
                     count++
                     CameraActivity.getInstance()?.ttsSpeak("$count 개")
@@ -88,6 +90,15 @@ class SquatCounter : WorkoutCounter() {
 
             Log.d("개수", "$count 개")
         }
+
+        // 현재 프로그래스 바 값 조정
+        // 펴진거 판정 최저값(160), 접힌거 판정 최저값(80)
+        if(leftkneeAngle == 0)
+            now_progress = 80
+        else
+            now_progress = max(leftkneeAngle-80, 0)
+
+        Log.d("now_progress", now_progress.toString())
 
         return count
     }

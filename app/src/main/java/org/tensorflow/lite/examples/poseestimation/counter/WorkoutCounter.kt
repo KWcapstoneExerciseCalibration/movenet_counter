@@ -14,6 +14,9 @@ abstract class WorkoutCounter() {
     // 운동 목표 개수(임의로 10 설정)
     var goal = 10
 
+    // 프로그래스 바를 위한 값
+    var now_progress = 0
+
     abstract fun countAlgorithm(person : Person) : Int
 
     // 운동 개수 초기화
