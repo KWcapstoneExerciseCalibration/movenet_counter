@@ -14,9 +14,9 @@ interface StatDao {
     @Delete
     suspend fun delete(statSchema: StatSchema)
 
-    @Query("SELECT * FROM table_exercise")
+    @Query("SELECT * FROM table_statistic")
     suspend fun readAll(): List<StatSchema>
 
-    @Query("DELETE FROM table_exercise")
+    @Query("DELETE FROM table_statistic")
     suspend fun deleteAll()
 }

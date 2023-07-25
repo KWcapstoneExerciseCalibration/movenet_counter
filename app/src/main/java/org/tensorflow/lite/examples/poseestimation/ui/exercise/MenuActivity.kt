@@ -62,6 +62,9 @@ class MenuActivity : AppCompatActivity(){
             val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)
             startActivity(intent)
+            val intent_result = Intent(this, ResultActivity::class.java)
+            intent_result.putExtra("exerciseName",exercise)
+            startActivity(intent_result)
             finish()
         }
 
