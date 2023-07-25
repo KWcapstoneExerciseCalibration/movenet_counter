@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.CoroutineScope
@@ -17,6 +18,7 @@ import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDao
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
 import org.tensorflow.lite.examples.poseestimation.databinding.FragmentDailylogBinding
 import org.tensorflow.lite.examples.poseestimation.databinding.FragmentStatisticsBinding
+import org.w3c.dom.Text
 
 class StatisticFragment : Fragment() {
     private var binding: FragmentStatisticsBinding? = null
@@ -38,14 +40,28 @@ class StatisticFragment : Fragment() {
             )
         val root = binding!!.root
 
+        dao = ExerDataBase.getInstance(requireContext()).exerDao()
+
+        val moAvg = root.findViewById<TextView>(R.id.moAvg)
+        val yrAvg = root.findViewById<TextView>(R.id.yrAvg)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            moAvg.text = dao.moAvg().toString()
+        }
+
+
+
+
         //ExerciseDB 삭제 버튼
+
         val btn_reset = root.findViewById<Button>(R.id.btn_reset)
         btn_reset.setOnClickListener {
-            dao = ExerDataBase.getInstance(requireContext()).exerDao()
             CoroutineScope(Dispatchers.IO).launch {
                 dao.deleteAll()
             }
         }
+
+
 
 
         return binding!!.root

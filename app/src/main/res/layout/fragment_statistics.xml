@@ -15,6 +15,18 @@ xmlns:tools="http://schemas.android.com/tools">
         tools:context=".ui.statistic.StatisticFragment">
 
         <TextView
+            android:id="@+id/wkAvg4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="식단"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.204"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.721" />
+
+        <TextView
             android:id="@+id/wkAvg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,6 +37,30 @@ xmlns:tools="http://schemas.android.com/tools">
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.246" />
+
+        <TextView
+            android:id="@+id/wkAvg2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BMI"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.186"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.521" />
+
+        <TextView
+            android:id="@+id/wkAvg3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="무게"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.365"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.521" />
 
         <TextView
             android:id="@+id/textView9"
@@ -79,7 +115,7 @@ xmlns:tools="http://schemas.android.com/tools">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
-            android:layout_marginBottom="88dp"
+            android:layout_marginBottom="52dp"
             android:text="DB Reset"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -57,7 +57,7 @@ class ResultActivity : AppCompatActivity() {
                         date.timeZone = TimeZone.getTimeZone("GMT+09:00")
                         val time = SimpleDateFormat("HH:mm:ss")
                         time.timeZone = TimeZone.getTimeZone("GMT+09:00")
-                        val exerciseData = ExerSchema(currentTime, date.format(currentTime), time.format(currentTime), exerciseName, txt.text.toString(), 0, intent.getIntExtra("score", 0), intent.getIntExtra("count", 0), "test")
+                        val exerciseData = ExerSchema(currentTime, date.format(currentTime), time.format(currentTime), exerciseName, txt.text.toString(), 0, intent.getIntExtra("count", 0), intent.getIntExtra("score", 0), "test")
                         dao.create(exerciseData)
                         /*
                         dao.updateNote(txt.text.toString(), calendar.get(Calendar.DAY_OF_MONTH))
