@@ -19,4 +19,16 @@ interface ExerDao {
 
     @Query("DELETE FROM table_exercise")
     suspend fun deleteAll()
+
+    @Query("SELECT note FROM table_exercise WHERE date=:date")
+    suspend fun getNote(date: String): String
+
+    @Query("SELECT exercise FROM table_exercise WHERE date=:date")
+    suspend fun getExer(date: String): String
+
+    @Query("SELECT score FROM table_exercise WHERE date=:date")
+    suspend fun getScore(date: String): Int
+
+    @Query("SELECT count FROM table_exercise WHERE date=:date")
+    suspend fun getCount(date: String): Int
 }

@@ -12,18 +12,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.examples.poseestimation.R
-import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDao
-import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
-import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalSchema
+import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
+import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
 import org.tensorflow.lite.examples.poseestimation.databinding.FragmentDailylogBinding
+import java.text.SimpleDateFormat
 import java.util.*
 
 
 class DailylogFragment : Fragment() {
     var datePickerDialog: DatePickerDialog? = null
     private var binding: FragmentDailylogBinding? = null
-    private lateinit var dao: CalDao
-
+    private lateinit var dao: ExerDao
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
@@ -34,24 +33,21 @@ class DailylogFragment : Fragment() {
         binding = FragmentDailylogBinding.inflate(inflater, container, false)
         val root = binding!!.root
 
-        dao = CalDataBase.getInstance(requireContext()).calDao()
 
         val dateText = root.findViewById<TextView>(R.id.textToday)
         val dateNote = root.findViewById<TextView>(R.id.textView5)
         val dateExer = root.findViewById<TextView>(R.id.textView)
         val calendar = Calendar.getInstance()
 
-        dao = CalDataBase.getInstance(requireActivity()).calDao()
-        val calSchema = CalSchema(0, calendar.get(Calendar.DAY_OF_MONTH), "-", "-", 0, 0)
-        CoroutineScope(Dispatchers.IO).launch {
-            dao.create(calSchema)
-
-        }
+        dao = ExerDataBase.getInstance(requireActivity()).exerDao()
+        val currentTime : Long = System.currentTimeMillis()
+        val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        date.timeZone = TimeZone.getTimeZone("GMT+09:00")
 
         dateText.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
         CoroutineScope(Dispatchers.IO).launch {
-            dateNote.text = dao.getNote(calendar.get(Calendar.DAY_OF_MONTH))
-            dateExer.text = dao.getExer(calendar.get(Calendar.DAY_OF_MONTH)) + " " + dao.getCount(calendar.get(Calendar.DAY_OF_MONTH)) + "회 " + dao.getScore(calendar.get(Calendar.DAY_OF_MONTH)) + "점"
+            dateNote.text = dao.getNote(date.format(currentTime))
+            dateExer.text = dao.getExer(date.format(currentTime)) + " " + dao.getCount(date.format(currentTime)) + "회 " + dao.getScore(date.format(currentTime)) + "점"
         }
             dateText.setOnClickListener {
 
@@ -59,11 +55,11 @@ class DailylogFragment : Fragment() {
                 val date = "" + day
                 dateText.text = date
                 CoroutineScope(Dispatchers.IO).launch {
-                    dateNote.text = dao.getNote(day)
-                    dateExer.text = dao.getExer(day) + " " + dao.getCount(day) + "회 " + dao.getScore(day) + "점"
+                    dateNote.text = dao.getNote(date.format(currentTime))
+                    dateExer.text = dao.getExer(date.format(currentTime)) + " " + dao.getCount(date.format(currentTime)) + "회 " + dao.getScore(date.format(currentTime)) + "점"
 
                 }
-            }, 2023, 5, calendar.get(Calendar.DAY_OF_MONTH))
+            }, 2023, 7, calendar.get(Calendar.DAY_OF_MONTH))
             datePickerDialog!!.show()
         }
         return root
