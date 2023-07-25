@@ -197,12 +197,13 @@ class CameraActivity : AppCompatActivity() {
         
         // 운동 종료 버튼
         btn_stop.setOnClickListener{
-            val intent = Intent(this, ResultActivity::class.java)
-            intent.putExtra("score", workoutCounter.score)
-            intent.putExtra("count", workoutCounter.count)
-            intent.putExtra("wrongArrayList", workoutCounter.wrongArray)
+            val intent_result = Intent(this, ResultActivity::class.java)
+            intent_result.putExtra("score", workoutCounter.score)
+            intent_result.putExtra("count", workoutCounter.count)
+            intent_result.putExtra("wrongArrayList", workoutCounter.wrongArray)
+            intent_result.putExtra("exerciseName", intent.getStringExtra("exercise"))
             workoutCounter.reset()
-            startActivity(intent)
+            startActivity(intent_result)
             finish()
         }
 
@@ -292,12 +293,13 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun exitResultActivity(){
-        val intent = Intent(this, ResultActivity::class.java)
-        intent.putExtra("score", workoutCounter.score)
-        intent.putExtra("count", workoutCounter.count)
-        intent.putExtra("wrongArray", workoutCounter.wrongArray)
+        val intent_result = Intent(this, ResultActivity::class.java)
+        intent_result.putExtra("score", workoutCounter.score)
+        intent_result.putExtra("count", workoutCounter.count)
+        intent_result.putExtra("wrongArray", workoutCounter.wrongArray)
+        intent_result.putExtra("exerciseName", intent.getStringExtra("exercise"))
         workoutCounter.reset()
-        startActivity(intent)
+        startActivity(intent_result)
     }
 
     private fun isPoseClassifier() {

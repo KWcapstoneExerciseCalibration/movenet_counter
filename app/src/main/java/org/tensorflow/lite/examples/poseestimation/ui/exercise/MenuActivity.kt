@@ -35,6 +35,7 @@ class MenuActivity : AppCompatActivity(){
 
         var exercise: String
 
+        /*
 
         val calendar = Calendar.getInstance()
         dao = CalDataBase.getInstance(applicationContext).calDao()
@@ -52,25 +53,22 @@ class MenuActivity : AppCompatActivity(){
             }
         }
 
+         */
+
 
 
 
         btn_pushup.setOnClickListener {
             exercise = "PushUp"
-            pushtoDB(exercise)
 
             val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)
             startActivity(intent)
-            val intent_result = Intent(this, ResultActivity::class.java)
-            intent_result.putExtra("exerciseName",exercise)
-            startActivity(intent_result)
             finish()
         }
 
         btn_squat.setOnClickListener {
             exercise = "Squat"
-            pushtoDB(exercise)
 
             val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)
@@ -80,7 +78,6 @@ class MenuActivity : AppCompatActivity(){
 
         btn_shoulderpress.setOnClickListener {
             exercise = "ShoulderPress"
-            pushtoDB(exercise)
 
             val intent = Intent(this, GuideActivity::class.java)
             intent.putExtra("exercise",exercise)

@@ -4,8 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
 
-@Database(entities = [ExerSchema::class], version = 1)
+@Database(entities = [ExerSchema::class], version = 2)
 abstract class ExerDataBase : RoomDatabase() {
     abstract fun exerDao(): ExerDao
 
@@ -26,8 +29,14 @@ abstract class ExerDataBase : RoomDatabase() {
                     "exercise_db"
                 ).fallbackToDestructiveMigration()
 
-            return builder.build()
+            return builder.addMigrations(ExerDataBase.MIGRATION_1_2).build()
         }
 
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE 'table_exercise' ADD COLUMN 'date' TEXT NOT NULL default ''")
+                database.execSQL("ALTER TABLE 'table_exercise' ADD COLUMN 'time' TEXT NOT NULL default ''")
+            }
+        }
     }
 }

@@ -1,11 +1,13 @@
 package org.tensorflow.lite.examples.poseestimation.ui.exercise
 
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +16,7 @@ import org.tensorflow.lite.examples.poseestimation.R
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerSchema
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ResultActivity : AppCompatActivity() {
@@ -49,7 +52,12 @@ class ResultActivity : AppCompatActivity() {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_DONE){
                     CoroutineScope(Dispatchers.IO).launch {
-                        val exerciseData = ExerSchema(1234, exerciseName, txt.text.toString(), 0, intent.getIntExtra("score", 0), intent.getIntExtra("count", 0), "test")
+                        val currentTime : Long = System.currentTimeMillis()
+                        val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        date.timeZone = TimeZone.getTimeZone("GMT+09:00")
+                        val time = SimpleDateFormat("HH:mm:ss")
+                        time.timeZone = TimeZone.getTimeZone("GMT+09:00")
+                        val exerciseData = ExerSchema(currentTime, date.format(currentTime), time.format(currentTime), exerciseName, txt.text.toString(), 0, intent.getIntExtra("score", 0), intent.getIntExtra("count", 0), "test")
                         dao.create(exerciseData)
                         /*
                         dao.updateNote(txt.text.toString(), calendar.get(Calendar.DAY_OF_MONTH))
@@ -63,9 +71,12 @@ class ResultActivity : AppCompatActivity() {
             }
         })
 
-
         btn_close.setOnClickListener {
             finish()
         }
+    }
+
+    private fun getDB_ID(){
+
     }
 }
