@@ -14,11 +14,14 @@ import kotlinx.coroutines.launch
 import org.tensorflow.lite.examples.poseestimation.R
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
+import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerSchema
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDao
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
 import org.tensorflow.lite.examples.poseestimation.databinding.FragmentDailylogBinding
 import org.tensorflow.lite.examples.poseestimation.databinding.FragmentStatisticsBinding
 import org.w3c.dom.Text
+import java.text.SimpleDateFormat
+import java.util.*
 
 class StatisticFragment : Fragment() {
     private var binding: FragmentStatisticsBinding? = null
@@ -53,11 +56,16 @@ class StatisticFragment : Fragment() {
 
 
         //ExerciseDB 삭제 버튼
+        val currentTime : Long = System.currentTimeMillis()
+        val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        date.timeZone = TimeZone.getTimeZone("GMT+09:00")
 
         val btn_reset = root.findViewById<Button>(R.id.btn_reset)
         btn_reset.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 dao.deleteAll()
+                val initData = ExerSchema(0, date.format(currentTime), "0", "0", "0", 0, 0, 0, "0")
+                dao.create(initData)
             }
         }
 
