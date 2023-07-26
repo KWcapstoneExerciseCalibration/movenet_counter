@@ -53,6 +53,7 @@ class ShoulderPressCounter: WorkoutCounter() {
 
             // upPosition: 왼쪽 다리가 펴진 상태, 숄더프레스를 했다면 count + 1
             if (wristPosition && (leftelbowAngle >= 140 || leftelbowAngle == 0) && (rightelbowAngle >= 140 || rightelbowAngle == 0)) {
+                // 몸이 기울어져 있는지
                 if (wrongValue >= 40f || wrongValue <= -40f) {
                     wrongflag2 = true
                     wrongPosition = true
@@ -64,7 +65,6 @@ class ShoulderPressCounter: WorkoutCounter() {
                     if (wrongPosition == true) {
                         if (wrongflag) {
                             CameraActivity.getInstance()?.ttsSpeak("팔을 직각으로 해주세요")
-                            var wrongString: String = ""
                             if (!(wrongArray.contains("팔을 직각으로 해주세요")))
                                 wrongArray.add("팔을 직각으로 해주세요")
                         }
@@ -86,11 +86,14 @@ class ShoulderPressCounter: WorkoutCounter() {
             }
             // downPosition: 왼쪽 다리 각도가 100도라면 스쿼트를 하는 자세인 것
             if (wristPosition && (leftelbowAngle >= 70) && (leftelbowAngle <= 110) && (rightelbowAngle >= 70) && (rightelbowAngle <= 110)) {
-                if (wrongValue >= 40f || wrongValue <= -40f)
+                if (wrongValue >= 40f || wrongValue <= -40f) {
+                    wrongflag2 = true
                     wrongPosition = true
+                }
                 downPosition = true
                 upPosition = false
             }
+            // 팔이 직각이 아닌지
             else if (wristPosition && (leftelbowAngle < 50 && leftelbowAngle > 0)) {
                 wrongPosition = true
                 wrongflag = true

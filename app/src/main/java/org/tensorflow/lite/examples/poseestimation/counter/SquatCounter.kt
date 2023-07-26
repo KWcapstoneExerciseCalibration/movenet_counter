@@ -27,6 +27,8 @@ class SquatCounter : WorkoutCounter() {
     var downPosition = false
     // 틀린 자세인지(flag)
     var wrongPosition = false
+    var wrongflag = false
+    var wrongflag2 = false
 
     override fun countAlgorithm(person: Person): Int {
         Log.d("SquatCounter", "Squat Algorithm")
@@ -59,16 +61,28 @@ class SquatCounter : WorkoutCounter() {
 
             // upPosition: 왼쪽 다리가 펴진 상태, 스쿼트를 했다면 count + 1
             if ((leftkneeAngle >= 160 || leftkneeAngle == 0)) {
-                if (wrongValue >= 40f || wrongValue <= -40f)
+                if (wrongValue >= 40f || wrongValue <= -40f) {
+                    wrongflag2 = true
                     wrongPosition = true
+                }
                 if (downPosition) {
                     score += 5
                     count++
                     CameraActivity.getInstance()?.ttsSpeak("$count 개")
-                    Log.d("wrongPo", wrongPosition.toString())
                     if (wrongPosition == true) {
-                        // wrongValue를 통해 tts로 잘못된 부분 알려주자
+                        if (wrongflag) {
+                            CameraActivity.getInstance()?.ttsSpeak("다리가 완전 굽혔습니다.")
+                            if (!(wrongArray.contains("다리가 완전 굽혔습니다.")))
+                                wrongArray.add("다리가 완전 굽혔습니다.")
+                        }
+                        if (wrongflag2) {
+                            CameraActivity.getInstance()?.ttsSpeak("몸을 기울이지 마세요")
+                            if (!(wrongArray.contains("몸을 기울이지 마세요")))
+                                wrongArray.add("몸을 기울이지 마세요")
+                        }
                         wrongPosition = false
+                        wrongflag = false
+                        wrongflag2 = false
                     }
                     else
                         score += 5
@@ -78,27 +92,27 @@ class SquatCounter : WorkoutCounter() {
                 downPosition = false
             }
 
-            Log.d("leftkneeAngle", leftkneeAngle.toString())
-
             // downPosition: 왼쪽 다리 각도가 100도라면 스쿼트를 하는 자세인 것
             if ((leftkneeAngle >= 75) && (leftkneeAngle <= 125)) {
-                if (wrongValue >= 40f || wrongValue <= -40f)
+                if (wrongValue >= 40f || wrongValue <= -40f) {
+                    wrongflag2 = true
                     wrongPosition = true
+                }
                 downPosition = true
                 upPosition = false
             }
+            else if ((leftkneeAngle < 50) && (leftkneeAngle > 0)) {
+                wrongPosition = true
+                wrongflag = true
+            }
 
-            Log.d("개수", "$count 개")
+            // 현재 프로그래스 바 값 조정
+            // 펴진거 판정 최저값(160), 접힌거 판정 최저값(80)
+            if(leftkneeAngle == 0)
+                now_progress = 80
+            else
+                now_progress = max(leftkneeAngle-80, 0)
         }
-
-        // 현재 프로그래스 바 값 조정
-        // 펴진거 판정 최저값(160), 접힌거 판정 최저값(80)
-        if(leftkneeAngle == 0)
-            now_progress = 80
-        else
-            now_progress = max(leftkneeAngle-80, 0)
-
-        Log.d("now_progress", now_progress.toString())
 
         return count
     }

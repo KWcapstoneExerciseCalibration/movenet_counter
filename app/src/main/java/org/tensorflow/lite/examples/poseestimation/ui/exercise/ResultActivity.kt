@@ -6,6 +6,7 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ class ResultActivity : AppCompatActivity() {
     private lateinit var correct_text: TextView
     private lateinit var wrong_text: TextView
     private lateinit var btn_close: Button
+    private lateinit var img_viewer: ImageView
     private lateinit var dao: ExerDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +35,7 @@ class ResultActivity : AppCompatActivity() {
         correct_text = findViewById(R.id.correct_text)
         wrong_text = findViewById(R.id.wrong_tv)
         btn_close = findViewById(R.id.btnClose)
+        img_viewer = findViewById(R.id.img_viewer)
 
         var wrongArray = intent.getStringArrayListExtra("wrongArrayList")
         var wrongString : String = ""
@@ -40,8 +43,18 @@ class ResultActivity : AppCompatActivity() {
         // ArrayList<String> wrongPosition 정보를 String 배열로 저장했습니다.
         wrongArray?.forEach { wrongString += (it + "\n") }
 
+        if (wrongString.equals(""))
+            wrongString = "자세가 훌륭합니다!"
+
         correct_text.text = "점수 결과: " + intent.getIntExtra("score", 0).toString() + "점"
         wrong_text.text = wrongString
+
+        when(intent.getStringExtra("exerciseName")) {
+            "PushUp"        -> img_viewer.setImageResource(R.drawable.pushup)
+            "Squat"         -> img_viewer.setImageResource(R.drawable.squat)
+            "ShoulderPress" -> img_viewer.setImageResource(R.drawable.shoulderpress)
+        }
+        intent.getStringExtra("exerciseName")
 
         dao = ExerDataBase.getInstance(applicationContext).exerDao()
         val calendar = Calendar.getInstance()
