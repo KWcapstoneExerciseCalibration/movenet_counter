@@ -1,6 +1,7 @@
 package org.tensorflow.lite.examples.poseestimation.counter
 
 import android.util.Log
+import org.tensorflow.lite.examples.poseestimation.VisualizationUtils
 import org.tensorflow.lite.examples.poseestimation.data.Person
 import org.tensorflow.lite.examples.poseestimation.data.zFinder
 import org.tensorflow.lite.examples.poseestimation.data.BodyPart
@@ -65,11 +66,18 @@ class ShoulderPressCounter: WorkoutCounter() {
                     if (wrongPosition == true) {
                         if (wrongflag) {
                             CameraActivity.getInstance()?.ttsSpeak("팔을 직각으로 해주세요")
+                            // 색상 변경
+                            VisualizationUtils.wrongPart[3] = true
+                            VisualizationUtils.wrongPart[4] = true
+
                             if (!(wrongArray.contains("팔을 직각으로 해주세요")))
                                 wrongArray.add("팔을 직각으로 해주세요")
                         }
                         if (wrongflag2) {
                             CameraActivity.getInstance()?.ttsSpeak("몸을 기울이지 마세요")
+                            // 색상 변경
+                            VisualizationUtils.wrongPart[1] = true
+
                             if (!(wrongArray.contains("몸을 기울이지 마세요")))
                                 wrongArray.add("몸을 기울이지 마세요")
                         }
@@ -84,7 +92,7 @@ class ShoulderPressCounter: WorkoutCounter() {
                 upPosition = true
                 downPosition = false
             }
-            // downPosition: 왼쪽 다리 각도가 100도라면 스쿼트를 하는 자세인 것
+            // downPosition: 왼쪽 팔꿈치 각도가 100도라면 숄더프레스를 하는 자세인 것
             if (wristPosition && (leftelbowAngle >= 70) && (leftelbowAngle <= 110) && (rightelbowAngle >= 70) && (rightelbowAngle <= 110)) {
                 if (wrongValue >= 40f || wrongValue <= -40f) {
                     wrongflag2 = true
@@ -92,6 +100,7 @@ class ShoulderPressCounter: WorkoutCounter() {
                 }
                 downPosition = true
                 upPosition = false
+                VisualizationUtils.resetWrongPart()
             }
             // 팔이 직각이 아닌지
             else if (wristPosition && (leftelbowAngle < 50 && leftelbowAngle > 0)) {
