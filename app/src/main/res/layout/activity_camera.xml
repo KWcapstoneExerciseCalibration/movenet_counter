@@ -11,15 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <Button
-        android:id="@+id/len_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_margin="5dp"
-        android:text="신체 길이 재측정"
-        android:textSize="13sp" />
-
-    <Button
         android:id="@+id/btn_stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

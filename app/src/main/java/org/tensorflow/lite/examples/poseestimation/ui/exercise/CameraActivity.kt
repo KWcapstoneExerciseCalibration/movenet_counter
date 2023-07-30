@@ -38,6 +38,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.tensorflow.lite.examples.poseestimation.MainActivity
 import org.tensorflow.lite.examples.poseestimation.R
 import org.tensorflow.lite.examples.poseestimation.camera.CameraSource
 import org.tensorflow.lite.examples.poseestimation.counter.PushupCounter
@@ -46,7 +47,6 @@ import org.tensorflow.lite.examples.poseestimation.counter.SquatCounter
 import org.tensorflow.lite.examples.poseestimation.counter.WorkoutCounter
 import org.tensorflow.lite.examples.poseestimation.data.Device
 import org.tensorflow.lite.examples.poseestimation.ml.*
-import org.tensorflow.lite.examples.poseestimation.ui.length.LengthActivity
 import java.util.Locale
 
 class CameraActivity : AppCompatActivity() {
@@ -54,11 +54,9 @@ class CameraActivity : AppCompatActivity() {
     init{
         instance = this
     }
-
     companion object {
         private const val FRAGMENT_DIALOG = "dialog"
 
-        // 다른 class에서 maintain 불러오기 용
         @SuppressLint("StaticFieldLeak")
         private var instance: CameraActivity? = null
 
@@ -87,9 +85,6 @@ class CameraActivity : AppCompatActivity() {
 
     // progressbar
     private lateinit var progress:ProgressBar
-
-    // 길이 측정 버튼
-    private lateinit var len_btn: Button
 
     // tts
     private var tts: android.speech.tts.TextToSpeech? = null
@@ -167,7 +162,6 @@ class CameraActivity : AppCompatActivity() {
         // Start: 연동
         count_text = findViewById(R.id.count_tv)
         btn_stop = findViewById(R.id.btn_stop)
-        len_btn = findViewById(R.id.len_btn)
         progress = findViewById(R.id.progressbar)
         // End
 
@@ -205,11 +199,6 @@ class CameraActivity : AppCompatActivity() {
             workoutCounter.reset()
             startActivity(intent_result)
             finish()
-        }
-
-        // 운동 종료 버튼
-        len_btn.setOnClickListener{
-            startActivity(Intent(this, LengthActivity::class.java))
         }
     }
 

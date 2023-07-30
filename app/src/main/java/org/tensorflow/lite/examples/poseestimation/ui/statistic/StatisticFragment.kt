@@ -1,5 +1,6 @@
 package org.tensorflow.lite.examples.poseestimation.ui.statistic
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,21 @@ import java.util.*
 class StatisticFragment : Fragment() {
     private var binding: FragmentStatisticsBinding? = null
     private lateinit var dao: ExerDao
+
+    // 다른 class에서 main함수 불러오기 용
+    init{
+        instance = this
+    }
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        private var instance: StatisticFragment? = null
+
+        fun getInstance(): StatisticFragment? {
+            return instance
+        }
+    }
+
+
     override fun onCreateView(
 
         inflater: LayoutInflater,
@@ -73,6 +89,12 @@ class StatisticFragment : Fragment() {
 
 
         return binding!!.root
+    }
+
+
+    // DB 삭제 버튼과 연동된 함수
+    fun resetDB(){
+        // 작성 요망
     }
 
 

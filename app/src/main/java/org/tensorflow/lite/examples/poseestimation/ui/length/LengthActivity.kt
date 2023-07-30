@@ -146,13 +146,39 @@ class LengthActivity : AppCompatActivity() {
         exitbtn_Listener = findViewById(R.id.exit_btn)
 
         // 화면이 만들어 지면서 저장소 권한을 체크 합니다.
-        // 권한이 승인되어 있으면 카메라를 호출하는 메소드를 실행합니다.
+        // 권한이 승인되어 있으면 카메라를 호출하는 메소드를 실행
         setViews()
 
+        // 첫 방문시 안내 문구
+        if(MainActivity().firstAccess){
+            val builder = AlertDialog.Builder(this)
+            builder
+                .setTitle("환영합니다")
+                .setMessage("앱 첫 방문을 환영합니다!\n운동하기 전, 정밀한 측정을 위해 팔다리 길이를 측정하도록 하겠습니다\n사진 찍기를 눌러주세요")
+                .setPositiveButton("OK",
+                    DialogInterface.OnClickListener { dialog, id -> })
+            builder.create()
+            builder.show()
+        }
 
         // 나가기 버튼을 누를 시 다른 페이지로 이동
         exitbtn_Listener.setOnClickListener {
-            finish()
+            // 첫 방문 안내 문구
+            if(MainActivity().firstAccess){
+                val builder = AlertDialog.Builder(this)
+                builder
+                    .setTitle("측정 완료")
+                    .setMessage("편한 시간에 편한 장소에서\n앞으로 자주 만나기를 바래요")
+                    .setPositiveButton("๑°▽°๑",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            // OK 버튼 선택시 수행
+                            MainActivity().firstAccess = false
+                            finish()
+                        })
+                builder.create()
+                builder.show()
+            }
+            else finish()
         }
 
         if (cameraSource == null) {
@@ -185,16 +211,15 @@ class LengthActivity : AppCompatActivity() {
             buttonListener.setOnClickListener {
                 val builder = AlertDialog.Builder(this)
                 builder
-                    .setTitle("사진 촬영시 주의 사항!")
-                    .setMessage("최대한 카메라를 향하여 잘 측정될 수 있게 서 주세요!"+"\n"+"운동할 환경과 가능한 동일한 카메라 세팅이 필요합니다!")
-                    .setPositiveButton("Start",
+                    .setTitle("주의 사항!")
+                    .setMessage("최대한 카메라를 향하여 정면으로 서 주세요\n운동할 환경과 최대한 동일한 카메라 세팅이 필요합니다!")
+                    .setPositiveButton("OK",
                         DialogInterface.OnClickListener { dialog, id ->
-                            // Start 버튼 선택시 수행
+                            // OK 버튼 선택시 수행
                             openCamera()
                         })
                 builder.create()
                 builder.show()
-                //카메라 호출 메소드
             }
         }
     }
@@ -354,7 +379,7 @@ class LengthActivity : AppCompatActivity() {
                 for(grant in grantResults){
                     if(grant != PackageManager.PERMISSION_GRANTED){
                         // 권한이 승인되지 않았다면 return을 사용하여 메소드를 종료시켜 줍니다
-                        Toast.makeText(this,"저장소 권한을 승인해야지만 앱을 사용할 수 있습니다..",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"저장소 권한을 승인해야지만 앱을 사용할 수 있습니다.",Toast.LENGTH_SHORT).show()
                         finish()
                         return
                     }
@@ -397,7 +422,6 @@ class LengthActivity : AppCompatActivity() {
                     VisualizationUtils.lengthCal = false
 
                     imgViewer.setImageBitmap(cacheBitmap)
-
                 }
             }
         }
