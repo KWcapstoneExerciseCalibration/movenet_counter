@@ -85,6 +85,9 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var btn_stop: Button
     // End
 
+    // Intent
+    private lateinit var intent_result: Intent
+
     // progressbar
     private lateinit var progress:ProgressBar
 
@@ -171,6 +174,8 @@ class CameraActivity : AppCompatActivity() {
         progress = findViewById(R.id.progressbar)
         // End
 
+        var exercise = intent.getStringExtra("exercise")
+
         spnModel = findViewById(R.id.spnModel)
         spnDevice = findViewById(R.id.spnDevice)
         spnTracker = findViewById(R.id.spnTracker)
@@ -185,23 +190,36 @@ class CameraActivity : AppCompatActivity() {
             requestPermission()
         }
 
-        when(intent.getStringExtra("exercise")) {
+        when(exercise) {
             "PushUp"        -> {workoutCounter = PushupCounter()
                                 progress.max = 90}
             "Squat"         -> {workoutCounter = SquatCounter()
                                 progress.max = 80}
             "ShoulderPress" -> {workoutCounter = ShoulderPressCounter()
                                 progress.max = 70}
+            "Course1"       -> {workoutCounter = PushupCounter()
+                                progress.max = 90}
+            "Course2"       -> {workoutCounter = SquatCounter()
+                                progress.max = 80}
+            "Course3"       -> {workoutCounter = ShoulderPressCounter()
+                                progress.max = 70}
             else            -> Log.d("error", "운동 종류 선택 에러")
         }
-        
+
+        if (exercise.equals("Course1") || exercise.equals("Course2"))
+            intent_result = Intent(this, GuideActivity::class.java)
+        else
+            intent_result = Intent(this, ResultActivity::class.java)
         // 운동 종료 버튼
         btn_stop.setOnClickListener{
-            val intent_result = Intent(this, ResultActivity::class.java)
-            intent_result.putExtra("score", workoutCounter.score)
+            intent_result.putExtra("score", intent.getIntExtra("score", 0) + workoutCounter.score)
             intent_result.putExtra("count", workoutCounter.count)
             intent_result.putExtra("wrongArrayList", workoutCounter.wrongArray)
-            intent_result.putExtra("exerciseName", intent.getStringExtra("exercise"))
+            when(exercise) {
+                "Course1"   -> {intent_result.putExtra("exercise", "Course2")}
+                "Course2"   -> {intent_result.putExtra("exercise", "Course3")}
+                else        -> {intent_result.putExtra("exercise", exercise)}
+            }
             workoutCounter.reset()
             startActivity(intent_result)
             finish()
@@ -293,11 +311,10 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun exitResultActivity(){
-        val intent_result = Intent(this, ResultActivity::class.java)
-        intent_result.putExtra("score", workoutCounter.score)
+        intent_result.putExtra("score", intent.getIntExtra("score", 0) + workoutCounter.score)
         intent_result.putExtra("count", workoutCounter.count)
         intent_result.putExtra("wrongArray", workoutCounter.wrongArray)
-        intent_result.putExtra("exerciseName", intent.getStringExtra("exercise"))
+        intent_result.putExtra("exercise", intent.getStringExtra("exercise"))
         workoutCounter.reset()
         startActivity(intent_result)
     }

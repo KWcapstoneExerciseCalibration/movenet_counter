@@ -38,7 +38,9 @@ class ResultActivity : AppCompatActivity() {
         img_viewer = findViewById(R.id.img_viewer)
 
         var wrongArray = intent.getStringArrayListExtra("wrongArrayList")
+        var exercise = intent.getStringExtra("exercise")
         var wrongString : String = ""
+        var score : Int
 
         // ArrayList<String> wrongPosition 정보를 String 배열로 저장했습니다.
         wrongArray?.forEach { wrongString += (it + "\n") }
@@ -46,15 +48,20 @@ class ResultActivity : AppCompatActivity() {
         if (wrongString.equals(""))
             wrongString = "자세가 훌륭합니다!"
 
-        correct_text.text = "점수 결과: " + intent.getIntExtra("score", 0).toString() + "점"
+        if (exercise.equals("Course3"))
+            score = intent.getIntExtra("score", 0) / 3
+        else
+            score = intent.getIntExtra("score", 0)
+        correct_text.text = "점수 결과: " + score.toString() + "점"
         wrong_text.text = wrongString
 
-        when(intent.getStringExtra("exerciseName")) {
+        when(intent.getStringExtra("exercise")) {
             "PushUp"        -> img_viewer.setImageResource(R.drawable.pushup)
             "Squat"         -> img_viewer.setImageResource(R.drawable.squat)
             "ShoulderPress" -> img_viewer.setImageResource(R.drawable.shoulderpress)
+            "Course3"       -> img_viewer.setImageResource(R.drawable.pushup)
         }
-        intent.getStringExtra("exerciseName")
+        intent.getStringExtra("exercise")
 
         dao = ExerDataBase.getInstance(applicationContext).exerDao()
         val calendar = Calendar.getInstance()

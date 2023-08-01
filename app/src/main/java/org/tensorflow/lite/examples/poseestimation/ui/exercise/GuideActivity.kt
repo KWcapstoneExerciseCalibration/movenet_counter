@@ -36,13 +36,21 @@ class GuideActivity : AppCompatActivity() {
                 tv_exercise.setText("스쿼트")}
             "ShoulderPress" -> {img_exercise.setImageResource(R.drawable.shoulderpress)
                 tv_exercise.setText("숄더프레스")}
+            "Course1"       -> {img_exercise.setImageResource(R.drawable.pushup)
+                tv_exercise.setText("팔굽혀펴기")}
+            "Course2"       -> {img_exercise.setImageResource(R.drawable.squat)
+                tv_exercise.setText("스쿼트")}
+            "Course3"       -> {img_exercise.setImageResource(R.drawable.shoulderpress)
+                tv_exercise.setText("숄더프레스")}
             else            -> Log.d("error", "운동 종류 선택 에러")
         }
 
         btn_start.setOnClickListener {
-            val intent = Intent(this, CameraActivity::class.java)
-            intent.putExtra("exercise",exercise)
-            startActivity(intent)
+            val intent_start = Intent(this, CameraActivity::class.java)
+            intent_start.putExtra("exercise",exercise)
+            // 코스 점수 변수 전달
+            intent_start.putExtra("score", intent.getIntExtra("score", 0))
+            startActivity(intent_start)
             finish()
         }
     }

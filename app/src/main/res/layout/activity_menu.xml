@@ -6,37 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".ui.exercise.MenuActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/btn_pushup"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_margin="30dp"
-            android:textSize="17dp"
-            android:text="팔굽혀펴기" />
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/btn_squat"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_margin="30dp"
-            android:textSize="17dp"
-            android:text="스쿼트" />
+            <Button
+                android:id="@+id/btn_pushup"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_margin="30dp"
+                android:textSize="17dp"
+                android:text="팔굽혀펴기" />
 
-        <Button
-            android:id="@+id/btn_shoulderpress"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_margin="30dp"
-            android:textSize="17dp"
-            android:text="숄더프레스" />
+            <Button
+                android:id="@+id/btn_squat"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_margin="30dp"
+                android:textSize="17dp"
+                android:text="스쿼트" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/btn_shoulderpress"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_margin="30dp"
+                android:textSize="17dp"
+                android:text="숄더프레스" />
 
-
+            <Button
+                android:id="@+id/btn_course"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_margin="30dp"
+                android:textSize="17dp"
+                android:text="코스" />
+        </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

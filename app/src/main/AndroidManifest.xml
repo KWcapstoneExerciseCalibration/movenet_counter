@@ -45,6 +45,9 @@ d
         <activity android:name=".ui.exercise.GuideActivity" >
         </activity>
 
+        <activity android:name=".ui.exercise.CourseGuideActivity" >
+        </activity>
+
         <activity android:name=".ui.length.LengthActivity"
             android:exported="true">
         </activity>
