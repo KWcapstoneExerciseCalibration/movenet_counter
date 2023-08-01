@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_remeasure"
+        android:title="@string/measure_length" />
+
+    <item
+        android:id="@+id/menu_reset"
+        android:title="@string/resetDB" />
+</menu>

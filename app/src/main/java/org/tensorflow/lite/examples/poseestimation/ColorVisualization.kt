@@ -2,6 +2,8 @@ package org.tensorflow.lite.examples.poseestimation
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import org.tensorflow.lite.examples.poseestimation.data.BodyPart
 import org.tensorflow.lite.examples.poseestimation.data.Person
 
@@ -40,17 +42,79 @@ object ColorVisualization {
      *                    엉덩이-엉덩이, 엉덩이-무릎(왼/오른), 무릎-발목(왼/오른)
      *
      *  jointBool > 17개 / 코, (왼/오른)눈, (왼/오른)귀, (왼/오른)어깨, (왼/오른)팔꿈치
-     *                        (왼/오른)손목, (왼/오른)엉덩이, (왼/오른)무름, (왼/오른)발목) **/
+     *                        (왼/오른)손목, (왼/오른)엉덩이, (왼/오른)무릎, (왼/오른)발목) **/
 
-    fun colorChange(canvas: Canvas, person: Person, lineBool:List<Boolean>, jointBool: List<Boolean>){
+    fun colorChange(canvas: Canvas, person: Person, wrong:Array<Boolean>){
+        val lineBool:MutableList<Boolean> = mutableListOf(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false)
+        val jointBool:MutableList<Boolean> = mutableListOf(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false)
+
+        wrong.forEachIndexed { index, bool ->
+            if(bool)
+                when(index){
+                    0-> { // 머리
+                        for(i in 0..5)
+                            lineBool[i] = true
+                        for(i in 0..6)
+                            jointBool[i] = true
+                    }
+                    1-> { // 상체(팔 포함)
+                        for(i in 6..13)
+                            lineBool[i] = true
+                        for(i in 5..12)
+                            jointBool[i] = true
+                    }
+                    2-> { // 하체
+                        for(i in 13..17)
+                            lineBool[i] = true
+                        for(i in 11..16)
+                            jointBool[i] = true
+                    }
+                    3-> { // 왼팔
+                        lineBool[6] = true
+                        lineBool[8] = true
+                        jointBool[5] = true
+                        jointBool[7] = true
+                        jointBool[9] = true
+                    }
+                    4-> { // 오른팔
+                        lineBool[7] = true
+                        lineBool[9] = true
+                        jointBool[6] = true
+                        jointBool[8] = true
+                        jointBool[10] = true
+                    }
+                    5-> { // 몸통
+                        for(i in 10..13)
+                            lineBool[i] = true
+                        jointBool[5] = true
+                        jointBool[6] = true
+                        jointBool[11] = true
+                        jointBool[12] = true
+                    }
+                    6-> { // 왼다리
+                        lineBool[14] = true
+                        lineBool[16] = true
+                        jointBool[11] = true
+                        jointBool[13] = true
+                        jointBool[15] = true
+                    }
+                    7-> { // 오른다리
+                        lineBool[15] = true
+                        lineBool[17] = true
+                        jointBool[12] = true
+                        jointBool[14] = true
+                        jointBool[16] = true
+                    }
+                }
+        }
 
         val paintCircle = Paint().apply {
-            strokeWidth = ColorVisualization.CIRCLE_RADIUS
+            strokeWidth = CIRCLE_RADIUS
             color = Color.YELLOW
             style = Paint.Style.FILL
         }
         val paintLine = Paint().apply {
-            strokeWidth = ColorVisualization.LINE_WIDTH
+            strokeWidth = LINE_WIDTH
             color = Color.YELLOW
             style = Paint.Style.STROKE
         }
@@ -70,7 +134,7 @@ object ColorVisualization {
                 canvas.drawCircle(
                     point.coordinate.x,
                     point.coordinate.y,
-                    ColorVisualization.CIRCLE_RADIUS,
+                    CIRCLE_RADIUS,
                     paintCircle
                 )
             cache_count++

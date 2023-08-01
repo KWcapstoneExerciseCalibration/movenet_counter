@@ -31,6 +31,10 @@ object VisualizationUtils {
     // length 측정 중인지 확인용 bool
     var lengthCal: Boolean = false
 
+    // 운동 중 틀린 부위를 true로 바꾸면 됨
+    // wrongPart: 머리(0), 상체(1), 하체(2), 왼팔(3), 오른팔(4), 몸통(5), 왼다리(6), 오른다리(7)
+    var wrongPart = arrayOf<Boolean>(false, false, false, false, false, false, false, false)
+
     /** Radius of circle used to draw keypoints.  */
     private const val CIRCLE_RADIUS = 6f
 
@@ -64,20 +68,6 @@ object VisualizationUtils {
         Pair(BodyPart.LEFT_KNEE, BodyPart.LEFT_ANKLE),
         Pair(BodyPart.RIGHT_KNEE, BodyPart.RIGHT_ANKLE)
     )
-
-    /** Need to print that How much angle of joint **/
-    private val bodyAngleJoints = listOf(
-        BodyPart.NOSE,
-        BodyPart.LEFT_SHOULDER,
-        BodyPart.RIGHT_SHOULDER,
-        BodyPart.LEFT_ELBOW,
-        BodyPart.RIGHT_ELBOW,
-        BodyPart.LEFT_HIP,
-        BodyPart.RIGHT_HIP,
-        BodyPart.LEFT_KNEE,
-        BodyPart.RIGHT_KNEE
-    )
-
 
     /** Need to print that How much length of body **/
     private val bodyLength = listOf(
@@ -178,10 +168,10 @@ object VisualizationUtils {
                 )
             }
 
-            // 색 바꾸는 부분
-            val lineBool:List<Boolean> = listOf(true, false, true, false, true, false, true, false, true, false, false, true, false, false, true, false, true, false)
-            val jointBool:List<Boolean> = listOf(false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false)
-            // colorChange(originalSizeCanvas, person, lineBool, jointBool)
+            // 색 변경
+            // 운동 중 틀린 부위를 true로 바꾸면 됨
+            // wrongPart: 머리(0), 상체(1), 하체(2), 왼팔(3), 오른팔(4), 몸통(5), 왼다리(6), 오른다리(7)
+            colorChange(originalSizeCanvas, person, wrongPart)
 
             // Start: 운동 count 알고리즘 실행
             CameraActivity.workoutCounter.countAlgorithm(person)
@@ -189,5 +179,9 @@ object VisualizationUtils {
         }
 
         return output
+    }
+
+    fun resetWrongPart(){
+        wrongPart = arrayOf(false, false, false, false, false, false, false, false)
     }
 }
