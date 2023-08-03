@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
 
 @Database(entities = [ExerSchema::class], version = 2)
 abstract class ExerDataBase : RoomDatabase() {

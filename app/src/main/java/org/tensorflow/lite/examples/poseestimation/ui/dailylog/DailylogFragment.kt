@@ -52,8 +52,8 @@ class DailylogFragment : Fragment() {
             dateText.setOnClickListener {
 
             datePickerDialog = DatePickerDialog(requireActivity(), { datePicker, year, month, day ->
-                val date = "" + day
-                dateText.text = date
+                val date2 = "" + day
+                dateText.text = date2
                 CoroutineScope(Dispatchers.IO).launch {
                     dateNote.text = dao.getNote(date.format(currentTime))
                     dateExer.text = dao.getExer(date.format(currentTime)) + " " + dao.getCount(date.format(currentTime)) + "회 " + dao.getScore(date.format(currentTime)) + "점"

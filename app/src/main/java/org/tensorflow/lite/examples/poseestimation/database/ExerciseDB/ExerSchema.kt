@@ -2,7 +2,6 @@ package org.tensorflow.lite.examples.poseestimation.database.ExerciseDB
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.text.SimpleDateFormat
 
 @Entity(tableName = "table_exercise")
 data class ExerSchema(

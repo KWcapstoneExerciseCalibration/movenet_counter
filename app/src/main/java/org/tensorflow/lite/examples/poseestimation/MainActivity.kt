@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.Navigation.findNavController
@@ -14,13 +15,22 @@ import androidx.navigation.ui.AppBarConfiguration.Builder
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
+import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
+import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerSchema
 import org.tensorflow.lite.examples.poseestimation.databinding.ActivityMainBinding
 import org.tensorflow.lite.examples.poseestimation.ui.length.LengthActivity
 import org.tensorflow.lite.examples.poseestimation.ui.statistic.StatisticFragment
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var dao: ExerDao
 
     // 첫 접속 확인용
     // DB 연동 후 true로 바꿔주세요! && 50줄 주석도 해제(?) 부탁드립니다!
@@ -46,6 +56,19 @@ class MainActivity : AppCompatActivity() {
 
         val toolbarBodyTemplate = binding.toolbar
         setSupportActionBar(toolbarBodyTemplate)
+/*
+        dao = ExerDataBase.getInstance(applicationContext).exerDao()
+        val currentTime : Long = System.currentTimeMillis()
+        val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        date.timeZone = TimeZone.getTimeZone("GMT+09:00")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val initData = ExerSchema(0, date.format(currentTime), "0", "0", "0", 0, 0, 0, "0")
+            dao.create(initData)
+        }
+        firstAccess = true
+
+ */
 
         // if(firstAccess) measureOpen()
     }
