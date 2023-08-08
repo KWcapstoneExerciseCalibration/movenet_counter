@@ -72,15 +72,11 @@ class StatisticFragment : Fragment() {
 
 
         //ExerciseDB 삭제 버튼
-        val currentTime : Long = System.currentTimeMillis()
-        val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        date.timeZone = TimeZone.getTimeZone("GMT+09:00")
-
         val btn_reset = root.findViewById<Button>(R.id.btn_reset)
         btn_reset.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 dao.deleteAll()
-                val initData = ExerSchema(0, date.format(currentTime), "0", "0", "0", 0, 0, 0, "0")
+                val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
                 dao.create(initData)
             }
         }
@@ -94,7 +90,11 @@ class StatisticFragment : Fragment() {
 
     // DB 삭제 버튼과 연동된 함수
     fun resetDB(){
-        // 작성 요망
+        CoroutineScope(Dispatchers.IO).launch {
+            dao.deleteAll()
+            val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
+            dao.create(initData)
+        }
     }
 
 

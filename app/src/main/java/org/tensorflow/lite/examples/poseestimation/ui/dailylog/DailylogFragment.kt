@@ -33,7 +33,6 @@ class DailylogFragment : Fragment() {
         binding = FragmentDailylogBinding.inflate(inflater, container, false)
         val root = binding!!.root
 
-
         val dateText = root.findViewById<TextView>(R.id.textToday)
         val dateNote = root.findViewById<TextView>(R.id.textView5)
         val dateExer = root.findViewById<TextView>(R.id.textView)
@@ -45,23 +44,36 @@ class DailylogFragment : Fragment() {
         date.timeZone = TimeZone.getTimeZone("GMT+09:00")
 
         dateText.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
-        CoroutineScope(Dispatchers.IO).launch {
-            dateNote.text = dao.getNote(date.format(currentTime))
-            dateExer.text = dao.getExer(date.format(currentTime)) + " " + dao.getCount(date.format(currentTime)) + "회 " + dao.getScore(date.format(currentTime)) + "점"
-        }
-            dateText.setOnClickListener {
 
+        CoroutineScope(Dispatchers.IO).launch {
+            if (dao.readAll().size <= 1){
+                dateNote.text = "현재 작성한 소감이 없습니다"
+                dateExer.text = "현재 운동을 한번도 하지 않았습니다"
+            }
+            else{
+                dateNote.text = dao.getNote(date.format(currentTime))
+                dateExer.text = dao.getExer(date.format(currentTime)) + " " + dao.getCount(date.format(currentTime)) + "회 " + dao.getScore(date.format(currentTime)) + "점"
+            }
+        }
+
+        dateText.setOnClickListener {
             datePickerDialog = DatePickerDialog(requireActivity(), { datePicker, year, month, day ->
                 val date2 = "" + day
                 dateText.text = date2
                 CoroutineScope(Dispatchers.IO).launch {
-                    dateNote.text = dao.getNote(date.format(currentTime))
-                    dateExer.text = dao.getExer(date.format(currentTime)) + " " + dao.getCount(date.format(currentTime)) + "회 " + dao.getScore(date.format(currentTime)) + "점"
-
+                    if (dao.readAll().size <= 1){
+                        dateNote.text = "현재 작성한 소감이 없습니다"
+                        dateExer.text = "현재 운동을 한번도 하지 않았습니다"
+                    }
+                    else{
+                        dateNote.text = dao.getNote(date.format(currentTime))
+                        dateExer.text = dao.getExer(date.format(currentTime)) + " " + dao.getCount(date.format(currentTime)) + "회 " + dao.getScore(date.format(currentTime)) + "점"
+                    }
                 }
             }, 2023, 7, calendar.get(Calendar.DAY_OF_MONTH))
             datePickerDialog!!.show()
         }
+
         return root
     }
 

@@ -1,6 +1,5 @@
 package org.tensorflow.lite.examples.poseestimation
 
-import android.app.Dialog
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Build
@@ -8,8 +7,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -19,6 +16,9 @@ import androidx.navigation.ui.AppBarConfiguration.Builder
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.tensorflow.lite.examples.poseestimation.data.QuestData
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
@@ -58,19 +58,16 @@ class MainActivity : AppCompatActivity() {
 
         val toolbarBodyTemplate = binding.toolbar
         setSupportActionBar(toolbarBodyTemplate)
-/*
+
         dao = ExerDataBase.getInstance(applicationContext).exerDao()
-        val currentTime : Long = System.currentTimeMillis()
-        val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        date.timeZone = TimeZone.getTimeZone("GMT+09:00")
-
         CoroutineScope(Dispatchers.IO).launch {
-            val initData = ExerSchema(0, date.format(currentTime), "0", "0", "0", 0, 0, 0, "0")
-            dao.create(initData)
+            //ExerDB가 완전히 비어있다면 첫 접속
+            if (dao.readAll().isNullOrEmpty()){
+                val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
+                dao.create(initData)
+                firstAccess = true
+            }
         }
-        firstAccess = true
-
- */
 
         // if(firstAccess) measureOpen()
     }
