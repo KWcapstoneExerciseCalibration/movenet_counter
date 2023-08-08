@@ -1,12 +1,16 @@
 package org.tensorflow.lite.examples.poseestimation
 
+import android.app.Dialog
 import android.content.ComponentName
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.Navigation.findNavController
@@ -15,17 +19,14 @@ import androidx.navigation.ui.AppBarConfiguration.Builder
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import org.tensorflow.lite.examples.poseestimation.data.QuestData
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerSchema
 import org.tensorflow.lite.examples.poseestimation.databinding.ActivityMainBinding
+import org.tensorflow.lite.examples.poseestimation.ui.home.QuestDialog
 import org.tensorflow.lite.examples.poseestimation.ui.length.LengthActivity
 import org.tensorflow.lite.examples.poseestimation.ui.statistic.StatisticFragment
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     // false 변경하는 거는 ui\length\LengthActivity.kt 175줄에 있습니당
     var firstAccess = false
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -83,15 +85,6 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    // 툴바와 res/menu/toolbar_main을 연결
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(
-            R.menu.toolbar_main,
-            menu
-        )
-        return true
-    }
-
     // Toolbar 메뉴 클릭 이벤트
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -103,5 +96,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onClickQuest(v: View){
+        val dialog = QuestDialog(this)
+        QuestData.todayQuest()
+        dialog.show()
+    }
+
+    // 툴바와 res/menu/toolbar_main을 연결
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(
+            R.menu.toolbar_main,
+            menu
+        )
+        return true
     }
 }

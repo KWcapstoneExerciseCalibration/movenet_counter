@@ -38,4 +38,5 @@
     <string name="workout_symptoms">운동 후 증상</string>
     <string name="measure_length">신체 길이 재측정</string>
     <string name="resetDB">일지 및 기록 초기화</string>
+    <string name="dailyQuest">일일 퀘스트</string>
 </resources>

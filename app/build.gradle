@@ -34,7 +34,7 @@ android {
     namespace 'org.tensorflow.lite.examples.poseestimation'
 
     dataBinding {
-        enabled  = true
+        enabled = true
     }
 }
 
@@ -68,6 +68,7 @@ dependencies {
 
     //Room
     implementation "androidx.room:room-runtime:2.5.1"
+    implementation "androidx.room:room-ktx:2.5.1"
     implementation "androidx.room:room-ktx:2.5.1"
     kapt "androidx.room:room-compiler:2.5.1"
     androidTestImplementation "androidx.room:room-testing:2.5.1"
