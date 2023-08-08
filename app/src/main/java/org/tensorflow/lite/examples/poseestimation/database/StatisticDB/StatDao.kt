@@ -1,7 +1,6 @@
 package org.tensorflow.lite.examples.poseestimation.database.StatisticDB
 
 import androidx.room.*
-import org.tensorflow.lite.examples.poseestimation.database.StatisticDB.StatSchema
 
 @Dao
 interface StatDao {

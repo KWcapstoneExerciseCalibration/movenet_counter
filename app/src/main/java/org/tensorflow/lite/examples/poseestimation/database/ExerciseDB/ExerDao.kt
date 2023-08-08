@@ -1,7 +1,6 @@
 package org.tensorflow.lite.examples.poseestimation.database.ExerciseDB
 
 import androidx.room.*
-import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerSchema
 
 @Dao
 interface ExerDao {
