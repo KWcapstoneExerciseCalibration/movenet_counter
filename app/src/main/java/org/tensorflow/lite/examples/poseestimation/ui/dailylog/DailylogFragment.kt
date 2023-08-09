@@ -35,7 +35,7 @@ class DailylogFragment : Fragment() {
 
         val dateText = root.findViewById<TextView>(R.id.textToday)
         val dateNote = root.findViewById<TextView>(R.id.textView5)
-        val dateExer = root.findViewById<TextView>(R.id.textView)
+        val dateExer = root.findViewById<TextView>(R.id.textWorkout1)
         val calendar = Calendar.getInstance()
 
         dao = ExerDataBase.getInstance(requireActivity()).exerDao()
