@@ -45,13 +45,12 @@ class PushupCounter : WorkoutCounter() {
             if ((person.keyPoints[BodyPart.NOSE.ordinal].coordinate.y < person.keyPoints[BodyPart.LEFT_ELBOW.ordinal].coordinate.y)
             /* && ((leftelbowAngle >= 160 || leftelbowAngle == 0) || (rightelbowAngle >= 160 || rightelbowAngle == 0)) */) {
                 if (downPosition == true) {
-                    score += 5
                     count++
                     CameraActivity.getInstance()?.ttsSpeak("$count 개")
                     if (wrongPosition == true)
                         wrongPosition = false
                     else
-                        score += 5
+                        score += 100/goal
                 }
 
                 upPosition = true

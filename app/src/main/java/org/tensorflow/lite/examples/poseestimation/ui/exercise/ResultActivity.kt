@@ -29,16 +29,21 @@ class ResultActivity : AppCompatActivity() {
         var wrongString : String = ""
         var score : Int
 
-        // ArrayList<String> wrongPosition 정보를 String 배열로 저장했습니다.
-        wrongArray?.forEach { wrongString += (it + "\n") }
-
-        if (wrongString.equals(""))
-            wrongString = "자세가 훌륭합니다!"
-
         if (exercise.equals("Course3"))
             score = intent.getIntExtra("score", 0) / 3
         else
             score = intent.getIntExtra("score", 0)
+
+        // ArrayList<String> wrongPosition 정보를 String 배열로 저장했습니다.
+        wrongArray?.forEach { wrongString += (it + "\n") }
+
+        if (wrongString.equals("")) {
+            if (score == 0)
+                wrongString = "재도전해봅시다!"
+            else
+                wrongString = "자세가 훌륭합니다!"
+        }
+
         correct_text.text = "점수 결과: " + score.toString() + "점"
         wrong_text.text = wrongString
 

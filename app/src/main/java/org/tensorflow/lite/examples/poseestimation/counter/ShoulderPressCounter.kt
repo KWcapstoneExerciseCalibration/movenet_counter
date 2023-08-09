@@ -60,7 +60,6 @@ class ShoulderPressCounter: WorkoutCounter() {
                     wrongPosition = true
                 }
                 if (downPosition == true) {
-                    score += 5
                     count++
                     CameraActivity.getInstance()?.ttsSpeak("$count 개")
                     if (wrongPosition == true) {
@@ -86,7 +85,7 @@ class ShoulderPressCounter: WorkoutCounter() {
                         wrongflag2 = false
                     }
                     else
-                        score += 5
+                        score += 100/goal
                 }
 
                 upPosition = true

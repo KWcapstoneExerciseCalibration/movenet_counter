@@ -280,7 +280,8 @@ class CameraActivity : AppCompatActivity() {
                         ) {
                             // Start: 목표 count 보여주는 textView
                             var cnt = workoutCounter.count
-                            var goal = workoutCounter.goal
+                            var goal = intent.getIntExtra("exercise_num", 0)
+                            workoutCounter.set_goal(intent.getIntExtra("exercise_num", 0))
                             count_text.text = "목표\n$cnt / $goal"
                             // End
 
