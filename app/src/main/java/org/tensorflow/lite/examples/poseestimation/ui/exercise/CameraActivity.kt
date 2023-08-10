@@ -191,22 +191,22 @@ class CameraActivity : AppCompatActivity() {
         }
 
         when(exercise) {
-            "PushUp"        -> {workoutCounter = PushupCounter()
-                                progress.max = 90}
-            "Squat"         -> {workoutCounter = SquatCounter()
-                                progress.max = 80}
-            "ShoulderPress" -> {workoutCounter = ShoulderPressCounter()
-                                progress.max = 70}
-            "Course1"       -> {workoutCounter = PushupCounter()
-                                progress.max = 90}
-            "Course2"       -> {workoutCounter = SquatCounter()
-                                progress.max = 80}
-            "Course3"       -> {workoutCounter = ShoulderPressCounter()
-                                progress.max = 70}
-            else            -> Log.d("error", "운동 종류 선택 에러")
+            "PushUp"              -> {workoutCounter = PushupCounter()
+                                  progress.max = 90}
+            "Squat"               -> {workoutCounter = SquatCounter()
+                                  progress.max = 80}
+            "ShoulderPress"       -> {workoutCounter = ShoulderPressCounter()
+                                  progress.max = 70}
+            "CoursePushUp"        -> {workoutCounter = PushupCounter()
+                                  progress.max = 90}
+            "CourseSquat"         -> {workoutCounter = SquatCounter()
+                                  progress.max = 80}
+            "CourseShoulderPress" -> {workoutCounter = ShoulderPressCounter()
+                                  progress.max = 70}
+            else                  -> Log.d("error", "운동 종류 선택 에러")
         }
 
-        if (exercise.equals("Course1") || exercise.equals("Course2"))
+        if (exercise.equals("CoursePushUp") || exercise.equals("CourseSquat"))
             intent_result = Intent(this, GuideActivity::class.java)
         else
             intent_result = Intent(this, ResultActivity::class.java)
@@ -216,8 +216,8 @@ class CameraActivity : AppCompatActivity() {
             intent_result.putExtra("count", workoutCounter.count)
             intent_result.putExtra("wrongArrayList", workoutCounter.wrongArray)
             when(exercise) {
-                "Course1"   -> {intent_result.putExtra("exercise", "Course2")}
-                "Course2"   -> {intent_result.putExtra("exercise", "Course3")}
+                "CoursePushUp"   -> {intent_result.putExtra("exercise", "CourseSquat")}
+                "CourseSquat"   -> {intent_result.putExtra("exercise", "CourseShoulderPress")}
                 else        -> {intent_result.putExtra("exercise", exercise)}
             }
 

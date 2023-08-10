@@ -37,19 +37,19 @@ class GuideActivity : AppCompatActivity() {
 
         when(exercise) {
             // PushUp, ShoulderPress 이미지 바꿔주기
-            "PushUp"        -> {img_exercise.setImageResource(R.drawable.pushup)
+            "PushUp"                -> {img_exercise.setImageResource(R.drawable.pushup)
                 tv_exercise.setText("팔굽혀펴기")}
-            "Squat"         -> {img_exercise.setImageResource(R.drawable.squat)
+            "Squat"                 -> {img_exercise.setImageResource(R.drawable.squat)
                 tv_exercise.setText("스쿼트")}
-            "ShoulderPress" -> {img_exercise.setImageResource(R.drawable.shoulderpress)
+            "ShoulderPress"         -> {img_exercise.setImageResource(R.drawable.shoulderpress)
                 tv_exercise.setText("숄더프레스")}
-            "Course1"       -> {img_exercise.setImageResource(R.drawable.pushup)
+            "CoursePushUp"          -> {img_exercise.setImageResource(R.drawable.pushup)
                 tv_exercise.setText("팔굽혀펴기")}
-            "Course2"       -> {img_exercise.setImageResource(R.drawable.squat)
+            "CourseSquat"           -> {img_exercise.setImageResource(R.drawable.squat)
                 tv_exercise.setText("스쿼트")}
-            "Course3"       -> {img_exercise.setImageResource(R.drawable.shoulderpress)
+            "CourseShoulderPress"   -> {img_exercise.setImageResource(R.drawable.shoulderpress)
                 tv_exercise.setText("숄더프레스")}
-            else            -> Log.d("error", "운동 종류 선택 에러")
+            else                    -> Log.d("error", "운동 종류 선택 에러")
         }
 
         btn_start.setOnClickListener {

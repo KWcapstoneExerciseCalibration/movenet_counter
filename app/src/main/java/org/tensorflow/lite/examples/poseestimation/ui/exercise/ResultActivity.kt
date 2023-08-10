@@ -24,12 +24,13 @@ class ResultActivity : AppCompatActivity() {
         btn_close = findViewById(R.id.btnClose)
         img_viewer = findViewById(R.id.img_viewer)
 
-        var wrongArray = intent.getStringArrayListExtra("wrongArrayList")
-        var exercise = intent.getStringExtra("exercise")
-        var wrongString : String = ""
+        var         wrongArray = intent.getStringArrayListExtra("wrongArrayList")
+        var         exercise = intent.getStringExtra("exercise")
+
+        var wrongString = ""
         var score : Int
 
-        if (exercise.equals("Course3"))
+        if (exercise.equals("CourseShoulderPress"))
             score = intent.getIntExtra("score", 0) / 3
         else
             score = intent.getIntExtra("score", 0)
@@ -48,10 +49,10 @@ class ResultActivity : AppCompatActivity() {
         wrong_text.text = wrongString
 
         when(intent.getStringExtra("exercise")) {
-            "PushUp"        -> img_viewer.setImageResource(R.drawable.pushup)
-            "Squat"         -> img_viewer.setImageResource(R.drawable.squat)
-            "ShoulderPress" -> img_viewer.setImageResource(R.drawable.shoulderpress)
-            "Course3"       -> img_viewer.setImageResource(R.drawable.pushup)
+            "PushUp"                -> img_viewer.setImageResource(R.drawable.pushup)
+            "Squat"                 -> img_viewer.setImageResource(R.drawable.squat)
+            "ShoulderPress"         -> img_viewer.setImageResource(R.drawable.shoulderpress)
+            "CourseShoulderPress"   -> img_viewer.setImageResource(R.drawable.pushup)
         }
         intent.getStringExtra("exercise")
 
