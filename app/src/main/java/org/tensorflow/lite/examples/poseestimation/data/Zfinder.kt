@@ -2,6 +2,8 @@ package org.tensorflow.lite.examples.poseestimation.data
 
 import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthDao
 import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthDataBase
+import org.tensorflow.lite.examples.poseestimation.ui.exercise.CameraActivity
+import org.tensorflow.lite.examples.poseestimation.ui.length.LengthActivity
 import kotlin.Triple
 import kotlin.math.*
 
@@ -168,7 +170,7 @@ class zFinder {
     fun findLengthPerson(
         person: Person
     ): Person {
-        //dao = LengthDataBase.getInstance(this).lengthDao()
+        dao = LengthDataBase.getInstance(LengthActivity.getInstance()!!.context).lengthDao()
         var lenBody = BodyLen(0.0f, emptyArray(), person)
 
         bodyJoints.forEach {

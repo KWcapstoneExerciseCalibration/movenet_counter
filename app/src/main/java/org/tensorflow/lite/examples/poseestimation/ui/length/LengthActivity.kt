@@ -17,6 +17,7 @@ limitations under the License.
 package org.tensorflow.lite.examples.poseestimation.ui.length
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
@@ -45,9 +46,12 @@ import org.tensorflow.lite.examples.poseestimation.MainActivity
 import org.tensorflow.lite.examples.poseestimation.R
 import org.tensorflow.lite.examples.poseestimation.VisualizationUtils
 import org.tensorflow.lite.examples.poseestimation.camera.CameraSource
+import org.tensorflow.lite.examples.poseestimation.counter.PushupCounter
+import org.tensorflow.lite.examples.poseestimation.counter.WorkoutCounter
 import org.tensorflow.lite.examples.poseestimation.data.Device
 import org.tensorflow.lite.examples.poseestimation.ml.*
 import org.tensorflow.lite.examples.poseestimation.data.imagePresequence
+import org.tensorflow.lite.examples.poseestimation.ui.exercise.CameraActivity
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -55,6 +59,21 @@ import java.util.Date
 
 
 class LengthActivity : AppCompatActivity() {
+    init{
+        instance = this
+    }
+
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        private var instance: LengthActivity? = null
+
+        fun getInstance(): LengthActivity? {
+            return instance
+        }
+    }
+
+    val context = this
+
     // Manifest 에서 설정한 권한을 가지고 온다.
     val CAMERA_PERMISSION = arrayOf(Manifest.permission.CAMERA)
     val STORAGE_PERMISSION = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
