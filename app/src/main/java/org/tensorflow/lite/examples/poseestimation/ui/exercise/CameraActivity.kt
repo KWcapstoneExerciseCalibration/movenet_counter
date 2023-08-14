@@ -47,6 +47,7 @@ import org.tensorflow.lite.examples.poseestimation.counter.ShoulderPressCounter
 import org.tensorflow.lite.examples.poseestimation.counter.SquatCounter
 import org.tensorflow.lite.examples.poseestimation.counter.WorkoutCounter
 import org.tensorflow.lite.examples.poseestimation.data.Device
+import org.tensorflow.lite.examples.poseestimation.data.QuestData
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerSchema
@@ -55,7 +56,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class CameraActivity : AppCompatActivity() {
-    // 다른 class에서 main함수 불러오기 용
     private lateinit var dao: ExerDao
     init{
         instance = this
@@ -210,31 +210,12 @@ class CameraActivity : AppCompatActivity() {
             intent_result = Intent(this, GuideActivity::class.java)
         else
             intent_result = Intent(this, ResultActivity::class.java)
+
+
+
         // 운동 종료 버튼
         btn_stop.setOnClickListener{
-            intent_result.putExtra("score", intent.getIntExtra("score", 0) + workoutCounter.score)
-            intent_result.putExtra("count", workoutCounter.count)
-            intent_result.putExtra("wrongArrayList", workoutCounter.wrongArray)
-            when(exercise) {
-                "CoursePushUp"   -> {intent_result.putExtra("exercise", "CourseSquat")}
-                "CourseSquat"   -> {intent_result.putExtra("exercise", "CourseShoulderPress")}
-                else        -> {intent_result.putExtra("exercise", exercise)}
-            }
-
-            //종료 버튼 누르면 ExerciseDB 에 data 삽입
-            dao = ExerDataBase.getInstance(applicationContext).exerDao()
-            CoroutineScope(Dispatchers.IO).launch {
-                val currentTime : Long = System.currentTimeMillis()
-                val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                date.timeZone = TimeZone.getTimeZone("GMT+09:00")
-                val time = SimpleDateFormat("HH:mm:ss")
-                time.timeZone = TimeZone.getTimeZone("GMT+09:00")
-                val exerciseData = ExerSchema(currentTime, date.format(currentTime), time.format(currentTime), intent.getStringExtra("exercise"), "note", 0, workoutCounter.count, intent.getIntExtra("score", 0) + workoutCounter.score, "correction")
-                dao.create(exerciseData)
-            }
-
-            workoutCounter.reset()
-            startActivity(intent_result)
+            exitResultActivity(exercise)
             finish()
         }
     }
@@ -301,7 +282,7 @@ class CameraActivity : AppCompatActivity() {
                                         })
                                     .setNegativeButton("아니오",
                                         DialogInterface.OnClickListener { dialog, id ->
-                                            exitResultActivity()
+                                            exitResultActivity(intent.getStringExtra("exercise"))
                                         })
                                 builder.show()
                             }
@@ -319,12 +300,18 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    private fun exitResultActivity(){
+    private fun exitResultActivity(exercise: String?){
         intent_result.putExtra("score", intent.getIntExtra("score", 0) + workoutCounter.score)
         intent_result.putExtra("count", workoutCounter.count)
-        intent_result.putExtra("wrongArray", workoutCounter.wrongArray)
+        intent_result.putExtra("wrongArrayList", workoutCounter.wrongArray)
 
-        //운동 완료시 ExerciseDB 에 data 삽입
+        when(exercise) {
+            "CoursePushUp"  -> {intent_result.putExtra("exercise", "CourseSquat")}
+            "CourseSquat"   -> {intent_result.putExtra("exercise", "CourseShoulderPress")}
+            else            -> {intent_result.putExtra("exercise", exercise)}
+        }
+
+        // 종료 버튼 누르면 ExerciseDB 에 data 삽입
         dao = ExerDataBase.getInstance(applicationContext).exerDao()
         CoroutineScope(Dispatchers.IO).launch {
             val currentTime : Long = System.currentTimeMillis()
@@ -336,8 +323,11 @@ class CameraActivity : AppCompatActivity() {
             dao.create(exerciseData)
         }
 
+        QuestData.questChanged(exercise)
+
         workoutCounter.reset()
         startActivity(intent_result)
+        finish()
     }
 
     private fun isPoseClassifier() {

@@ -24,8 +24,8 @@ class ResultActivity : AppCompatActivity() {
         btn_close = findViewById(R.id.btnClose)
         img_viewer = findViewById(R.id.img_viewer)
 
-        var         wrongArray = intent.getStringArrayListExtra("wrongArrayList")
-        var         exercise = intent.getStringExtra("exercise")
+        var wrongArray = intent.getStringArrayListExtra("wrongArrayList")
+        var exercise = intent.getStringExtra("exercise")
 
         var wrongString = ""
         var score : Int
@@ -87,8 +87,8 @@ class ResultActivity : AppCompatActivity() {
         })
          */
 
-btn_close.setOnClickListener {
-    finish()
-}
-}
+        btn_close.setOnClickListener {
+            finish()
+        }
+    }
 }

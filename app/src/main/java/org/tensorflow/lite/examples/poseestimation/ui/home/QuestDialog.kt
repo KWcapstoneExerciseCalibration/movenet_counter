@@ -4,22 +4,35 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
+import org.tensorflow.lite.examples.poseestimation.MainActivity
 import org.tensorflow.lite.examples.poseestimation.R
 import org.tensorflow.lite.examples.poseestimation.data.QuestData
 
-class QuestDialog (context : Context) {
-    private val dialog = Dialog(context)   //부모 액티비티의 context
+class QuestDialog(context: Context) {
+    private val dialog = Dialog(context).apply {
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        setContentView(R.layout.dialog_quest)
+        setCanceledOnTouchOutside(true)
+        setCancelable(true)
+    }
+
+    private fun setQuest(name:TextView, count:TextView, success:CheckBox, quest: String, counting: Int, checked: Boolean){
+        name.setQuest(quest)
+        count.setQuest(counting)
+        success.setQuest(checked)
+    }
+
+    private inline fun TextView.setQuest(quest: String) { text = quest }
+
+    private inline fun TextView.setQuest(count: Int) { text = "$count 회" }
+
+    private inline fun CheckBox.setQuest(checked: Boolean) { isChecked = checked }
 
     fun show() {
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setContentView(R.layout.dialog_quest)
-        dialog.setCanceledOnTouchOutside(true)
-        dialog.setCancelable(true)
-
         val cancelBtn = dialog.findViewById<Button>(R.id.cancelBtn)
         val daily1Context = dialog.findViewById<TextView>(R.id.daily1Context)
         val daily1Count = dialog.findViewById<TextView>(R.id.daily1Count)
@@ -32,17 +45,27 @@ class QuestDialog (context : Context) {
         val quest2Whether = dialog.findViewById<CheckBox>(R.id.quest2Whether)
 
         cancelBtn.setOnClickListener { dialog.dismiss() }
-        daily1Context.text = QuestData.daily1
-        daily1Count.text = QuestData.dailyCount1.toString() + "회"
-        daily1Whether.isChecked = QuestData.dailyCheck1
 
-        daily2Context.text = QuestData.daily2
-        daily2Count.text = QuestData.dailyCount2.toString() + "회"
-        daily2Whether.isChecked = QuestData.dailyCheck2
+        when (QuestData.questNum) {
+            0 -> {
+                setQuest(daily1Context, daily1Count, daily1Whether, QuestData.squat, QuestData.squatCount, QuestData.squatCheck)
+                setQuest(daily2Context, daily2Count, daily2Whether, QuestData.shoulderPress, QuestData.shoulderPressCount, QuestData.shoulderPressCheck)
+                setQuest(quest2Content, quest2Count, quest2Whether, QuestData.pushUp, QuestData.pushUpCount, QuestData.pushUpCheck)
+            }
+            1 -> {
+                setQuest(daily1Context, daily1Count, daily1Whether, QuestData.pushUp, QuestData.pushUpCount, QuestData.pushUpCheck)
+                setQuest(daily2Context, daily2Count, daily2Whether, QuestData.shoulderPress, QuestData.shoulderPressCount, QuestData.shoulderPressCheck)
+                setQuest(quest2Content, quest2Count, quest2Whether, QuestData.squat, QuestData.squatCount, QuestData.squatCheck)
+            }
+            2 -> {
+                setQuest(daily1Context, daily1Count, daily1Whether, QuestData.pushUp, QuestData.pushUpCount, QuestData.pushUpCheck)
+                setQuest(daily2Context, daily2Count, daily2Whether, QuestData.squat, QuestData.squatCount, QuestData.squatCheck)
+                setQuest(quest2Content, quest2Count, quest2Whether, QuestData.shoulderPress, QuestData.shoulderPressCount, QuestData.shoulderPressCheck)
+            }
+        }
 
-        quest2Content.text = QuestData.quest2
-        quest2Count.text = QuestData.questCount2.toString() + "회"
-        quest2Whether.isChecked = QuestData.questCheck2
+        QuestData.changed = false
+        MainActivity.getInstance()?.findViewById<ImageView>(R.id.questChanged)?.visibility = android.view.View.INVISIBLE
 
         dialog.show()
     }

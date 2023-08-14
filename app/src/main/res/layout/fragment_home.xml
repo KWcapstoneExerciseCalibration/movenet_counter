@@ -96,21 +96,33 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageProfile" />
 
-        <Button
+        <ImageButton
             android:id="@+id/questCheck"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="20dp"
-            android:onClick="onClickQuest"
-            android:text="."
-            android:textColor="@android:color/transparent"
-            android:drawableRight="@drawable/icn_quest"
-            android:drawableTint="@color/white"
             android:backgroundTint="@android:color/transparent"
-            android:background="@android:color/transparent"
-            app:layout_constraintStart_toEndOf="@+id/buttonWorkoutStart"
+            android:onClick="onClickQuest"
+            android:src="@drawable/icn_quest"
+            android:textColor="@android:color/transparent"
+            app:layout_constraintHorizontal_bias="0.36"
+            app:layout_constraintLeft_toRightOf="@+id/buttonWorkoutStart"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageProfile"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/questChanged"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/white_circle"
+            app:tint="@color/yellow"
+            app:layout_constraintLeft_toLeftOf="@id/questCheck"
+            app:layout_constraintTop_toBottomOf="@+id/imageProfile"
+            android:onClick="onClickQuest"
+            android:visibility="invisible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

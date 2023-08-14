@@ -1,5 +1,6 @@
 package org.tensorflow.lite.examples.poseestimation
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Build
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -19,23 +21,37 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.tensorflow.lite.examples.poseestimation.counter.PushupCounter
+import org.tensorflow.lite.examples.poseestimation.counter.WorkoutCounter
 import org.tensorflow.lite.examples.poseestimation.data.QuestData
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerSchema
 import org.tensorflow.lite.examples.poseestimation.databinding.ActivityMainBinding
+import org.tensorflow.lite.examples.poseestimation.ui.exercise.CameraActivity
 import org.tensorflow.lite.examples.poseestimation.ui.home.QuestDialog
 import org.tensorflow.lite.examples.poseestimation.ui.length.LengthActivity
 import org.tensorflow.lite.examples.poseestimation.ui.statistic.StatisticFragment
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var dao: ExerDao
 
-    // 첫 접속 확인용
-    // DB 연동 후 true로 바꿔주세요! && 50줄 주석도 해제(?) 부탁드립니다!
-    // false 변경하는 거는 ui\length\LengthActivity.kt 175줄에 있습니당
+    init{
+        instance = this
+    }
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        private var instance: MainActivity? = null
+
+        fun getInstance(): MainActivity? {
+            return instance
+        }
+    }
+
     var firstAccess = false
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -54,24 +70,27 @@ class MainActivity : AppCompatActivity() {
             .build()
         val navController = findNavController(this, R.id.nav_host_fragment_activity_main)
         setupActionBarWithNavController(this, navController, appBarConfiguration)
-        setupWithNavController(binding!!.navView, navController)
+        setupWithNavController(binding.navView, navController)
 
         val toolbarBodyTemplate = binding.toolbar
         setSupportActionBar(toolbarBodyTemplate)
 
-        dao = ExerDataBase.getInstance(applicationContext).exerDao()
-        CoroutineScope(Dispatchers.IO).launch {
-            //ExerDB가 완전히 비어있다면 첫 접속
-            if (dao.readAll().isNullOrEmpty()){
-                val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
+                    dao = ExerDataBase.getInstance(applicationContext).exerDao()
+                            CoroutineScope(Dispatchers.IO).launch {
+                        // ExerDB가 완전히 비어있다면 첫 접속
+                        if (dao.readAll().isNullOrEmpty()){
+                            val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
                 dao.create(initData)
                 firstAccess = true
             }
         }
 
-        // if(firstAccess) measureOpen()
+        if(firstAccess) measureOpen()
+
+        // 접속시 DB의 운동 횟수 불러 오기
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun onClick(v: View?) {
         val intent = Intent()
         val componentName = ComponentName(
@@ -79,6 +98,7 @@ class MainActivity : AppCompatActivity() {
             "org.tensorflow.lite.examples.poseestimation.ui.exercise.MenuActivity"
         )
         intent.component = componentName
+        QuestData.todayQuest()
         startActivity(intent)
     }
 
@@ -86,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_remeasure -> {
-                startActivity(Intent(this, LengthActivity::class.java))
+                measureOpen()
             }
             R.id.menu_reset -> {
                 StatisticFragment.getInstance()?.resetDB()
@@ -109,5 +129,9 @@ class MainActivity : AppCompatActivity() {
             menu
         )
         return true
+    }
+
+    private fun measureOpen(){
+        startActivity(Intent(this, LengthActivity::class.java))
     }
 }
