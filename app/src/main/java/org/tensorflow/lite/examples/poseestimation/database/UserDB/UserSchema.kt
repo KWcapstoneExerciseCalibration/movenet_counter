@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class UserSchema(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val age: Int,
-    val exp: Double,
+    var exp: Double,
     val weight: Float,
     val height: Float,
     val BMI: Float

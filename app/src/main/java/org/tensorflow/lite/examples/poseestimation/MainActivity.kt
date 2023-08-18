@@ -5,6 +5,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -21,24 +22,24 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.tensorflow.lite.examples.poseestimation.counter.PushupCounter
-import org.tensorflow.lite.examples.poseestimation.counter.WorkoutCounter
 import org.tensorflow.lite.examples.poseestimation.data.QuestData
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerSchema
+import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserDao
+import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserDataBase
+import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserSchema
 import org.tensorflow.lite.examples.poseestimation.databinding.ActivityMainBinding
 import org.tensorflow.lite.examples.poseestimation.ui.exercise.CameraActivity
 import org.tensorflow.lite.examples.poseestimation.ui.home.QuestDialog
 import org.tensorflow.lite.examples.poseestimation.ui.length.LengthActivity
 import org.tensorflow.lite.examples.poseestimation.ui.statistic.StatisticFragment
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var dao: ExerDao
+    private lateinit var daoUser: UserDao
 
     init{
         instance = this
@@ -75,12 +76,14 @@ class MainActivity : AppCompatActivity() {
         val toolbarBodyTemplate = binding.toolbar
         setSupportActionBar(toolbarBodyTemplate)
 
-                    dao = ExerDataBase.getInstance(applicationContext).exerDao()
-                            CoroutineScope(Dispatchers.IO).launch {
-                        // ExerDB가 완전히 비어있다면 첫 접속
-                        if (dao.readAll().isNullOrEmpty()){
-                            val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
+        dao = ExerDataBase.getInstance(applicationContext).exerDao()
+        CoroutineScope(Dispatchers.IO).launch {
+            // ExerDB가 완전히 비어있다면 첫 접속
+            if (dao.readAll().isEmpty()){
+                val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
                 dao.create(initData)
+
+                finishQuest(0.0)
                 firstAccess = true
             }
         }
@@ -133,5 +136,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun measureOpen(){
         startActivity(Intent(this, LengthActivity::class.java))
+    }
+
+    fun finishQuest(exp: Double){
+        daoUser = UserDataBase.getInstance(applicationContext).userDao()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            var userData = daoUser.readAll()
+
+            if (userData.isEmpty()){
+                val initData = UserSchema(0, 0, exp, 0F, 0F, 0F)
+                daoUser.create(initData)
+            }
+            else {
+                userData.get(0).exp += exp
+                daoUser.update(userData.get(0))
+            }
+        }
     }
 }

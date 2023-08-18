@@ -56,13 +56,15 @@ object QuestData {
             pushUpCount += CameraActivity.workoutCounter.count
 
             // 일퀘 번호가 0 (푸쉬업이 일퀘가 아닌 경우)
-            if(questNum == 0 && quest2Max <= pushUpCount) {
+            if(questNum == 0 && quest2Max <= pushUpCount && !pushUpCheck) {
                 pushUpCheck = true
+                MainActivity.getInstance()?.finishQuest(50.0)
                 changed = true
             }
             // 푸쉬업이 일퀘인 경우
-            if (questNum != 0 && dailyMax <= pushUpCount) {
+            if (questNum != 0 && dailyMax <= pushUpCount && !pushUpCheck) {
                 pushUpCheck = true
+                MainActivity.getInstance()?.finishQuest(100.0)
                 changed = true
             }
         }
@@ -70,13 +72,15 @@ object QuestData {
             squatCount += CameraActivity.workoutCounter.count
 
             // 일퀘 번호가 1 (스쿼트가 일퀘가 아닌 경우)
-            if(questNum == 1 && quest2Max <= squatCount) {
+            if(questNum == 1 && quest2Max <= squatCount && !squatCheck) {
                 squatCheck = true
+                MainActivity.getInstance()?.finishQuest(50.0)
                 changed = true
             }
             // 스쿼트가 일퀘인 경우
-            if (questNum != 1 && dailyMax <= squatCount) {
+            if (questNum != 1 && dailyMax <= squatCount && !squatCheck) {
                 squatCheck = true
+                MainActivity.getInstance()?.finishQuest(100.0)
                 changed = true
             }
         }
@@ -84,13 +88,15 @@ object QuestData {
             shoulderPressCount += CameraActivity.workoutCounter.count
 
             // 일퀘 번호가 2 (숄더프레스가 일퀘가 아닌 경우)
-            if(questNum == 2 && quest2Max <= shoulderPressCount) {
+            if(questNum == 2 && quest2Max <= shoulderPressCount && !shoulderPressCheck) {
                 shoulderPressCheck = true
+                MainActivity.getInstance()?.finishQuest(50.0)
                 changed = true
             }
             // 숄더프레스가 일퀘인 경우
-            if (questNum != 2 && dailyMax <= shoulderPressCount) {
+            if (questNum != 2 && dailyMax <= shoulderPressCount && !shoulderPressCheck) {
                 shoulderPressCheck = true
+                MainActivity.getInstance()?.finishQuest(100.0)
                 changed = true
             }
         }
