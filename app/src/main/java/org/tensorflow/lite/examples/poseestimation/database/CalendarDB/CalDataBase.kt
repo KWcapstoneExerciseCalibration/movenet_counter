@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [CalSchema::class], version = 2)
+@Database(entities = [CalSchema::class], version = 4)
 abstract class CalDataBase: RoomDatabase() {
     abstract fun calDao(): CalDao
 
@@ -28,13 +28,14 @@ abstract class CalDataBase: RoomDatabase() {
                     "calender_db"
                 ).fallbackToDestructiveMigration()
 
-            return builder.addMigrations(MIGRATION_1_2).build()
+            return builder.addMigrations(MIGRATION_2_3).build()
         }
 
-        private val MIGRATION_1_2 = object : Migration(1, 2) {
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE 'table_calender' ADD COLUMN 'count' INTEGER NOT NULL DEFAULT 0")
-                database.execSQL("ALTER TABLE 'table_calender' ADD COLUMN 'score' INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("CREATE TABLE users_new (date TEXT, note TEXT, intensity INTEGER, id INTEGER, PRIMARY KEY(id))");
+                database.execSQL("DROP TABLE table_calender");
+                database.execSQL("ALTER TABLE users_new RENAME TO table_calender");
             }
         }
 
