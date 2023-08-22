@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dialogQuest"
+        android:layout_width="350dp"
+        android:layout_height="410dp"
+        android:background="@drawable/rounded_edge2"
+        android:backgroundTint="@color/back_gray">
+
+
+        <LinearLayout
+            android:id="@+id/imageSelect1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/select1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="프로필 사진 선택"
+                    android:textSize="18dp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/cancelBtn"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@android:color/transparent"
+                    android:drawableRight="@android:drawable/ic_menu_close_clear_cancel" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/img1"
+                    android:layout_width="13dp"
+                    android:layout_height="89dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="TODO"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ham" />
+
+                <ImageButton
+                    android:id="@+id/img2"
+                    android:layout_width="13dp"
+                    android:layout_height="89dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="TODO"
+                    android:gravity="end"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/imgtest" />
+
+                <ImageButton
+                    android:id="@+id/img3"
+                    android:layout_width="13dp"
+                    android:layout_height="89dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="TODO"
+                    android:gravity="end"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/squat" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/img4"
+                    android:layout_width="13dp"
+                    android:layout_height="89dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="TODO"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ham" />
+
+                <ImageButton
+                    android:id="@+id/img5"
+                    android:layout_width="13dp"
+                    android:layout_height="89dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="TODO"
+                    android:gravity="end"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ham" />
+
+                <ImageButton
+                    android:id="@+id/img6"
+                    android:layout_width="13dp"
+                    android:layout_height="89dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="TODO"
+                    android:gravity="end"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ham" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/img7"
+                    android:layout_width="13dp"
+                    android:layout_height="89dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="TODO"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ham" />
+
+                <ImageButton
+                    android:id="@+id/img8"
+                    android:layout_width="13dp"
+                    android:layout_height="89dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="TODO"
+                    android:gravity="end"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ham" />
+
+                <ImageButton
+                    android:id="@+id/img9"
+                    android:layout_width="13dp"
+                    android:layout_height="89dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="TODO"
+                    android:gravity="end"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ham" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

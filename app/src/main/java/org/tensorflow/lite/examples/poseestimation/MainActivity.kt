@@ -5,11 +5,9 @@ import android.content.ComponentName
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -30,7 +28,7 @@ import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserDao
 import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserDataBase
 import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserSchema
 import org.tensorflow.lite.examples.poseestimation.databinding.ActivityMainBinding
-import org.tensorflow.lite.examples.poseestimation.ui.exercise.CameraActivity
+import org.tensorflow.lite.examples.poseestimation.ui.home.ImageSelectDialog
 import org.tensorflow.lite.examples.poseestimation.ui.home.QuestDialog
 import org.tensorflow.lite.examples.poseestimation.ui.length.LengthActivity
 import org.tensorflow.lite.examples.poseestimation.ui.statistic.StatisticFragment
@@ -122,6 +120,11 @@ class MainActivity : AppCompatActivity() {
     fun onClickQuest(v: View){
         val dialog = QuestDialog(this)
         QuestData.todayQuest()
+        dialog.show()
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onClickImage(v: View){
+        val dialog = ImageSelectDialog(this)
         dialog.show()
     }
 
