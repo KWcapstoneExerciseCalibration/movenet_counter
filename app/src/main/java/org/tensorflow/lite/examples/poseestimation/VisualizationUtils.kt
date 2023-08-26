@@ -139,7 +139,7 @@ object VisualizationUtils {
             }
 
             if(lengthCal){
-                val human = zFinder().findLengthPerson(person)
+                val human = zFinder.findLengthPerson(person)
 
                 bodyLength.forEach {
                     if (it.second == BodyPart.LEFT_SHOULDER || it.second == BodyPart.LEFT_ELBOW || it.second == BodyPart.LEFT_HIP || it.second == BodyPart.LEFT_KNEE)

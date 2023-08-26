@@ -191,16 +191,6 @@ class StatisticFragment : Fragment() {
     }
 
 
-    // DB 삭제 버튼과 연동된 함수
-    fun resetDB(){
-        CoroutineScope(Dispatchers.IO).launch {
-            dao.deleteAll()
-            val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
-            dao.create(initData)
-        }
-    }
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null

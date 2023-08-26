@@ -48,15 +48,22 @@ import org.tensorflow.lite.examples.poseestimation.counter.SquatCounter
 import org.tensorflow.lite.examples.poseestimation.counter.WorkoutCounter
 import org.tensorflow.lite.examples.poseestimation.data.Device
 import org.tensorflow.lite.examples.poseestimation.data.QuestData
+import org.tensorflow.lite.examples.poseestimation.data.zFinder
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerSchema
+import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthDao
+import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthDataBase
+import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthSchema
+import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserDataBase
+import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserSchema
 import org.tensorflow.lite.examples.poseestimation.ml.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class CameraActivity : AppCompatActivity() {
     private lateinit var dao: ExerDao
+    private lateinit var daoLen: LengthDao
     init{
         instance = this
     }
@@ -168,6 +175,8 @@ class CameraActivity : AppCompatActivity() {
         // keep screen on while app is running
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
+        daoLen = LengthDataBase.getInstance(applicationContext).lengthDao()
+
         // Start: 연동
         count_text = findViewById(R.id.count_tv)
         btn_stop = findViewById(R.id.btn_stop)
@@ -212,6 +221,21 @@ class CameraActivity : AppCompatActivity() {
             intent_result = Intent(this, ResultActivity::class.java)
 
 
+        // DB: 어깨 길이와 각 신체 길이 불러 오기
+        CoroutineScope(Dispatchers.IO).launch {
+            val userData = daoLen.readAll()
+
+            if (userData.isEmpty()){
+                val initData = LengthSchema(0,  56.8F, 47.8f, 47.8f, 57.7f, 57.7f, 66.2f, 66.2f, 37.9f, 37.9f, 38.0f, 38.0f)
+                daoLen.create(initData)
+            }
+            else {
+                val lastUserLen = userData[0]
+                zFinder.shoulder = lastUserLen.shoulder
+                zFinder.lastKeypointLength = mutableListOf(lastUserLen.calf_1, lastUserLen.calf_2, lastUserLen.thigh_1, lastUserLen.thigh_2, lastUserLen.body_1, lastUserLen.body_2,
+                    lastUserLen.upperarm_1, lastUserLen.upperarm_2, lastUserLen.lowerarm_1, lastUserLen.lowerarm_2)
+            }
+        }
 
         // 운동 종료 버튼
         btn_stop.setOnClickListener{
@@ -312,17 +336,22 @@ class CameraActivity : AppCompatActivity() {
             else            -> {intent_result.putExtra("exercise", exercise)}
         }
 
-        // 종료 버튼 누르면 ExerciseDB 에 data 삽입
+        // ExerciseDB 에 data 삽입
         dao = ExerDataBase.getInstance(applicationContext).exerDao()
-        CoroutineScope(Dispatchers.IO).launch {
+
             val currentTime : Long = System.currentTimeMillis()
             val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             date.timeZone = TimeZone.getTimeZone("GMT+09:00")
             val time = SimpleDateFormat("HH:mm:ss")
             time.timeZone = TimeZone.getTimeZone("GMT+09:00")
             val exerciseData = ExerSchema(currentTime, date.format(currentTime), time.format(currentTime), intent.getStringExtra("exercise"), "note", 0, workoutCounter.count, intent.getIntExtra("score", 0) + workoutCounter.score, "correction")
+
+        CoroutineScope(Dispatchers.IO).launch {
             dao.create(exerciseData)
         }
+
+        if(workoutCounter.count != 0)
+            MainActivity.getInstance()?.expInput((workoutCounter.score * workoutCounter.count / 10.0))
 
         QuestData.questChanged(exercise)
 
@@ -370,7 +399,7 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    fun initTTS(){
+    private fun initTTS(){
         tts = android.speech.tts.TextToSpeech(this) {
             if (it == android.speech.tts.TextToSpeech.SUCCESS) {
                 val result = tts?.setLanguage(Locale.KOREAN)

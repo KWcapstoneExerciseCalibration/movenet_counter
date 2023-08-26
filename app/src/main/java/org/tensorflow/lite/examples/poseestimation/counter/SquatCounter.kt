@@ -6,7 +6,6 @@ import org.tensorflow.lite.examples.poseestimation.data.Person
 import org.tensorflow.lite.examples.poseestimation.data.zFinder
 import org.tensorflow.lite.examples.poseestimation.ui.exercise.CameraActivity
 import kotlin.math.max
-import kotlin.math.min
 
 // 스쿼트 counter class
 class SquatCounter : WorkoutCounter() {
@@ -33,7 +32,7 @@ class SquatCounter : WorkoutCounter() {
     override fun countAlgorithm(person: Person): Int {
         Log.d("SquatCounter", "Squat Algorithm")
 
-        var human = zFinder().findZPerson(person, 1)
+        var human = zFinder.findZPerson(person, 1)
 
         // 사용하는 신체 좌표 값들이 최소 정확도를 넘는지(넘지 않는다면 사람 형태가 카메라에 잡히지 않는 것)
         if (   human.keyPoints[BodyPart.LEFT_SHOULDER.ordinal].score >= MIN_CONFIDENCE

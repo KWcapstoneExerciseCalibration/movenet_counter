@@ -6,7 +6,6 @@ import org.tensorflow.lite.examples.poseestimation.data.Person
 import org.tensorflow.lite.examples.poseestimation.data.zFinder
 import org.tensorflow.lite.examples.poseestimation.data.BodyPart
 import org.tensorflow.lite.examples.poseestimation.ui.exercise.CameraActivity
-import kotlin.math.acos
 import kotlin.math.max
 
 class ShoulderPressCounter: WorkoutCounter() {
@@ -32,7 +31,7 @@ class ShoulderPressCounter: WorkoutCounter() {
     override fun countAlgorithm(person: Person): Int {
         Log.d("ShoulderPressCounter", "Shoulder Press count Algorithm")
 
-        var human = zFinder().findZPerson(person, 1)
+        var human = zFinder.findZPerson(person, 1)
 
         // 조건 쓰기
         // 사용하는 신체 좌표 값들이 최소 정확도를 넘는지(넘지 않는다면 사람 형태가 카메라에 잡히지 않는 것)

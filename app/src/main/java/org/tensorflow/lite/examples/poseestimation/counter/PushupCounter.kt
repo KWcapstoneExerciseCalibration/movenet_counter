@@ -24,7 +24,7 @@ class PushupCounter : WorkoutCounter() {
         Log.d("PushUpCounter", "PushUp count Algorithm")
 
         // z finder 수정
-        var human = zFinder().findZPerson(person, 2)
+        var human = zFinder.findZPerson(person, 2)
 
         // 오른쪽: 사용하는 신체 좌표 값들이 최소 정확도를 넘는지(넘지 않는다면 사람 형태가 카메라에 잡히지 않는 것)
         if ( true/*human.keyPoints[BodyPart.NOSE.ordinal].score >= MIN_CONFIDENCE

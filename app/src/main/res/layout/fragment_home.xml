@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="   Lv. 23"
+                android:text="   Lv. ___"
                 android:textAlignment="center"
                 android:textSize="34sp" />
 
@@ -41,6 +41,20 @@
                 android:src="@android:drawable/ic_menu_add" />
         </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/progressBarLvl"
+            style="?android:attr/progressBarStyleHorizontal"
+
+            android:layout_width="250dp"
+            android:layout_height="15dp"
+            android:max="100"
+            android:progress="80"
+            android:layout_margin="3dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/LevelInfoLayout"
+            android:progressDrawable="@drawable/progressbar_stick"/>
+
         <TextView
             android:id="@+id/textExp"
             android:layout_width="129dp"
@@ -48,26 +62,14 @@
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:gravity="center_horizontal|center_vertical"
-            android:text="80 / 100"
+            android:text="--- / ___"
             android:textAlignment="center"
             android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBarLvl"
             app:layout_constraintBottom_toTopOf="@+id/imageProfile"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <ProgressBar
-            android:id="@+id/progressBarLvl"
-            style="?android:attr/progressBarStyleHorizontal"
-
-            android:layout_width="250dp"
-            android:layout_height="18dp"
-            android:max="100"
-            android:progress="80"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/LevelInfoLayout" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressBarLvl"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageButton
             android:id="@+id/imageProfile"

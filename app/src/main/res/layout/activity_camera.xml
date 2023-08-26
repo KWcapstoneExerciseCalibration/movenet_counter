@@ -27,7 +27,7 @@
         android:indeterminate="false"
         android:max="100"
         android:layout_gravity="center_horizontal"
-        android:progressDrawable="@drawable/circle_progressbar"
+        android:progressDrawable="@drawable/progressbar_circle"
         android:progressBackgroundTint="@color/gray"
         android:progressTint="@color/purple_500"/>
 

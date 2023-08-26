@@ -1,7 +1,12 @@
 package org.tensorflow.lite.examples.poseestimation.data
 
+import android.widget.ProgressBar
+import android.widget.TextView
+import org.tensorflow.lite.examples.poseestimation.MainActivity
+import org.tensorflow.lite.examples.poseestimation.R
+
 object ExpValue {
-    private val expNeedeed:List<Int> = listOf(0, 400, 900, 1500, 2300, 3100, 4100, 5100, 6300, 7600, 9000,   // 10
+    private val expNeedeed:List<Int> = listOf(0, 0, 400, 900, 1500, 2300, 3100, 4100, 5100, 6300, 7600, 9000,   // 10
                                         10600, 12200, 14000, 15900, 17900, 20200, 22700, 25400, 28100, 31000, 	// 20
                                         34400, 38100, 42100, 46400, 51000, 55900, 61000, 66500, 72200, 78200)   // 30
 

@@ -65,7 +65,6 @@ class QuestDialog(context: Context) {
         }
 
         QuestData.changed = false
-        MainActivity.getInstance()?.findViewById<ImageView>(R.id.questChanged)?.visibility = android.view.View.INVISIBLE
 
         dialog.show()
     }

@@ -53,9 +53,14 @@ class DailylogFragment : Fragment() {
         date.timeZone = TimeZone.getTimeZone("GMT+09:00")
 
         CoroutineScope(Dispatchers.IO).launch {
-            showPushup.text = "팔굽혀펴기 " + allCount(date.format(today), "PushUp") + "회 평균 " + allScore(date.format(today),"PushUp") + "점"
-            showSquat.text = "스쿼트 " + allCount(date.format(today), "Squat") + "회 평균 " + allScore(date.format(today),"Squat") + "점"
-            showShoulderPress.text = "숄더프레스 " + allCount(date.format(today), "ShoulderPress") + "회 평균 " + allScore(date.format(today),"ShoulderPress") + "점"
+            val (count, score) = scoreCal(date.format(today), "PushUp")
+            showPushup.text = "팔굽혀펴기 " + count + "회 평균 " + score + "점"
+
+            val (count2, score2) = scoreCal(date.format(today), "Squat")
+            showSquat.text = "스쿼트 " + count2 + "회 평균 " + score2 + "점"
+
+            val (count3, score3) = scoreCal(date.format(today), "ShoulderPress")
+            showShoulderPress.text = "숄더프레스 " + count3 + "회 평균 " + score3 + "점"
         }
 
         //강도&소감 표시
@@ -129,10 +134,17 @@ class DailylogFragment : Fragment() {
         binding = null
     }
 
-    private suspend fun allCount(date: String, exercise: String): String = withContext(Dispatchers.IO) {
-        return@withContext exer_dao.getAllCount(date, exercise).toString()
-    }
-    private suspend fun allScore(date: String, exercise: String): String = withContext(Dispatchers.IO) {
-        return@withContext exer_dao.getAllScore(date, exercise).toString()
+    private suspend fun scoreCal(date: String, exercise: String): Pair<Int, Int>{
+        var count = exer_dao.getAllCount(date, exercise)
+        var score = 0
+        if(count!=0){
+            exer_dao.getAllScore(date, exercise).forEach {
+                score += it
+            }
+        }
+        if(count != 0)
+            score /= count
+
+        return Pair(count, score)
     }
 }

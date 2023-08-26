@@ -5,9 +5,13 @@ import android.content.ComponentName
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -20,6 +24,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.tensorflow.lite.examples.poseestimation.data.ExpValue
+import org.tensorflow.lite.examples.poseestimation.data.ExpValue.calculateExp
+import org.tensorflow.lite.examples.poseestimation.data.ExpValue.levelNeedExp
 import org.tensorflow.lite.examples.poseestimation.data.QuestData
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
@@ -32,6 +39,9 @@ import org.tensorflow.lite.examples.poseestimation.ui.home.ImageSelectDialog
 import org.tensorflow.lite.examples.poseestimation.ui.home.QuestDialog
 import org.tensorflow.lite.examples.poseestimation.ui.length.LengthActivity
 import org.tensorflow.lite.examples.poseestimation.ui.statistic.StatisticFragment
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 
 class MainActivity : AppCompatActivity() {
@@ -81,14 +91,45 @@ class MainActivity : AppCompatActivity() {
                 val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
                 dao.create(initData)
 
-                finishQuest(0.0)
                 firstAccess = true
             }
         }
-
         if(firstAccess) measureOpen()
 
+        // 경험치 DB 생성 or 생성 확인
+        expInput(0.0)
+
         // 접속시 DB의 운동 횟수 불러 오기
+        val today : Long = System.currentTimeMillis()
+        val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        date.timeZone = TimeZone.getTimeZone("GMT+09:00")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            QuestData.pushUpCount =  dao.getAllCount(date.format(today), "PushUp")
+            QuestData.squatCount =  dao.getAllCount(date.format(today), "Squat")
+            QuestData.shoulderPressCount =  dao.getAllCount(date.format(today), "ShoulderPress")
+        }
+        if(QuestData.pushUpCount == 0 && QuestData.squatCount == 0 && QuestData.shoulderPressCount == 0)
+            findViewById<ImageView>(R.id.questChanged).visibility = View.VISIBLE
+
+        // 퀘스트 번호 확인 및 부여
+        QuestData.todayQuest()
+
+        // 경험치 프로그래스 바 로딩
+        daoUser = UserDataBase.getInstance(applicationContext).userDao()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            levelUpdate(daoUser.readAll()[0].exp)
+        }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        daoUser = UserDataBase.getInstance(applicationContext).userDao()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            levelUpdate(daoUser.readAll()[0].exp)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -99,7 +140,6 @@ class MainActivity : AppCompatActivity() {
             "org.tensorflow.lite.examples.poseestimation.ui.exercise.MenuActivity"
         )
         intent.component = componentName
-        QuestData.todayQuest()
         startActivity(intent)
     }
 
@@ -110,7 +150,11 @@ class MainActivity : AppCompatActivity() {
                 measureOpen()
             }
             R.id.menu_reset -> {
-                StatisticFragment.getInstance()?.resetDB()
+                CoroutineScope(Dispatchers.IO).launch {
+                    dao.deleteAll()
+                    val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
+                    dao.create(initData)
+                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -119,9 +163,11 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun onClickQuest(v: View){
         val dialog = QuestDialog(this)
-        QuestData.todayQuest()
+        QuestData.access()
+        findViewById<ImageView>(R.id.questChanged)?.visibility = View.INVISIBLE
         dialog.show()
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun onClickImage(v: View){
         val dialog = ImageSelectDialog(this)
@@ -141,7 +187,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, LengthActivity::class.java))
     }
 
-    fun finishQuest(exp: Double){
+    fun expInput(exp: Double){
         daoUser = UserDataBase.getInstance(applicationContext).userDao()
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -152,9 +198,22 @@ class MainActivity : AppCompatActivity() {
                 daoUser.create(initData)
             }
             else {
-                userData.get(0).exp += exp
-                daoUser.update(userData.get(0))
+                userData[0].exp += exp
+                daoUser.update(userData[0])
             }
         }
+    }
+
+    private fun levelUpdate(exp: Double){
+        val levelText = findViewById<TextView>(R.id.textLvl)
+        val progressBar = findViewById<ProgressBar>(R.id.progressBarLvl)
+        val expRemainText = findViewById<TextView>(R.id.textExp)
+
+        val (level, remain) = calculateExp(exp.toInt())
+
+        levelText.text = "Lv. " + level
+        progressBar.max = levelNeedExp(level)
+        progressBar.progress = remain
+        expRemainText.text =  remain.toString() +  " / " + levelNeedExp(level)
     }
 }

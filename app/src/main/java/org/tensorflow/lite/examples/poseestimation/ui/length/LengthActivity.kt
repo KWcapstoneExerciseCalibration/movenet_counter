@@ -17,6 +17,7 @@ limitations under the License.
 package org.tensorflow.lite.examples.poseestimation.ui.length
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
@@ -39,6 +40,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.examples.poseestimation.MainActivity
@@ -48,6 +50,11 @@ import org.tensorflow.lite.examples.poseestimation.camera.CameraSource
 import org.tensorflow.lite.examples.poseestimation.data.Device
 import org.tensorflow.lite.examples.poseestimation.ml.*
 import org.tensorflow.lite.examples.poseestimation.data.imagePresequence
+import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthDao
+import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthDataBase
+import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthSchema
+import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserDataBase
+import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserSchema
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -55,6 +62,20 @@ import java.util.Date
 
 
 class LengthActivity : AppCompatActivity() {
+    private lateinit var daoLen: LengthDao
+
+    init{
+        instance = this
+    }
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        private var instance: LengthActivity? = null
+
+        fun getInstance(): LengthActivity? {
+            return instance
+        }
+    }
+
     // Manifest 에서 설정한 권한을 가지고 온다.
     val CAMERA_PERMISSION = arrayOf(Manifest.permission.CAMERA)
     val STORAGE_PERMISSION = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -423,6 +444,22 @@ class LengthActivity : AppCompatActivity() {
 
                     imgViewer.setImageBitmap(cacheBitmap)
                 }
+            }
+        }
+    }
+
+    fun lengthIntoDB(shoulder:Float, lengths: Array<Float>){
+        daoLen = LengthDataBase.getInstance(applicationContext).lengthDao()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            var userData = daoLen.readAll().toMutableList()
+            val initData = LengthSchema(0, shoulder, lengths[0], lengths[1], lengths[2], lengths[3], lengths[4], lengths[5], lengths[6], lengths[7], lengths[8], lengths[9])
+
+            if (userData.isEmpty()){
+                daoLen.create(initData)
+            }
+            else {
+                daoLen.update(initData)
             }
         }
     }
