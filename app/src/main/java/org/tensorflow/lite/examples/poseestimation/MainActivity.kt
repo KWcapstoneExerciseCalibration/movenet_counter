@@ -204,6 +204,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun levelGet(): Int {
+        daoUser = UserDataBase.getInstance(applicationContext).userDao()
+        var exp = 0.0
+
+        CoroutineScope(Dispatchers.IO).launch {
+            var userData = daoUser.readAll()
+
+            if (userData.isEmpty())
+                exp = 0.0
+            else
+                exp = userData[0].exp
+        }
+
+        return calculateExp(exp.toInt()).first
+    }
+
     private fun levelUpdate(exp: Double){
         val levelText = findViewById<TextView>(R.id.textLvl)
         val progressBar = findViewById<ProgressBar>(R.id.progressBarLvl)

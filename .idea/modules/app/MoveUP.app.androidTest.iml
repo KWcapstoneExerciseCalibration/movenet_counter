@@ -116,6 +116,7 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/6c48edb7494e70d73c3a19cd29f55072/transformed/jetified-annotation-experimental-1.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/1b0c800454d3aa6422cf11ae415af3d3/transformed/jetified-tensorflow-lite-2.7.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/50aed94c2ec8865941bd238934b5a35e/transformed/jetified-tensorflow-lite-gpu-2.5.0-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/4e28b4400651fd3448db40d3b549357d/transformed/jetified-MPAndroidChart-v3.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.constraintlayout/constraintlayout-solver/2.0.4/1f001d7db280a89a6c26b26a66eb064bb6d5efeb/constraintlayout-solver-2.0.4.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/b8703ea87e58eef8130115dc9d4f7a94/transformed/jetified-startup-runtime-1.0.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/3ade29952e53f091599799f939a2e3a0/transformed/jetified-tensorflow-lite-api-2.7.0-api.jar</arg>
@@ -302,6 +303,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.navigation:navigation-ui-ktx:2.5.3@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.navigation:navigation-ui:2.5.3@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.room:room-ktx:2.5.1@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.github.PhilJay:MPAndroidChart:v3.1.0@aar" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="MoveUP.app.main" />
 </module>

@@ -99,6 +99,7 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/50aed94c2ec8865941bd238934b5a35e/transformed/jetified-tensorflow-lite-gpu-2.5.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/357ca175c75a48eaa4b95f0764eb3a9e/transformed/jetified-checker-qual-2.5.8.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/67350721e2b75ad4ff5d9f4dd09c80c3/transformed/jetified-image-1.0.0-beta1-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/4e28b4400651fd3448db40d3b549357d/transformed/jetified-MPAndroidChart-v3.1.0-api.jar</arg>
                 <arg>$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-33/android.jar</arg>
                 <arg>$USER_HOME$/AppData/Local/Android/Sdk/build-tools/30.0.3/core-lambda-stubs.jar</arg>
               </args>
@@ -254,6 +255,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.sqlite:sqlite:2.3.1@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.sqlite:sqlite-framework:2.3.1@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.room:room-ktx:2.5.1@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.github.PhilJay:MPAndroidChart:v3.1.0@aar" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="MoveUP.app.main" />
 </module>

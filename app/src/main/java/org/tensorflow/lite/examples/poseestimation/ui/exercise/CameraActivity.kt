@@ -327,6 +327,7 @@ class CameraActivity : AppCompatActivity() {
 
     private fun exitResultActivity(exercise: String?){
         intent_result.putExtra("score", intent.getIntExtra("score", 0) + workoutCounter.score)
+        intent_result.putExtra("course", intent.getStringExtra("course"))
         intent_result.putExtra("count", workoutCounter.count)
         intent_result.putExtra("wrongArrayList", workoutCounter.wrongArray)
 

@@ -59,7 +59,7 @@ class MenuActivity : AppCompatActivity(){
         btn_course.setOnClickListener {
             exercise = "CoursePushUp"
 
-            val intent = Intent(this, CourseGuideActivity::class.java)
+            val intent = Intent(this, CourseMenuActivity::class.java)
             intent.putExtra("exercise",exercise)
             startActivity(intent)
             finish()

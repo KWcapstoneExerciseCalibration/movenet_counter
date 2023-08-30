@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.exercise.MenuActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btn_beginner"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_margin="30dp"
+            android:textSize="17dp"
+            android:text="초급" />
+
+        <Button
+            android:id="@+id/btn_intermediate"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_margin="30dp"
+            android:textSize="17dp"
+            android:text="중급"
+            android:drawableRight = "@drawable/coding_lock10" />
+
+        <Button
+            android:id="@+id/btn_advanced"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_margin="30dp"
+            android:textSize="17dp"
+            android:text="고급"
+            android:drawableRight = "@drawable/coding_lock20"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
