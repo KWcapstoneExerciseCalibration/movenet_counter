@@ -80,26 +80,25 @@ class StatisticFragment : Fragment() {
         btn_reset.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 dao.deleteAll()
-                val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
-                dao.create(initData)
+
+                //val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
+                //dao.create(initData)
             }
         }
 
         //그래프 테스트 https://programmmingphil.tistory.com/16
         CoroutineScope(Dispatchers.Main).launch {
             data class ExerData(val date: String, val score: Int)
-            val date1 = "2023-08-18"
-            val date2 = "2023-08-19"
-            val date3 = "2023-08-20"
-            val date4 = "2023-08-21"
-            val date5 = "2023-08-22"
-            val dataList: List<ExerData> = listOf(
-                ExerData(date1, dao.getDateScore(date1)),
-                ExerData(date2, dao.getDateScore(date2)),
-                ExerData(date3, dao.getDateScore(date3)),
-                ExerData(date4, dao.getDateScore(date4)),
-                ExerData(date5, dao.getDateScore(date5)),
-            )
+            var dateArray = arrayOf("2023-08-18","2023-08-19","2023-08-20","2023-08-21","2023-08-22"
+            ,"2023-08-23","2023-08-24","2023-08-25","2023-08-26","2023-08-27")
+            var dataList: List<ExerData>
+
+
+            suspend fun convertDBtoGraph(data: Array<String>) = data.map {
+                ExerData(it, dao.getDateScore(it))
+            }
+
+            dataList = convertDBtoGraph(dateArray)
 
             fun changeDateText(dataList: List<ExerData>): List<String> {
                 val dataTextList = ArrayList<String>()
@@ -133,6 +132,7 @@ class StatisticFragment : Fragment() {
             }
             val lineDataSet = LineDataSet(entries, "entries")
 
+            //선 스타일 변경
             lineDataSet.apply {
                 color = resources.getColor(R.color.black, null)
                 circleRadius = 5f
@@ -143,7 +143,7 @@ class StatisticFragment : Fragment() {
                 setDrawValues(true) // 숫자표시
                 valueTextColor = resources.getColor(R.color.black, null)
                 valueFormatter = DefaultValueFormatter(0)  // 소숫점 자릿수 설정
-                valueTextSize = 10f
+                valueTextSize = 15f
             }
 
             //차트 전체 설정
@@ -165,7 +165,7 @@ class StatisticFragment : Fragment() {
                 position = XAxis.XAxisPosition.BOTTOM
                 valueFormatter = XAxisCustomFormatter(changeDateText(dataList))
                 textColor = resources.getColor(R.color.black, null)
-                textSize = 10f
+                textSize = 15f
                 labelRotationAngle = 0f
                 setLabelCount(10, true)
             }
@@ -185,6 +185,8 @@ class StatisticFragment : Fragment() {
                 invalidate() // view갱신
             }
         }
+
+
 
 
         return binding!!.root

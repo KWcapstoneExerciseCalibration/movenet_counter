@@ -26,16 +26,19 @@ abstract class ExerDataBase : RoomDatabase() {
                     appContext,
                     ExerDataBase::class.java,
                     "exercise_db"
-                ).fallbackToDestructiveMigration()
+                ) //.fallbackToDestructiveMigration()
 
-            return builder.addMigrations(ExerDataBase.MIGRATION_1_2).build()
+            return builder.createFromAsset("testDB/test_db.db").build()
+            //.addMigrations(ExerDataBase.MIGRATION_1_2)
         }
 
+        /*
         private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE 'table_exercise' ADD COLUMN 'date' TEXT NOT NULL default ''")
                 database.execSQL("ALTER TABLE 'table_exercise' ADD COLUMN 'time' TEXT NOT NULL default ''")
             }
         }
+         */
     }
 }
