@@ -2,9 +2,11 @@ package org.tensorflow.lite.examples.poseestimation
 
 import android.annotation.SuppressLint
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -114,22 +116,6 @@ class MainActivity : AppCompatActivity() {
 
         // 퀘스트 번호 확인 및 부여
         QuestData.todayQuest()
-
-        // 경험치 프로그래스 바 로딩
-        daoUser = UserDataBase.getInstance(applicationContext).userDao()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            levelUpdate(daoUser.readAll()[0].exp)
-        }
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        daoUser = UserDataBase.getInstance(applicationContext).userDao()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            levelUpdate(daoUser.readAll()[0].exp)
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -218,18 +204,5 @@ class MainActivity : AppCompatActivity() {
         }
 
         return calculateExp(exp.toInt()).first
-    }
-
-    private fun levelUpdate(exp: Double){
-        val levelText = findViewById<TextView>(R.id.textLvl)
-        val progressBar = findViewById<ProgressBar>(R.id.progressBarLvl)
-        val expRemainText = findViewById<TextView>(R.id.textExp)
-
-        val (level, remain) = calculateExp(exp.toInt())
-
-        levelText.text = "Lv. " + level
-        progressBar.max = levelNeedExp(level)
-        progressBar.progress = remain
-        expRemainText.text =  remain.toString() +  " / " + levelNeedExp(level)
     }
 }
