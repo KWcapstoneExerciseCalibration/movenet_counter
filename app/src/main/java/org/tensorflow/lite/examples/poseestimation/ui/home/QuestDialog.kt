@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import org.tensorflow.lite.examples.poseestimation.MainActivity
@@ -26,14 +27,14 @@ class QuestDialog(context: Context) {
         success.setQuest(checked)
     }
 
-    private inline fun TextView.setQuest(quest: String) { text = quest }
+    private fun TextView.setQuest(quest: String) { text = quest }
 
-    private inline fun TextView.setQuest(count: Int) { text = "$count 회" }
+    private fun TextView.setQuest(count: Int) { text = "$count 회" }
 
-    private inline fun CheckBox.setQuest(checked: Boolean) { isChecked = checked }
+    private fun CheckBox.setQuest(checked: Boolean) { isChecked = checked }
 
     fun show() {
-        val cancelBtn = dialog.findViewById<Button>(R.id.cancelBtn)
+        val cancelBtn = dialog.findViewById<ImageButton>(R.id.cancelBtn)
         val daily1Context = dialog.findViewById<TextView>(R.id.daily1Context)
         val daily1Count = dialog.findViewById<TextView>(R.id.daily1Count)
         val daily1Whether = dialog.findViewById<CheckBox>(R.id.daily1Whether)

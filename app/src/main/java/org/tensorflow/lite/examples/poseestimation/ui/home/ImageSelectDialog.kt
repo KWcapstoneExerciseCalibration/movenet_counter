@@ -25,7 +25,7 @@ class ImageSelectDialog(context: Context) {
         val numImgBtn = arrayOfNulls<ImageButton>(10)
         val numImgBtnId = arrayOf(R.id.img1, R.id.img2, R.id.img3, R.id.img4, R.id.img5,
                                 R.id.img6, R.id.img7, R.id.img8, R.id.img9)
-        val cancelBtn = dialog.findViewById<Button>(R.id.cancelBtn)
+        val cancelBtn = dialog.findViewById<ImageButton>(R.id.cancelBtn)
 
         val imageProfile = MainActivity.getInstance()?.findViewById<ImageButton>(R.id.imageProfile)
         val level = MainActivity.getInstance()?.levelGet()

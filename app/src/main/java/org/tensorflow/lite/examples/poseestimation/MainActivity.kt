@@ -1,19 +1,19 @@
 package org.tensorflow.lite.examples.poseestimation
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -26,9 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.tensorflow.lite.examples.poseestimation.data.ExpValue
 import org.tensorflow.lite.examples.poseestimation.data.ExpValue.calculateExp
-import org.tensorflow.lite.examples.poseestimation.data.ExpValue.levelNeedExp
 import org.tensorflow.lite.examples.poseestimation.data.QuestData
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
@@ -40,7 +38,6 @@ import org.tensorflow.lite.examples.poseestimation.databinding.ActivityMainBindi
 import org.tensorflow.lite.examples.poseestimation.ui.home.ImageSelectDialog
 import org.tensorflow.lite.examples.poseestimation.ui.home.QuestDialog
 import org.tensorflow.lite.examples.poseestimation.ui.length.LengthActivity
-import org.tensorflow.lite.examples.poseestimation.ui.statistic.StatisticFragment
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
@@ -129,6 +126,31 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onClickQuest(v: View){
+        val dialog = QuestDialog(this)
+        QuestData.access()
+        findViewById<ImageView>(R.id.questChanged)?.visibility = View.INVISIBLE
+        dialog.show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onClickImage(v: View){
+        val dialog = ImageSelectDialog(this)
+        dialog.show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onClickLvAdd(v: View){
+        var dialog = Dialog(this)
+
+        dialog.setContentView(R.layout.dialog_info)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.setCancelable(true)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+    }
+
     // Toolbar 메뉴 클릭 이벤트
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -144,20 +166,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun onClickQuest(v: View){
-        val dialog = QuestDialog(this)
-        QuestData.access()
-        findViewById<ImageView>(R.id.questChanged)?.visibility = View.INVISIBLE
-        dialog.show()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun onClickImage(v: View){
-        val dialog = ImageSelectDialog(this)
-        dialog.show()
     }
 
     // 툴바와 res/menu/toolbar_main을 연결
