@@ -48,7 +48,7 @@
                     android:background="@android:color/transparent"
                     android:contentDescription="TODO"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ham" />
+                    android:src="@drawable/squat" />
 
                 <ImageButton
                     android:id="@+id/img2"
@@ -74,7 +74,7 @@
                     android:contentDescription="TODO"
                     android:gravity="end"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/squat" />
+                    android:src="@drawable/profile" />
             </LinearLayout>
 
             <LinearLayout
@@ -93,7 +93,7 @@
                     android:background="@android:color/transparent"
                     android:contentDescription="TODO"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ham" />
+                    android:src="@drawable/cute_bunny" />
 
                 <ImageButton
                     android:id="@+id/img5"
@@ -106,7 +106,7 @@
                     android:contentDescription="TODO"
                     android:gravity="end"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ham" />
+                    android:src="@drawable/welsh" />
 
                 <ImageButton
                     android:id="@+id/img6"

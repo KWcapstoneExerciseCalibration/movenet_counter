@@ -90,9 +90,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textExp"
-            app:srcCompat="@drawable/ham"
-            tools:src="@drawable/ham"
-            tools:srcCompat="@drawable/ham" />
+            app:srcCompat="@drawable/squat"
+            tools:src="@drawable/squat"
+            tools:srcCompat="@drawable/squat" />
 
 
         <Button

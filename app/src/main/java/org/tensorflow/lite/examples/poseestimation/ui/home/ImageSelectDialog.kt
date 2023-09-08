@@ -49,8 +49,8 @@ class ImageSelectDialog(context: Context) {
             else {
                 // 이미지 번호 별로 이미지를 바꿔 줘야 하는 기능 추가 해야 할 것
                 when (limit) {
-                    5  -> numImgBtn[i]?.setImageResource(R.drawable.ham)
-                    10 -> numImgBtn[i]?.setImageResource(R.drawable.ham)
+                    5  -> numImgBtn[i]?.setImageResource(R.drawable.cute_bunny)
+                    10 -> numImgBtn[i]?.setImageResource(R.drawable.welsh)
                     15 -> numImgBtn[i]?.setImageResource(R.drawable.ham)
                     20 -> numImgBtn[i]?.setImageResource(R.drawable.ham)
                     25 -> numImgBtn[i]?.setImageResource(R.drawable.ham)
