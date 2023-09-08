@@ -88,102 +88,134 @@ class StatisticFragment : Fragment() {
 
         //그래프 테스트 https://programmmingphil.tistory.com/16
         CoroutineScope(Dispatchers.Main).launch {
-            data class ExerData(val date: String, val score: Int)
-            var dateArray = arrayOf("2023-08-18","2023-08-19","2023-08-20","2023-08-21","2023-08-22"
-            ,"2023-08-23","2023-08-24","2023-08-25","2023-08-26","2023-08-27")
-            var dataList: List<ExerData>
 
+            suspend fun printGraph(dMonth: Int) {
+                data class ExerData(val date: String, val score: Int)
+                var dateArray = arrayOf("2023-0$dMonth-01")
+                var dataList: List<ExerData>
 
-            suspend fun convertDBtoGraph(data: Array<String>) = data.map {
-                ExerData(it, dao.getDateScore(it))
-            }
-
-            dataList = convertDBtoGraph(dateArray)
-
-            fun changeDateText(dataList: List<ExerData>): List<String> {
-                val dataTextList = ArrayList<String>()
-                for (i in dataList.indices) {
-                    val textSize = dataList[i].date.length
-                    val dateText = dataList[i].date.substring(textSize - 2, textSize)
-                    if (dateText == "01") {
-                        dataTextList.add(dataList[i].date)
-                    } else {
-                        dataTextList.add(dateText)
+                // 날짜 제어
+                fun putMonth (){
+                    for (i in 2..9){
+                        dateArray += "2023-0$dMonth-0$i"
+                    }
+                    for (i in 10..30){
+                        dateArray += "2023-0$dMonth-$i"
+                    }
+                    if (dMonth == 8){
+                        dateArray += "2023-0$dMonth-31"
                     }
                 }
-                return dataTextList
-            }
+                putMonth()
 
-            class XAxisCustomFormatter(val xAxisData: List<String>) : ValueFormatter() {
-                override fun getFormattedValue(value: Float): String {
-                    return xAxisData[(value).toInt()]
+                // DB값 날짜에 매칭
+                suspend fun convertDBtoGraph(data: Array<String>) = data.map {
+                    ExerData(it, dao.getDateScore(it))
+                }
+                dataList = convertDBtoGraph(dateArray)
+
+
+                fun changeDateText(dataList: List<ExerData>): List<String> {
+                    val dataTextList = ArrayList<String>()
+                    for (i in dataList.indices) {
+                        val textSize = dataList[i].date.length
+                        val dateText = dataList[i].date.substring(textSize - 2, textSize)
+                        if (dateText == "01") {
+                            dataTextList.add(dataList[i].date)
+                        } else {
+                            dataTextList.add(dateText)
+                        }
+                    }
+                    return dataTextList
                 }
 
+                class XAxisCustomFormatter(val xAxisData: List<String>) : ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        return xAxisData[(value).toInt()]
+                    }
+
+                }
+
+                val linechart = root.findViewById<LineChart>(R.id.line_chart)
+                val xAxis = linechart.xAxis
+
+                //데이터 가공
+                //y축
+                val entries: MutableList<Entry> = mutableListOf()
+                for (i in dataList.indices) {
+                    entries.add(Entry(i.toFloat(), dataList[i].score.toFloat()))
+                }
+                val lineDataSet = LineDataSet(entries, "entries")
+
+                //선 스타일 변경
+                lineDataSet.apply {
+                    color = resources.getColor(R.color.black, null)
+                    circleRadius = 5f
+                    lineWidth = 3f
+                    setCircleColor(resources.getColor(R.color.purple_700, null))
+                    circleHoleColor = resources.getColor(R.color.purple_700, null)
+                    setDrawHighlightIndicators(false)
+                    setDrawValues(true) // 숫자표시
+                    valueTextColor = resources.getColor(R.color.black, null)
+                    valueFormatter = DefaultValueFormatter(0)  // 소숫점 자릿수 설정
+                    valueTextSize = 15f
+                }
+
+                //차트 전체 설정
+                linechart.apply {
+                    axisRight.isEnabled = false   //y축 사용여부
+                    axisLeft.isEnabled = false
+                    legend.isEnabled = false    //legend 사용여부
+                    description.isEnabled = false //주석
+                    isDragXEnabled = true   // x 축 드래그 여부
+                    isScaleYEnabled = false //y축 줌 사용여부
+                    isScaleXEnabled = false //x축 줌 사용여부
+                }
+
+                //X축 설정
+                xAxis.apply {
+                    setDrawGridLines(false)
+                    setDrawAxisLine(true)
+                    setDrawLabels(true)
+                    position = XAxis.XAxisPosition.BOTTOM
+                    valueFormatter = XAxisCustomFormatter(changeDateText(dataList))
+                    textColor = resources.getColor(R.color.black, null)
+                    textSize = 15f
+                    labelRotationAngle = 0f
+                    setLabelCount(10, true)
+                }
+
+                val horizontalScrollView =
+                    root.findViewById<HorizontalScrollView>(R.id.horizontal_scroll_view)
+                horizontalScrollView.post {
+                    horizontalScrollView.scrollTo(
+                        linechart.width,
+                        0
+                    )
+                }
+
+                linechart.apply {
+                    data = LineData(lineDataSet)
+                    notifyDataSetChanged() //데이터 갱신
+                    invalidate() // view갱신
+                }
             }
 
-            val linechart = root.findViewById<LineChart>(R.id.line_chart)
-            val xAxis = linechart.xAxis
-
-            //데이터 가공
-            //y축
-            val entries: MutableList<Entry> = mutableListOf()
-            for (i in dataList.indices) {
-                entries.add(Entry(i.toFloat(), dataList[i].score.toFloat()))
+            val btn_08 = root.findViewById<Button>(R.id.button_08)
+            btn_08.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch(){
+                    var dMonth = 8
+                    printGraph(dMonth)
+                }
             }
-            val lineDataSet = LineDataSet(entries, "entries")
-
-            //선 스타일 변경
-            lineDataSet.apply {
-                color = resources.getColor(R.color.black, null)
-                circleRadius = 5f
-                lineWidth = 3f
-                setCircleColor(resources.getColor(R.color.purple_700, null))
-                circleHoleColor = resources.getColor(R.color.purple_700, null)
-                setDrawHighlightIndicators(false)
-                setDrawValues(true) // 숫자표시
-                valueTextColor = resources.getColor(R.color.black, null)
-                valueFormatter = DefaultValueFormatter(0)  // 소숫점 자릿수 설정
-                valueTextSize = 15f
+            val btn_09 = root.findViewById<Button>(R.id.button_09)
+            btn_09.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch() {
+                    var dMonth = 9
+                    printGraph(dMonth)
+                }
             }
 
-            //차트 전체 설정
-            linechart.apply {
-                axisRight.isEnabled = false   //y축 사용여부
-                axisLeft.isEnabled = false
-                legend.isEnabled = false    //legend 사용여부
-                description.isEnabled = false //주석
-                isDragXEnabled = true   // x 축 드래그 여부
-                isScaleYEnabled = false //y축 줌 사용여부
-                isScaleXEnabled = false //x축 줌 사용여부
-            }
-
-            //X축 설정
-            xAxis.apply {
-                setDrawGridLines(false)
-                setDrawAxisLine(true)
-                setDrawLabels(true)
-                position = XAxis.XAxisPosition.BOTTOM
-                valueFormatter = XAxisCustomFormatter(changeDateText(dataList))
-                textColor = resources.getColor(R.color.black, null)
-                textSize = 15f
-                labelRotationAngle = 0f
-                setLabelCount(10, true)
-            }
-
-            val horizontalScrollView =
-                root.findViewById<HorizontalScrollView>(R.id.horizontal_scroll_view)
-            horizontalScrollView.post {
-                horizontalScrollView.scrollTo(
-                    linechart.width,
-                    0
-                )
-            }
-
-            linechart.apply {
-                data = LineData(lineDataSet)
-                notifyDataSetChanged() //데이터 갱신
-                invalidate() // view갱신
-            }
         }
 
 

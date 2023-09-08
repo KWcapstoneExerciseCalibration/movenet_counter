@@ -31,7 +31,7 @@ interface ExerDao {
     @Query("SELECT count FROM table_exercise WHERE date=:date")
     suspend fun getCount(date: String): Int
 
-    @Query("SELECT AVG(score) FROM table_exercise WHERE date=:date")
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date=:date")
     suspend fun getDateScore(date: String): Int
 
     @Query("SELECT AVG(score) FROM table_exercise")
