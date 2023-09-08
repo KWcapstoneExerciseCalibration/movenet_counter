@@ -14,9 +14,9 @@ d
     <application
         android:allowBackup="false"
         tools:replace="android:allowBackup"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/tfe_pe_app_name"
-        android:roundIcon="@drawable/ic_launcher"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar2">
 
