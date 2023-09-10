@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.*
+import org.tensorflow.lite.examples.poseestimation.MainActivity
 import org.tensorflow.lite.examples.poseestimation.R
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
-import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerSchema
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDao
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalSchema
@@ -27,6 +28,7 @@ class DailylogFragment : Fragment() {
     private var binding: FragmentDailylogBinding? = null
     private lateinit var exer_dao: ExerDao
     private lateinit var cal_dao: CalDao
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
@@ -37,15 +39,16 @@ class DailylogFragment : Fragment() {
         binding = FragmentDailylogBinding.inflate(inflater, container, false)
         val root = binding!!.root
 
-        //날짜 표시
+        // 날짜 표시
         val dateText = root.findViewById<TextView>(R.id.textToday)
         val calendar = Calendar.getInstance()
         dateText.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
 
-        //오늘의 운동 표시
+        // 오늘의 운동 및 소감 표시
         val showPushup = root.findViewById<TextView>(R.id.textWorkout1)
         val showSquat = root.findViewById<TextView>(R.id.textWorkout2)
         val showShoulderPress = root.findViewById<TextView>(R.id.textWorkout3)
+        val dateNote = root.findViewById<TextView>(R.id.textView5)
 
         exer_dao = ExerDataBase.getInstance(requireActivity()).exerDao()
         val today : Long = System.currentTimeMillis()
@@ -63,25 +66,60 @@ class DailylogFragment : Fragment() {
             showShoulderPress.text = "숄더프레스 " + count3 + "회 평균 " + score3 + "점"
         }
 
-        //강도&소감 표시
-
-        //최초 DB -> 이전 필요
+        // 최초 DB & 강도 및 소감 표시
         cal_dao = CalDataBase.getInstance(requireActivity()).calDao()
         CoroutineScope(Dispatchers.IO).launch {
-            if (cal_dao.readAll().isEmpty()){
+            val calData = cal_dao.readAll()
+            var todayPos = 	2147483647
+
+            run breaker@{
+                calData.forEachIndexed { index, calSchema ->
+                    if(calSchema.date == date.format(today)){
+                        todayPos = index
+                        return@breaker
+                    }
+                }
+            }
+            if(todayPos == 2147483647) {
                 val initData = CalSchema(date.format(today), "test", 0)
+                dateNote.text = "오늘은 아직 소감을 적지 않았습니다!"
                 cal_dao.create(initData)
+            }
+            else if(calData[todayPos].note == "test") {
+                dateNote.text = "오늘은 아직 소감을 적지 않았습니다!"
+                // intensity 처리
+            }
+            else {
+                dateNote.text = calData[todayPos].note
+                // intensity 처리
             }
         }
 
-        val dateNote = root.findViewById<TextView>(R.id.textView5)
-        dateNote.text = "test"
+        val btn_edit = root.findViewById<ImageButton>(R.id.impressionBtn)
+        btn_edit.setOnClickListener {
+            this.context?.let { it1 ->
+                val dialog = ImpressionDialog(it1)
+                dialog.show(dateNote.text.toString())
+
+                // 다이얼로그의 interface를 통해 데이터를 받아옴
+                dialog.setOnClickedListener(object : ImpressionDialog.ButtonClickListener {
+                    override fun onClicked(note: String) {
+                        if(note.isBlank())  dateNote.text = "오늘은 아직 소감을 적지 않았습니다!"
+                        else {
+                            dateNote.text = note
+                            updateDBNote(note)
+                        }
+                    }
+                })
+            }
+        }
 
         val btn_1 = root.findViewById<Button>(R.id.button)
         val btn_2 = root.findViewById<Button>(R.id.button2)
         val btn_3 = root.findViewById<Button>(R.id.button3)
         val btn_4 = root.findViewById<Button>(R.id.button4)
         val btn_5 = root.findViewById<Button>(R.id.button5)
+
         btn_1.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 cal_dao.upIntens(date.format(today), 1)
@@ -114,7 +152,7 @@ class DailylogFragment : Fragment() {
                 dateText.text = date2
                 CoroutineScope(Dispatchers.IO).launch {
                     if (exer_dao.readAll().size <= 1){
-                        dateNote.text = "현재 작성한 소감이 없습니다"
+                        dateNote.text = "작성한 소감이 없습니다"
                         //dateExer.text = "현재 운동을 한번도 하지 않았습니다"
                     }
                     else{
@@ -146,5 +184,15 @@ class DailylogFragment : Fragment() {
             score /= count
 
         return Pair(count, score)
+    }
+
+    private fun updateDBNote(note: String){
+        val today : Long = System.currentTimeMillis()
+        val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        cal_dao = CalDataBase.getInstance(requireActivity()).calDao()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            cal_dao.upNote(date.format(today), note)
+        }
     }
 }
