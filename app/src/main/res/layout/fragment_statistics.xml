@@ -46,24 +46,7 @@ xmlns:tools="http://schemas.android.com/tools">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textWeek"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="주간"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/wkAvg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="주 평균"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-            </LinearLayout>
+                android:orientation="vertical"/>
 
             <Space
                 android:layout_width="20dp"
@@ -101,25 +84,7 @@ xmlns:tools="http://schemas.android.com/tools">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textYear"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="연간"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/yrAvg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="연 평균"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-
-            </LinearLayout>
+                android:orientation="vertical"/>
 
             <Space
                 android:layout_width="10dp"
@@ -194,31 +159,6 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textDiet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="식단"
-            android:textSize="34sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.759"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-            app:layout_constraintVertical_bias="0.937" />
-
-        <Button
-            android:id="@+id/btn_reset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="DB Reset"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.458"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -249,25 +189,13 @@ xmlns:tools="http://schemas.android.com/tools">
             </HorizontalScrollView>
         </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/button_08"
-            android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="409dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginBottom="216dp"
-            android:text="8월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/button_09"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="216dp"
-            android:text="9월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_marginTop="36dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.HorizontalScrollView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.LineChart
@@ -65,26 +63,22 @@ class StatisticFragment : Fragment() {
 
         dao = ExerDataBase.getInstance(requireContext()).exerDao()
 
-        val moAvg = root.findViewById<TextView>(R.id.moAvg)
-        val yrAvg = root.findViewById<TextView>(R.id.yrAvg)
-
-        CoroutineScope(Dispatchers.Main).launch {
-            moAvg.text = dao.moAvg().toString()
-        }
-
-
-
-
-        //ExerciseDB 삭제 버튼
+        /*ExerciseDB 임시삭제 버튼
         val btn_reset = root.findViewById<Button>(R.id.btn_reset)
         btn_reset.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 dao.deleteAll()
-
-                //val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
-                //dao.create(initData)
+                val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
+                dao.create(initData)
             }
         }
+         */
+
+        var monthList = listOf("7월", "8월", "9월", "10월")
+        var adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, monthList)
+        val spinner = root.findViewById<Spinner>(R.id.spinner)
+
+        spinner.adapter = adapter
 
         //그래프 테스트 https://programmmingphil.tistory.com/16
         CoroutineScope(Dispatchers.Main).launch {
@@ -93,6 +87,7 @@ class StatisticFragment : Fragment() {
                 data class ExerData(val date: String, val score: Int)
                 var dateArray = arrayOf("2023-0$dMonth-01")
                 var dataList: List<ExerData>
+
 
                 // 날짜 제어
                 fun putMonth (){
@@ -201,18 +196,53 @@ class StatisticFragment : Fragment() {
                 }
             }
 
-            val btn_08 = root.findViewById<Button>(R.id.button_08)
-            btn_08.setOnClickListener {
-                CoroutineScope(Dispatchers.Main).launch(){
-                    var dMonth = 8
-                    printGraph(dMonth)
+
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                val moAvg = root.findViewById<TextView>(R.id.moAvg)
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    //아무것도 선택 안하면
                 }
-            }
-            val btn_09 = root.findViewById<Button>(R.id.button_09)
-            btn_09.setOnClickListener {
-                CoroutineScope(Dispatchers.Main).launch() {
-                    var dMonth = 9
-                    printGraph(dMonth)
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    when (position) {
+                        0 -> {
+                            CoroutineScope(Dispatchers.Main).launch(){
+                                var dMonth = 7
+                                printGraph(dMonth)
+                                moAvg.text = dao.moAvg7().toString()
+                            }
+                        }
+                        1 -> {
+                            CoroutineScope(Dispatchers.Main).launch() {
+                                var dMonth = 8
+                                printGraph(dMonth)
+                                moAvg.text = dao.moAvg8().toString()
+                            }
+                        }
+                        2 -> {
+                            CoroutineScope(Dispatchers.Main).launch() {
+                                var dMonth = 9
+                                printGraph(dMonth)
+                                moAvg.text = dao.moAvg9().toString()
+                            }
+                        }
+                        3 -> {
+                            CoroutineScope(Dispatchers.Main).launch() {
+                                var dMonth = 10
+                                printGraph(dMonth)
+                                moAvg.text = dao.moAvg10().toString()
+                            }
+                        }
+                        else -> {
+                            //일치하는게 없는 경우
+                        }
+                    }
                 }
             }
 
