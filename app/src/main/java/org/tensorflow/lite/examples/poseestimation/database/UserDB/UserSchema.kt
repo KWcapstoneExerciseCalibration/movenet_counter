@@ -8,7 +8,7 @@ data class UserSchema(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val age: Int,
     var exp: Double,
-    val weight: Float,
+    var weight: Float,
     val height: Float,
-    val BMI: Float
+    var BMI: Float
 )

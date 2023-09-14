@@ -34,8 +34,17 @@ interface ExerDao {
     @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date=:date")
     suspend fun getDateScore(date: String): Int
 
-    @Query("SELECT AVG(score) FROM table_exercise")
-    suspend fun moAvg(): Double
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-08-01' and date <= '2023-08-30'")
+    suspend fun moAvg8(): Double
+
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-09-01' and date <= '2023-09-30'")
+    suspend fun moAvg9(): Double
+
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-07-01' and date <= '2023-07-30'")
+    suspend fun moAvg7(): Double
+
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-10-01' and date <= '2023-10-30'")
+    suspend fun moAvg10(): Double
 
     @Query("SELECT ifnull(SUM(count),0) FROM table_exercise WHERE exercise=:exercise AND date=:date")
     suspend fun getAllCount(date: String, exercise: String): Int

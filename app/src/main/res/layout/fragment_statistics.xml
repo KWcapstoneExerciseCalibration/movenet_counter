@@ -46,24 +46,7 @@ xmlns:tools="http://schemas.android.com/tools">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textWeek"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="주간"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/wkAvg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="주 평균"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-            </LinearLayout>
+                android:orientation="vertical"/>
 
             <Space
                 android:layout_width="20dp"
@@ -101,25 +84,7 @@ xmlns:tools="http://schemas.android.com/tools">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textYear"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="연간"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/yrAvg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="연 평균"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-
-            </LinearLayout>
+                android:orientation="vertical"/>
 
             <Space
                 android:layout_width="10dp"
@@ -132,7 +97,7 @@ xmlns:tools="http://schemas.android.com/tools">
             android:id="@+id/textStatistics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="264dp"
+            android:layout_marginTop="200dp"
             android:text="통계"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -142,82 +107,83 @@ xmlns:tools="http://schemas.android.com/tools">
 
         <LinearLayout
             android:id="@+id/linearLayout4"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textStatistics">
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="30dp"
-                android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:text="체중"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/textWeight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="몸무게"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"
+                    android:text="0.0"
                     android:textSize="20sp" />
-            </LinearLayout>
 
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="30dp"
-                android:layout_weight="1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="kg"
+                    android:textSize="20sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/buttonWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="기록"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="BMI"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/textBMI"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="BMI"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:text="0.0"
                     android:textSize="20sp" />
             </LinearLayout>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="30dp"
-                android:layout_weight="1" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textDiet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="식단"
-            android:textSize="34sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.759"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-            app:layout_constraintVertical_bias="0.937" />
-
-        <Button
-            android:id="@+id/btn_reset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="DB Reset"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.458"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
@@ -249,26 +215,13 @@ xmlns:tools="http://schemas.android.com/tools">
             </HorizontalScrollView>
         </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/button_08"
-            android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="409dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginBottom="216dp"
-            android:text="8월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/button_09"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="216dp"
-            android:text="9월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
+            android:layout_marginTop="36dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

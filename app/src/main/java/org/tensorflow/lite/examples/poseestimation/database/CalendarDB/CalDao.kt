@@ -23,5 +23,8 @@ interface CalDao {
     suspend fun upIntens(date: String, intensity: Int)
 
     @Query("SELECT ifnull(intensity, 0) FROM table_calender WHERE date=:date")
-    suspend fun getIntens(date: String): Int
+    suspend fun getIntens(date: String): intensity
+
+    @Query("UPDATE table_calender SET note=:note WHERE date=:date")
+    suspend fun upNote(date: String, note: String)
 }
