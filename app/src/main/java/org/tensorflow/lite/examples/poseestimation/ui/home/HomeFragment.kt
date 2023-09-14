@@ -50,9 +50,16 @@ class HomeFragment : Fragment() {
         // 2 경험치 계산 함수를 통한 현재 레벨, 다음 레벨까지 남은 경험치 계산
         // 3 뷰에 해당 값 반영
         var daoUser = UserDataBase.getInstance(MainActivity.getInstance()!!.applicationContext).userDao()
+        var exp:Double
 
         CoroutineScope(Dispatchers.IO).launch {
-            val exp = daoUser.readAll()[0].exp
+            if(daoUser.readAll().isEmpty()) {
+                MainActivity.getInstance()?.expInput(0.0)
+                MainActivity.getInstance()?.firstAccess = true
+                exp = 0.0
+            }
+            else    exp = daoUser.readAll()[0].exp
+
             val (level, remain) = ExpValue.calculateExp(exp.toInt())
 
             levelText.text = "Lv. " + level

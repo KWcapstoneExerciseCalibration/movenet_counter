@@ -32,6 +32,15 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="kg"
+                    android:textColor="@android:color/transparent"
+                    android:textSize="30dp" />
+
                 <NumberPicker
                     android:id="@+id/numPick"
                     android:layout_width="wrap_content"

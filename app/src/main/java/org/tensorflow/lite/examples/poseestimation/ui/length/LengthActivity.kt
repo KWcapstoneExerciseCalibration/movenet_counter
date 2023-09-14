@@ -53,6 +53,7 @@ import org.tensorflow.lite.examples.poseestimation.data.imagePresequence
 import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthDao
 import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthDataBase
 import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthSchema
+import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserDao
 import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserDataBase
 import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserSchema
 import java.io.File
@@ -166,18 +167,44 @@ class LengthActivity : AppCompatActivity() {
         buttonListener = findViewById(R.id.pic_btn)
         exitbtn_Listener = findViewById(R.id.exit_btn)
 
-        // 화면이 만들어 지면서 저장소 권한을 체크 합니다.
-        // 권한이 승인되어 있으면 카메라를 호출하는 메소드를 실행
-        setViews()
-
         // 첫 방문시 안내 문구
-        if(MainActivity().firstAccess){
-            val builder = AlertDialog.Builder(this)
+        if(MainActivity.getInstance()!!.firstAccess){
+            val daoUser = UserDataBase.getInstance(applicationContext).userDao()
+            var builder = AlertDialog.Builder(this)
             builder
                 .setTitle("환영합니다")
-                .setMessage("앱 첫 방문을 환영합니다!\n운동하기 전, 정밀한 측정을 위해 팔다리 길이를 측정하도록 하겠습니다\n사진 찍기를 눌러주세요")
+                .setMessage("앱 첫 방문을 환영합니다!\n운동하기 전, 정밀한 측정을 위해\n키를 입력 받고,\n팔다리 길이를 측정하도록 하겠습니다")
                 .setPositiveButton("OK",
-                    DialogInterface.OnClickListener { dialog, id -> })
+                    DialogInterface.OnClickListener { dialog, id ->
+                        val dialog = heightDialog(this)
+
+                        dialog.setOnClickedListener(object : heightDialog.ButtonClickListener {
+                            override fun onClicked(height1 : Int, height2 : Int) {
+                                val height = height1 + height2 / 10.0f
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    var userData = daoUser.readAll()
+
+                                    userData[0].height = height
+                                    daoUser.update(userData[0])
+                                }
+
+                                builder = AlertDialog.Builder(getInstance())
+                                builder
+                                    .setTitle("이제 팔 다리 길이를 측정 하겠습니다!")
+                                    .setMessage("최대한 카메라를 향하여 정면으로 서 주세요\n운동할 환경과 최대한 동일한 카메라 세팅이 필요합니다!")
+                                    .setPositiveButton("OK",
+                                        DialogInterface.OnClickListener { dialog, id ->
+                                            // 화면이 만들어 지면서 저장소 권한을 체크 합니다.
+                                            // 권한이 승인되어 있으면 카메라를 호출하는 메소드를 실행
+                                            setViews()
+                                        })
+                                builder.create()
+                                builder.show()
+                            }
+                        })
+                        dialog.firstAccess = true
+                        dialog.show(150.0f)
+                    })
             builder.create()
             builder.show()
         }
@@ -185,7 +212,7 @@ class LengthActivity : AppCompatActivity() {
         // 나가기 버튼을 누를 시 다른 페이지로 이동
         exitbtn_Listener.setOnClickListener {
             // 첫 방문 안내 문구
-            if(MainActivity().firstAccess){
+            if(MainActivity.getInstance()!!.firstAccess){
                 val builder = AlertDialog.Builder(this)
                 builder
                     .setTitle("측정 완료")
@@ -193,7 +220,7 @@ class LengthActivity : AppCompatActivity() {
                     .setPositiveButton("๑°▽°๑",
                         DialogInterface.OnClickListener { dialog, id ->
                             // OK 버튼 선택시 수행
-                            MainActivity().firstAccess = false
+                            MainActivity.getInstance()?.firstAccess = false
                             finish()
                         })
                 builder.create()

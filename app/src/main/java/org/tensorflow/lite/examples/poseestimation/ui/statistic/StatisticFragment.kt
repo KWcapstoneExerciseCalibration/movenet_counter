@@ -34,26 +34,13 @@ import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserSchema
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
 import org.tensorflow.lite.examples.poseestimation.databinding.FragmentStatisticsBinding
 import org.tensorflow.lite.examples.poseestimation.ui.dailylog.ImpressionDialog
+import org.tensorflow.lite.examples.poseestimation.ui.length.heightDialog
 import java.util.*
 import kotlin.math.*
 
 class StatisticFragment : Fragment() {
     private var binding: FragmentStatisticsBinding? = null
     private lateinit var dao: ExerDao
-
-    // 다른 class에서 main함수 불러오기 용
-    init{
-        instance = this
-    }
-    companion object {
-        @SuppressLint("StaticFieldLeak")
-        private var instance: StatisticFragment? = null
-
-        fun getInstance(): StatisticFragment? {
-            return instance
-        }
-    }
-
 
     override fun onCreateView(
 
@@ -260,7 +247,8 @@ class StatisticFragment : Fragment() {
         }
 
         // 체중, BMI 기록
-
+        val btnHeight =root.findViewById<Button>(R.id.buttonHeight)
+        val textHeight = root.findViewById<TextView>(R.id.textHeight)
         val btnWeight = root.findViewById<Button>(R.id.buttonWeight)
         val textWeight = root.findViewById<TextView>(R.id.textWeight)
         val textBMI = root.findViewById<TextView>(R.id.textBMI)
@@ -268,44 +256,53 @@ class StatisticFragment : Fragment() {
         var height = 0.0F
         var bmi    = 0.0F
 
-        var daoUser = UserDataBase.getInstance(MainActivity.getInstance()!!.applicationContext).userDao()
+        var daoUser = UserDataBase.getInstance(requireContext()).userDao()
 
         CoroutineScope(Dispatchers.IO).launch {
             var userData = daoUser.readAll()
 
-            if (userData.isEmpty()) {
-                weight = 0.0F
-                height = 0.0F
-                bmi    = 0.0F
-            }
-            else {
-                weight = userData[0].weight
-                height = userData[0].height
-                bmi    = userData[0].BMI
-            }
+            // 비어있는 DB 처리는 main에서 해서 지웠습니다!
+            weight = userData[0].weight
+            textWeight.text = weight.toString()
+            height = userData[0].height
+            textHeight.text = height.toString()
+            bmi    = userData[0].BMI
+            textBMI.text = bmi.toString()
         }
 
-        textWeight.text = weight.toString()
-        textBMI.text = bmi.toString()
+        btnHeight.setOnClickListener{
+            this.context?.let { it1 ->
+                val dialog = heightDialog(it1)
+                dialog.show(height)
+
+                dialog.setOnClickedListener(object : heightDialog.ButtonClickListener {
+                    override fun onClicked(height1 : Int, height2 : Int) {
+                        height = height1 + height2 / 10.0f
+                        textHeight.text = (height).toString()
+                        bmi = calculateBMI(height/100, weight.toInt())
+                        textBMI.text = bmi.toString()
+
+                        CoroutineScope(Dispatchers.IO).launch {
+                            var userData = daoUser.readAll()
+
+                            userData[0].height = height
+                            userData[0].BMI = bmi
+                            daoUser.update(userData[0])
+                        }
+                    }
+                })
+            }
+        }
 
         btnWeight.setOnClickListener{
             this.context?.let { it1 ->
                 val dialog = weightDialog(it1)
-                dialog.show()
+                dialog.show(weight.toInt())
 
                 dialog.setOnClickedListener(object : weightDialog.ButtonClickListener {
                     override fun onClicked(weight : Int) {
                         textWeight.text = weight.toString()
-                        height = 176.0F
-                        height /= 100
-                        if ((height.toDouble().pow(2.0)).toFloat() == 0.0F)
-                            bmi = 0.0F
-                        else {
-                            bmi = (weight / height.toDouble().pow(2.0)).toFloat()
-                            bmi = round((bmi*100))/100
-                            if (bmi > 55.0F || bmi < 0.0)
-                                bmi = 0.0F
-                        }
+                        bmi = calculateBMI(height/100, weight)
                         textBMI.text = bmi.toString()
 
                         CoroutineScope(Dispatchers.IO).launch {
@@ -321,6 +318,20 @@ class StatisticFragment : Fragment() {
         }
 
         return binding!!.root
+    }
+
+    fun calculateBMI(height:Float, weight:Int): Float{
+        var bmi:Float
+
+        if ((height.toDouble().pow(2.0)).toFloat() == 0.0F)
+            bmi = 0.0F
+        else {
+            bmi = (weight / height.toDouble().pow(2.0)).toFloat()
+            bmi = round((bmi*100))/100
+            if (bmi > 55.0F || bmi < 0.0)
+                bmi = 0.0F
+        }
+        return bmi
     }
 
     override fun onDestroyView() {

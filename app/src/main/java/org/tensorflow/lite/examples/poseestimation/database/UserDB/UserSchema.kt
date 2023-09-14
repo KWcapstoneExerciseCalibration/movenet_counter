@@ -9,6 +9,6 @@ data class UserSchema(
     val age: Int,
     var exp: Double,
     var weight: Float,
-    val height: Float,
+    var height: Float,
     var BMI: Float
 )

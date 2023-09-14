@@ -20,14 +20,14 @@ class weightDialog(context: Context) {
         setCancelable(true)
     }
 
-    fun show() {
+    fun show(weight:Int) {
         val numPick = dialog.findViewById<NumberPicker>(R.id.numPick)
         val cancelBtn = dialog.findViewById<Button>(R.id.cancelBtn)
         val okBtn = dialog.findViewById<Button>(R.id.okBtn)
 
         numPick.minValue = 0
         numPick.maxValue = 200
-        numPick.value = 0
+        numPick.value = weight
 
 
         cancelBtn.setOnClickListener { dialog.dismiss() }

@@ -84,19 +84,20 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbarBodyTemplate)
 
         dao = ExerDataBase.getInstance(applicationContext).exerDao()
+        daoUser = UserDataBase.getInstance(applicationContext).userDao()
         CoroutineScope(Dispatchers.IO).launch {
             // ExerDB가 완전히 비어있다면 첫 접속
-            if (dao.readAll().isEmpty()){
+            if (daoUser.readAll().isEmpty()){
                 val initData = ExerSchema(0, "0", "0", "0", "0", 0, 0, 0, "0")
                 dao.create(initData)
 
+                // 경험치 DB 생성
+                expInput(0.0)
                 firstAccess = true
             }
         }
         if(firstAccess) measureOpen()
 
-        // 경험치 DB 생성 or 생성 확인
-        expInput(0.0)
 
         // 접속시 DB의 운동 횟수 불러 오기
         val today : Long = System.currentTimeMillis()
