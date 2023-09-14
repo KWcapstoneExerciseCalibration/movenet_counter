@@ -20,6 +20,7 @@ import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDao
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
+import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalSchema
 import org.tensorflow.lite.examples.poseestimation.databinding.FragmentDailylogBinding
 import java.text.SimpleDateFormat
 import java.util.*
