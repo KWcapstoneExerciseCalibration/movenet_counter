@@ -1,11 +1,16 @@
 package org.tensorflow.lite.examples.poseestimation.ui.statistic
 
 import android.annotation.SuppressLint
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.LineChart
@@ -19,12 +24,18 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.tensorflow.lite.examples.poseestimation.MainActivity
 import org.tensorflow.lite.examples.poseestimation.R
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerSchema
+import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserDataBase
+import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserSchema
+import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
 import org.tensorflow.lite.examples.poseestimation.databinding.FragmentStatisticsBinding
+import org.tensorflow.lite.examples.poseestimation.ui.dailylog.ImpressionDialog
 import java.util.*
+import kotlin.math.*
 
 class StatisticFragment : Fragment() {
     private var binding: FragmentStatisticsBinding? = null
@@ -248,12 +259,69 @@ class StatisticFragment : Fragment() {
 
         }
 
+        // 체중, BMI 기록
 
+        val btnWeight = root.findViewById<Button>(R.id.buttonWeight)
+        val textWeight = root.findViewById<TextView>(R.id.textWeight)
+        val textBMI = root.findViewById<TextView>(R.id.textBMI)
+        var weight = 0.0F
+        var height = 0.0F
+        var bmi    = 0.0F
 
+        var daoUser = UserDataBase.getInstance(MainActivity.getInstance()!!.applicationContext).userDao()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            var userData = daoUser.readAll()
+
+            if (userData.isEmpty()) {
+                weight = 0.0F
+                height = 0.0F
+                bmi    = 0.0F
+            }
+            else {
+                weight = userData[0].weight
+                height = userData[0].height
+                bmi    = userData[0].BMI
+            }
+        }
+
+        textWeight.text = weight.toString()
+        textBMI.text = bmi.toString()
+
+        btnWeight.setOnClickListener{
+            this.context?.let { it1 ->
+                val dialog = weightDialog(it1)
+                dialog.show()
+
+                dialog.setOnClickedListener(object : weightDialog.ButtonClickListener {
+                    override fun onClicked(weight : Int) {
+                        textWeight.text = weight.toString()
+                        height = 176.0F
+                        height /= 100
+                        if ((height.toDouble().pow(2.0)).toFloat() == 0.0F)
+                            bmi = 0.0F
+                        else {
+                            bmi = (weight / height.toDouble().pow(2.0)).toFloat()
+                            bmi = round((bmi*100))/100
+                            if (bmi > 55.0F || bmi < 0.0)
+                                bmi = 0.0F
+                        }
+                        textBMI.text = bmi.toString()
+
+                        CoroutineScope(Dispatchers.IO).launch {
+                            var userData = daoUser.readAll()
+
+                            userData[0].weight = weight.toFloat()
+                            userData[0].BMI = bmi
+                            daoUser.update(userData[0])
+                        }
+                    }
+                })
+            }
+        }
 
         return binding!!.root
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
