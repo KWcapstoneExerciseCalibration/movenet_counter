@@ -62,7 +62,7 @@
                 android:layout_height="35dp"
                 android:layout_gravity="center|center_horizontal"
                 android:gravity="center|center_vertical"
-                android:text="~"
+                android:text=" "
                 android:textSize="20sp" />
 
 
@@ -72,7 +72,7 @@
                 android:layout_height="35dp"
                 android:layout_gravity="center|center_horizontal"
                 android:gravity="center|center_vertical"
-                android:text="~"
+                android:text=" "
                 android:textSize="20sp" />
 
             <TextView
@@ -81,7 +81,7 @@
                 android:layout_height="35dp"
                 android:layout_gravity="center|center_horizontal"
                 android:gravity="center|center_vertical"
-                android:text="~"
+                android:text=" "
                 android:textSize="20sp" />
 
             <Space
@@ -119,12 +119,12 @@
                 android:layout_weight="1" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/button1"
                 android:layout_width="75dp"
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/white_circle"
-                android:text="매우 쉬움"
+                android:text="매우쉬움"
                 android:textSize="12sp" />
 
             <Button
@@ -160,7 +160,7 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/white_circle"
-                android:text="매우 힘듦"
+                android:text="매우힘듦"
                 android:textSize="12sp" />
 
             <Space
