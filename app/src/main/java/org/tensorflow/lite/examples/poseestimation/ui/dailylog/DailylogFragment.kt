@@ -163,23 +163,23 @@ class DailylogFragment : Fragment() {
             when (intensity) {
                 1 -> {  btn_1.setBackgroundColor(Color.LTGRAY)
                         btn_1.setTextColor(Color.BLACK)
-                        btn_1.textSize = 14.0f
+                        btn_1.setTextSize(14.0f)
                      }
                 2 -> {  btn_2.setBackgroundColor(Color.LTGRAY)
                         btn_2.setTextColor(Color.BLACK)
-                        btn_2.textSize = 14.0f
+                        btn_2.setTextSize(14.0f)
                      }
                 3 -> {  btn_3.setBackgroundColor(Color.LTGRAY)
                         btn_3.setTextColor(Color.BLACK)
-                        btn_3.textSize = 14.0f
+                        btn_3.setTextSize(14.0f)
                      }
                 4 -> {  btn_4.setBackgroundColor(Color.LTGRAY)
                         btn_4.setTextColor(Color.BLACK)
-                        btn_4.textSize = 14.0f
+                        btn_4.setTextSize(14.0f)
                 }
                 5 -> {  btn_5.setBackgroundColor(Color.LTGRAY)
                         btn_5.setTextColor(Color.BLACK)
-                        btn_5.textSize = 14.0f
+                        btn_5.setTextSize(14.0f)
                      }
             }
 
