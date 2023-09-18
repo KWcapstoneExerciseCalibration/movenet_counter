@@ -34,17 +34,40 @@ interface ExerDao {
     @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date=:date")
     suspend fun getDateScore(date: String): Int
 
-    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-08-01' and date <= '2023-08-30'")
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-01-01' and date <= '2023-01-31'")
+    suspend fun moAvg1(): Double
+
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-02-01' and date <= '2023-02-28'")
+    suspend fun moAvg2(): Double
+
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-03-01' and date <= '2023-03-31'")
+    suspend fun moAvg3(): Double
+
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-04-01' and date <= '2023-04-30'")
+    suspend fun moAvg4(): Double
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-05-01' and date <= '2023-05-31'")
+    suspend fun moAvg5(): Double
+
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-06-01' and date <= '2023-06-30'")
+    suspend fun moAvg6(): Double
+
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-07-01' and date <= '2023-07-31'")
+    suspend fun moAvg7(): Double
+
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-08-01' and date <= '2023-08-31'")
     suspend fun moAvg8(): Double
 
     @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-09-01' and date <= '2023-09-30'")
     suspend fun moAvg9(): Double
 
-    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-07-01' and date <= '2023-07-30'")
-    suspend fun moAvg7(): Double
-
-    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-10-01' and date <= '2023-10-30'")
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-10-01' and date <= '2023-10-31'")
     suspend fun moAvg10(): Double
+
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-11-01' and date <= '2023-11-30'")
+    suspend fun moAvg11(): Double
+
+    @Query("SELECT ifnull(AVG(score),0) FROM table_exercise WHERE date >= '2023-12-01' and date <= '2023-12-31'")
+    suspend fun moAvg12(): Double
 
     @Query("SELECT ifnull(SUM(count),0) FROM table_exercise WHERE exercise=:exercise AND date=:date")
     suspend fun getAllCount(date: String, exercise: String): Int
