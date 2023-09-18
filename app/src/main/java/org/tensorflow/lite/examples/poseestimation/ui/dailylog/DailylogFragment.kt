@@ -6,15 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.ConsoleMessage
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.*
-import org.tensorflow.lite.examples.poseestimation.MainActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.tensorflow.lite.examples.poseestimation.R
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDao
 import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerDataBase
@@ -22,6 +21,7 @@ import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDao
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalSchema
 import org.tensorflow.lite.examples.poseestimation.databinding.FragmentDailylogBinding
+import java.sql.Types.NULL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -51,56 +51,57 @@ class DailylogFragment : Fragment() {
 
         // 날짜 표시
         val dateText = root.findViewById<TextView>(R.id.textToday)
-        val calendar = Calendar.getInstance()
-        dateText.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
+        val timezone = TimeZone.getTimeZone("Asia/Seoul")
+        val calendar = Calendar.getInstance(timezone)
+        dateText.text = (calendar.get(Calendar.MONTH)+1).toString() + "월 " + calendar.get(Calendar.DAY_OF_MONTH).toString() + "일"
 
         // 오늘의 운동 및 소감 표시
-        val showPushup = root.findViewById<TextView>(R.id.textWorkout1)
-        val showSquat = root.findViewById<TextView>(R.id.textWorkout2)
-        val showShoulderPress = root.findViewById<TextView>(R.id.textWorkout3)
         val dateNote = root.findViewById<TextView>(R.id.textView5)
 
         exer_dao = ExerDataBase.getInstance(requireActivity()).exerDao()
         val today : Long = System.currentTimeMillis()
         val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        date.timeZone = TimeZone.getTimeZone("GMT+09:00")
+        date.timeZone = timezone
 
         val text_1 = root.findViewById<TextView>(R.id.textWorkout1)
         val text_2 = root.findViewById<TextView>(R.id.textWorkout2)
         val text_3 = root.findViewById<TextView>(R.id.textWorkout3)
 
+        fun showExercise (dateToday : String){
+            CoroutineScope(Dispatchers.IO).launch {
+                val (count, score) = scoreCal(dateToday, "PushUp")
+                val (count2, score2) = scoreCal(dateToday, "Squat")
+                val (count3, score3) = scoreCal(dateToday, "ShoulderPress")
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val (count, score) = scoreCal(date.format(today), "PushUp")
-            val (count2, score2) = scoreCal(date.format(today), "Squat")
-            val (count3, score3) = scoreCal(date.format(today), "ShoulderPress")
+                val stringPU: String = { "팔굽혀펴기 " + count + "회 평균 " + score + "점" }.toString()
+                val stringSq: String = { "스쿼트 " + count2 + "회 평균 " + score2 + "점" }.toString()
+                val stringSP: String = { "숄더프레스 " + count3 + "회 평균 " + score3 + "점" }.toString()
 
-            val stringPU: String = { "팔굽혀펴기 " + count + "회 평균 " + score + "점" }.toString()
-            val stringSq: String = { "스쿼트 " + count2 + "회 평균 " + score2 + "점" }.toString()
-            val stringSP: String = { "숄더프레스 " + count3 + "회 평균 " + score3 + "점" }.toString()
+                val countPU: Int = if (count == 0) 0 else 1
+                val countSq: Int = if (count2== 0) 0 else 1
+                val countSP: Int = if (count3== 0) 0 else 1
+                val totalExercise: Int = countPU + countSq + countSP
 
-            val countPU: Int = if (count == 0) 0 else 1
-            val countSq: Int = if (count2== 0) 0 else 1
-            val countSP: Int = if (count3== 0) 0 else 1
-            val totalExercise: Int = countPU + countSq + countSP
+                when(totalExercise){
+                    0 -> { text_1.setText("이 날 한 운동이 없습니다.") }
 
-            when(totalExercise){
-                0 -> { text_1.setText("이 날 한 운동이 없습니다.") }
+                    1 -> { text_1.setText( if (countPU == 1)      stringPU
+                    else if (countSq == 1) stringSq
+                    else                   stringSP ) }
 
-                1 -> { text_1.setText( if (countPU == 1)      stringPU
-                                       else if (countSq == 1) stringSq
-                                       else                   stringSP ) }
+                    2 -> { text_1.setText( if (countPU == 1)      stringPU
+                    else                   stringSq )
+                        text_2.setText( if (countSP == 0)      stringSq
+                        else                   stringSP ) }
 
-                2 -> { text_1.setText( if (countPU == 1)      stringPU
-                                       else                   stringSq )
-                       text_2.setText( if (countSP == 0)      stringSq
-                                       else                   stringSP ) }
-
-                3 -> { text_1.setText(stringPU)
-                       text_2.setText(stringSq)
-                       text_3.setText(stringSP) }
+                    3 -> { text_1.setText(stringPU)
+                        text_2.setText(stringSq)
+                        text_3.setText(stringSP) }
+                }
             }
         }
+
+        showExercise(date.format(today))
 
         // 최초 DB & 강도 및 소감 표시
         cal_dao = CalDataBase.getInstance(requireActivity()).calDao()
@@ -150,88 +151,128 @@ class DailylogFragment : Fragment() {
             }
         }
 
+        //운동 강도 관련
         val btn_1 = root.findViewById<Button>(R.id.button1)
         val btn_2 = root.findViewById<Button>(R.id.button2)
         val btn_3 = root.findViewById<Button>(R.id.button3)
         val btn_4 = root.findViewById<Button>(R.id.button4)
         val btn_5 = root.findViewById<Button>(R.id.button5)
 
+        fun changeIntensityBox (intensity: Int?) {
+            //색&박스 크기 수정 필요
+            btn_1.setBackgroundColor(Color.BLACK)
+            btn_1.setTextColor(Color.WHITE)
+            btn_1.setTextSize(12.0f)
+            btn_2.setBackgroundColor(Color.BLACK)
+            btn_2.setTextColor(Color.WHITE)
+            btn_2.setTextSize(12.0f)
+            btn_3.setBackgroundColor(Color.BLACK)
+            btn_3.setTextColor(Color.WHITE)
+            btn_3.setTextSize(12.0f)
+            btn_4.setBackgroundColor(Color.BLACK)
+            btn_4.setTextColor(Color.WHITE)
+            btn_4.setTextSize(12.0f)
+            btn_5.setBackgroundColor(Color.BLACK)
+            btn_5.setTextColor(Color.WHITE)
+            btn_5.setTextSize(12.0f)
+
+            when (intensity) {
+                1 -> {  btn_1.setBackgroundColor(Color.LTGRAY)
+                    btn_1.setTextColor(Color.BLACK)
+                    btn_1.setTextSize(14.0f)
+                }
+                2 -> {  btn_2.setBackgroundColor(Color.LTGRAY)
+                    btn_2.setTextColor(Color.BLACK)
+                    btn_2.setTextSize(14.0f)
+                }
+                3 -> {  btn_3.setBackgroundColor(Color.LTGRAY)
+                    btn_3.setTextColor(Color.BLACK)
+                    btn_3.setTextSize(14.0f)
+                }
+                4 -> {  btn_4.setBackgroundColor(Color.LTGRAY)
+                    btn_4.setTextColor(Color.BLACK)
+                    btn_4.setTextSize(14.0f)
+                }
+                5 -> {  btn_5.setBackgroundColor(Color.LTGRAY)
+                    btn_5.setTextColor(Color.BLACK)
+                    btn_5.setTextSize(14.0f)
+                }
+                else -> {
+                    //NULL 일 경우
+                }
+
+                // 더 나은 색 확정 시 Color.parseColor(Hexcode)로 반영
+            }
+
+            refresh()
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
 
             val intensity = cal_dao.getIntens(date.format(today))
 
-            when (intensity) {
-                1 -> {  btn_1.setBackgroundColor(Color.LTGRAY)
-                        btn_1.setTextColor(Color.BLACK)
-                        btn_1.setTextSize(14.0f)
-                     }
-                2 -> {  btn_2.setBackgroundColor(Color.LTGRAY)
-                        btn_2.setTextColor(Color.BLACK)
-                        btn_2.setTextSize(14.0f)
-                     }
-                3 -> {  btn_3.setBackgroundColor(Color.LTGRAY)
-                        btn_3.setTextColor(Color.BLACK)
-                        btn_3.setTextSize(14.0f)
-                     }
-                4 -> {  btn_4.setBackgroundColor(Color.LTGRAY)
-                        btn_4.setTextColor(Color.BLACK)
-                        btn_4.setTextSize(14.0f)
-                }
-                5 -> {  btn_5.setBackgroundColor(Color.LTGRAY)
-                        btn_5.setTextColor(Color.BLACK)
-                        btn_5.setTextSize(14.0f)
-                     }
-            }
+            changeIntensityBox(intensity)
 
-            // 더 나은 색 확정 시 Color.parseColor(Hexcode)로 반영
         }
 
         btn_1.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 cal_dao.upIntens(date.format(today), 1)
             }
-            refresh()
+            val intensity = 1
+            changeIntensityBox(intensity)
         }
         btn_2.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 cal_dao.upIntens(date.format(today), 2)
             }
-            refresh()
+            val intensity = 2
+            changeIntensityBox(intensity)
         }
         btn_3.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 cal_dao.upIntens(date.format(today), 3)
             }
-            refresh()
+            val intensity = 3
+            changeIntensityBox(intensity)
         }
         btn_4.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 cal_dao.upIntens(date.format(today), 4)
             }
-            refresh()
+            val intensity = 4
+            changeIntensityBox(intensity)
         }
         btn_5.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 cal_dao.upIntens(date.format(today), 5)
             }
-            refresh()
+            val intensity = 5
+            changeIntensityBox(intensity)
         }
 
         dateText.setOnClickListener {
             datePickerDialog = DatePickerDialog(requireActivity(), { datePicker, year, month, day ->
-                val date2 = "" + day
-                dateText.text = date2
-                CoroutineScope(Dispatchers.IO).launch {
-                    if (exer_dao.readAll().size <= 1){
-                        dateNote.text = "작성한 소감이 없습니다"
-                        //dateExer.text = "현재 운동을 한번도 하지 않았습니다"
+
+                val showDate = (month+1).toString() + "월 " + day + "일"
+                val actualMonth = month + 1
+                val actualDate = "2023-" + "0$actualMonth-" + "$day"
+
+                showExercise(actualDate)
+                dateText.text = showDate
+                CoroutineScope(Dispatchers.Main).launch {
+                    dateNote.text = cal_dao.getNote(actualDate)
+                    if(dateNote.text.isBlank())  {
+                        dateNote.text = "오늘은 아직 소감을 적지 않았습니다!"
                     }
-                    else{
-                        //dateNote.text = dao.getNote(date.format(currentTime))
-                        //dateExer.text = dao.getExer(date.format(currentTime)) + " " + dao.getCount(date.format(currentTime)) + "회 " + dao.getScore(date.format(currentTime)) + "점"
-                    }
+
+                    var intensity: Int? = cal_dao.getIntens(actualDate)
+
+                    changeIntensityBox(intensity)
                 }
-            }, 2023, 7, calendar.get(Calendar.DAY_OF_MONTH))
+
+
+            }, 2023, calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
             datePickerDialog!!.show()
         }
 
