@@ -4,10 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.NumberPicker
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import org.tensorflow.lite.examples.poseestimation.R
@@ -22,6 +19,7 @@ class GuideActivity : AppCompatActivity() {
     private lateinit var btn_start: Button
     private lateinit var numPicker_exercise: NumberPicker
     private lateinit var tv_exercise_num: TextView
+    private lateinit var btn_backward: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +30,14 @@ class GuideActivity : AppCompatActivity() {
         btn_start = findViewById(R.id.btn_start)
         numPicker_exercise = findViewById(R.id.numPick)
         tv_exercise_num = findViewById(R.id.tvExerciseNum)
+        btn_backward = findViewById(R.id.img_backward)
 
         var exercise = intent.getStringExtra("exercise")
         var course = intent.getStringExtra("course")
         var exercise_num = 0
 
         val intentStart = Intent(this, CameraActivity::class.java)
+        var intentBack  = Intent(this, CameraActivity::class.java)
 
         if (exercise?.contains("Course") == true) {
             numPicker_exercise.visibility = View.INVISIBLE
@@ -87,6 +87,26 @@ class GuideActivity : AppCompatActivity() {
             // 코스 점수 변수 전달
             intentStart.putExtra("score", intent.getIntExtra("score", 0))
             startActivity(intentStart)
+            finish()
+        }
+
+        btn_backward.setOnClickListener {
+            when(exercise) {
+                "CoursePushUp"          ->
+                    { intentBack = Intent(this, CourseGuideActivity::class.java)
+                      intentBack.putExtra("course", course)}
+                "CourseSquat"           ->
+                    { intentBack = Intent(this, GuideActivity::class.java)
+                      intentBack.putExtra("exercise", "CoursePushUp")
+                      intentBack.putExtra("course", course) }
+                "CourseShoulderPress"   ->
+                    { intentBack = Intent(this, GuideActivity::class.java)
+                      intentBack.putExtra("exercise", "CourseSquat")
+                      intentBack.putExtra("course", course) }
+                else                    ->
+                    { intentBack = Intent(this, MenuActivity::class.java) }
+            }
+            startActivity(intentBack)
             finish()
         }
     }

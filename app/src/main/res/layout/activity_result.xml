@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.exercise.ResultActivity">
 
+    <ImageButton
+        android:id="@+id/img_backward"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/backward"
+        android:scaleType="fitCenter"
+        android:backgroundTint="@android:color/transparent"
+        tools:ignore="MissingConstraints" />
+
     <TextView
         android:id="@+id/correct_text"
         android:layout_width="wrap_content"

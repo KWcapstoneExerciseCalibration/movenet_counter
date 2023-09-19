@@ -3,6 +3,7 @@ package org.tensorflow.lite.examples.poseestimation.ui.exercise
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import org.tensorflow.lite.examples.poseestimation.MainActivity
 import org.tensorflow.lite.examples.poseestimation.R
@@ -12,6 +13,7 @@ class CourseMenuActivity: AppCompatActivity() {
     private lateinit var btn_beginner: Button
     private lateinit var btn_intermediate: Button
     private lateinit var btn_advanced: Button
+    private lateinit var btn_backward: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +22,7 @@ class CourseMenuActivity: AppCompatActivity() {
         btn_beginner = findViewById(R.id.btn_beginner)
         btn_intermediate = findViewById(R.id.btn_intermediate)
         btn_advanced = findViewById(R.id.btn_advanced)
+        btn_backward = findViewById(R.id.img_backward)
 
         var course : String
         val intentStart = Intent(this, CourseGuideActivity::class.java)
@@ -66,6 +69,11 @@ class CourseMenuActivity: AppCompatActivity() {
             intentStart.putExtra("exercise", intent.getStringExtra("exercise"))
             intentStart.putExtra("course", course)
             startActivity(intentStart)
+            finish()
+        }
+
+        btn_backward.setOnClickListener{
+            startActivity(Intent(this, MenuActivity::class.java))
             finish()
         }
     }

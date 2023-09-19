@@ -1,7 +1,9 @@
 package org.tensorflow.lite.examples.poseestimation.ui.exercise
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +16,7 @@ class ResultActivity : AppCompatActivity() {
     private lateinit var wrong_text: TextView
     private lateinit var btn_close: Button
     private lateinit var img_viewer: ImageView
+    private lateinit var btn_backward: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +26,7 @@ class ResultActivity : AppCompatActivity() {
         wrong_text = findViewById(R.id.wrong_tv)
         btn_close = findViewById(R.id.btnClose)
         img_viewer = findViewById(R.id.img_viewer)
+        btn_backward = findViewById(R.id.img_backward)
 
         var wrongArray = intent.getStringArrayListExtra("wrongArrayList")
         var exercise = intent.getStringExtra("exercise")
@@ -88,6 +92,11 @@ class ResultActivity : AppCompatActivity() {
          */
 
         btn_close.setOnClickListener {
+            finish()
+        }
+
+        btn_backward.setOnClickListener{
+            startActivity(Intent(this, MenuActivity::class.java))
             finish()
         }
     }

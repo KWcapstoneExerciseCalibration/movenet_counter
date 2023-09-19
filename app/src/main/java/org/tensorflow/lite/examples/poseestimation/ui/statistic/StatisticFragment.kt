@@ -34,13 +34,26 @@ import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserSchema
 import org.tensorflow.lite.examples.poseestimation.database.calenderDB.CalDataBase
 import org.tensorflow.lite.examples.poseestimation.databinding.FragmentStatisticsBinding
 import org.tensorflow.lite.examples.poseestimation.ui.dailylog.ImpressionDialog
-import org.tensorflow.lite.examples.poseestimation.ui.length.heightDialog
 import java.util.*
 import kotlin.math.*
 
 class StatisticFragment : Fragment() {
     private var binding: FragmentStatisticsBinding? = null
     private lateinit var dao: ExerDao
+
+    // 다른 class에서 main함수 불러오기 용
+    init{
+        instance = this
+    }
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        private var instance: StatisticFragment? = null
+
+        fun getInstance(): StatisticFragment? {
+            return instance
+        }
+    }
+
 
     override fun onCreateView(
 
@@ -72,7 +85,7 @@ class StatisticFragment : Fragment() {
         }
          */
 
-        var monthList = listOf("1월","2월","3월","4월","5월","6월","7월", "8월", "9월", "10월","11월","12월")
+        var monthList = listOf("7월", "8월", "9월", "10월")
         var adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, monthList)
         val spinner = root.findViewById<Spinner>(R.id.spinner)
 
@@ -92,19 +105,10 @@ class StatisticFragment : Fragment() {
                     for (i in 2..9){
                         dateArray += "2023-0$dMonth-0$i"
                     }
-                    for (i in 10..28){
+                    for (i in 10..30){
                         dateArray += "2023-0$dMonth-$i"
                     }
-                    if (dMonth == 2){
-
-                    }
-                    else if (dMonth == 4 or 6 or 9 or 11){
-                        dateArray += "2023-0$dMonth-29"
-                        dateArray += "2023-0$dMonth-30"
-                    }
-                    else{
-                        dateArray += "2023-0$dMonth-29"
-                        dateArray += "2023-0$dMonth-30"
+                    if (dMonth == 8){
                         dateArray += "2023-0$dMonth-31"
                     }
                 }
@@ -220,86 +224,30 @@ class StatisticFragment : Fragment() {
                     when (position) {
                         0 -> {
                             CoroutineScope(Dispatchers.Main).launch(){
-                                var dMonth = 1
+                                var dMonth = 7
                                 printGraph(dMonth)
-                                moAvg.text = round(dao.moAvg1()).toString()
+                                moAvg.text = dao.moAvg7().toString()
                             }
                         }
                         1 -> {
                             CoroutineScope(Dispatchers.Main).launch() {
-                                var dMonth = 2
+                                var dMonth = 8
                                 printGraph(dMonth)
-                                moAvg.text = round(dao.moAvg2()).toString()
+                                moAvg.text = dao.moAvg8().toString()
                             }
                         }
                         2 -> {
                             CoroutineScope(Dispatchers.Main).launch() {
-                                var dMonth = 3
+                                var dMonth = 9
                                 printGraph(dMonth)
-                                moAvg.text = round(dao.moAvg3()).toString()
+                                moAvg.text = dao.moAvg9().toString()
                             }
                         }
                         3 -> {
                             CoroutineScope(Dispatchers.Main).launch() {
-                                var dMonth = 4
-                                printGraph(dMonth)
-                                moAvg.text = round(dao.moAvg4()).toString()
-                            }
-                        }
-                        4 -> {
-                            CoroutineScope(Dispatchers.Main).launch() {
-                                var dMonth = 5
-                                printGraph(dMonth)
-                                moAvg.text = round(dao.moAvg5()).toString()
-                            }
-                        }
-                        5 -> {
-                            CoroutineScope(Dispatchers.Main).launch() {
-                                var dMonth = 6
-                                printGraph(dMonth)
-                                moAvg.text = round(dao.moAvg6()).toString()
-                            }
-                        }
-                        6 -> {
-                            CoroutineScope(Dispatchers.Main).launch() {
-                                var dMonth = 7
-                                printGraph(dMonth)
-                                moAvg.text = round(dao.moAvg7()).toString()
-                            }
-                        }
-                        7 -> {
-                            CoroutineScope(Dispatchers.Main).launch() {
-                                var dMonth = 8
-                                printGraph(dMonth)
-                                moAvg.text = round(dao.moAvg8()).toString()
-                            }
-                        }
-                        8 -> {
-                            CoroutineScope(Dispatchers.Main).launch() {
-                                var dMonth = 9
-                                printGraph(dMonth)
-                                moAvg.text = round(dao.moAvg9()).toString()
-                            }
-                        }
-                        9 -> {
-                            CoroutineScope(Dispatchers.Main).launch() {
                                 var dMonth = 10
                                 printGraph(dMonth)
-                                moAvg.text = round(dao.moAvg10()).toString()
-                            }
-                        }
-                        10 -> {
-                            CoroutineScope(Dispatchers.Main).launch() {
-                                var dMonth = 11
-                                printGraph(dMonth)
-                                moAvg.text = round(dao.moAvg11()).toString()
-                            }
-                        }
-                        11 -> {
-                            CoroutineScope(Dispatchers.Main).launch() {
-                                var dMonth = 12
-                                printGraph(dMonth)
-                                moAvg.text = round(dao.moAvg12()).toString()
+                                moAvg.text = dao.moAvg10().toString()
                             }
                         }
                         else -> {
@@ -312,8 +260,7 @@ class StatisticFragment : Fragment() {
         }
 
         // 체중, BMI 기록
-        val btnHeight =root.findViewById<Button>(R.id.buttonHeight)
-        val textHeight = root.findViewById<TextView>(R.id.textHeight)
+
         val btnWeight = root.findViewById<Button>(R.id.buttonWeight)
         val textWeight = root.findViewById<TextView>(R.id.textWeight)
         val textBMI = root.findViewById<TextView>(R.id.textBMI)
@@ -321,43 +268,25 @@ class StatisticFragment : Fragment() {
         var height = 0.0F
         var bmi    = 0.0F
 
-        var daoUser = UserDataBase.getInstance(requireContext()).userDao()
+        var daoUser = UserDataBase.getInstance(MainActivity.getInstance()!!.applicationContext).userDao()
 
         CoroutineScope(Dispatchers.IO).launch {
             var userData = daoUser.readAll()
 
-            // 비어있는 DB 처리는 main에서 해서 지웠습니다!
-            weight = userData[0].weight
-            textWeight.text = weight.toString()
-            height = userData[0].height
-            textHeight.text = height.toString()
-            bmi    = userData[0].BMI
-            textBMI.text = bmi.toString()
-        }
-
-        btnHeight.setOnClickListener{
-            this.context?.let { it1 ->
-                val dialog = heightDialog(it1)
-                dialog.show(height)
-
-                dialog.setOnClickedListener(object : heightDialog.ButtonClickListener {
-                    override fun onClicked(height1 : Int, height2 : Int) {
-                        height = height1 + height2 / 10.0f
-                        textHeight.text = (height).toString()
-                        bmi = calculateBMI(height/100, weight.toInt())
-                        textBMI.text = bmi.toString()
-
-                        CoroutineScope(Dispatchers.IO).launch {
-                            var userData = daoUser.readAll()
-
-                            userData[0].height = height
-                            userData[0].BMI = bmi
-                            daoUser.update(userData[0])
-                        }
-                    }
-                })
+            if (userData.isEmpty()) {
+                weight = 0.0F
+                height = 0.0F
+                bmi    = 0.0F
+            }
+            else {
+                weight = userData[0].weight
+                height = userData[0].height
+                bmi    = userData[0].BMI
             }
         }
+
+        textWeight.text = weight.toString()
+        textBMI.text = bmi.toString()
 
         btnWeight.setOnClickListener{
             this.context?.let { it1 ->
@@ -367,7 +296,16 @@ class StatisticFragment : Fragment() {
                 dialog.setOnClickedListener(object : weightDialog.ButtonClickListener {
                     override fun onClicked(weight : Int) {
                         textWeight.text = weight.toString()
-                        bmi = calculateBMI(height/100, weight)
+                        height = 176.0F
+                        height /= 100
+                        if ((height.toDouble().pow(2.0)).toFloat() == 0.0F)
+                            bmi = 0.0F
+                        else {
+                            bmi = (weight / height.toDouble().pow(2.0)).toFloat()
+                            bmi = round((bmi*100))/100
+                            if (bmi > 55.0F || bmi < 0.0)
+                                bmi = 0.0F
+                        }
                         textBMI.text = bmi.toString()
 
                         CoroutineScope(Dispatchers.IO).launch {
@@ -383,20 +321,6 @@ class StatisticFragment : Fragment() {
         }
 
         return binding!!.root
-    }
-
-    fun calculateBMI(height:Float, weight:Int): Float{
-        var bmi:Float
-
-        if ((height.toDouble().pow(2.0)).toFloat() == 0.0F)
-            bmi = 0.0F
-        else {
-            bmi = (weight / height.toDouble().pow(2.0)).toFloat()
-            bmi = round((bmi*100))/100
-            if (bmi > 55.0F || bmi < 0.0)
-                bmi = 0.0F
-        }
-        return bmi
     }
 
     override fun onDestroyView() {

@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageButton
+        android:id="@+id/img_backward"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/backward"
+        android:scaleType="fitCenter"
+        android:backgroundTint="@android:color/transparent"
+        tools:ignore="MissingConstraints" />
+
     <ImageView
         android:id="@+id/ivExercise"
         android:layout_width="0dp"

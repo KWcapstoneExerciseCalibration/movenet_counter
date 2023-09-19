@@ -11,6 +11,15 @@
         android:orientation="vertical"
         android:gravity="center">
 
+        <ImageButton
+            android:id="@+id/img_backward"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:src="@drawable/backward"
+            android:scaleType="fitCenter"
+            android:backgroundTint="@android:color/transparent" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"

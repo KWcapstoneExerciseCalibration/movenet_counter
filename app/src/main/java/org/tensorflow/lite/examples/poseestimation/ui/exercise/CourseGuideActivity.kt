@@ -3,6 +3,7 @@ package org.tensorflow.lite.examples.poseestimation.ui.exercise
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import org.tensorflow.lite.examples.poseestimation.R
@@ -13,6 +14,7 @@ class CourseGuideActivity: AppCompatActivity() {
     private lateinit var tv_pushup : TextView
     private lateinit var tv_squat : TextView
     private lateinit var tv_shoulderpress : TextView
+    private lateinit var btn_backward: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +24,7 @@ class CourseGuideActivity: AppCompatActivity() {
         tv_pushup = findViewById(R.id.textViewPushUp)
         tv_squat = findViewById(R.id.textViewSquat)
         tv_shoulderpress = findViewById(R.id.textViewShoulderPress)
+        btn_backward = findViewById(R.id.img_backward)
 
         var course = intent.getStringExtra("course")
 
@@ -42,9 +45,14 @@ class CourseGuideActivity: AppCompatActivity() {
 
         btn_start.setOnClickListener {
             val intentStart = Intent(this, GuideActivity::class.java)
-            intentStart.putExtra("exercise", intent.getStringExtra("exercise"))
+            intentStart.putExtra("exercise", "CoursePushUp")
             intentStart.putExtra("course", intent.getStringExtra("course"))
             startActivity(intentStart)
+            finish()
+        }
+
+        btn_backward.setOnClickListener{
+            startActivity(Intent(this, CourseMenuActivity::class.java))
             finish()
         }
     }
