@@ -73,30 +73,32 @@ class DailylogFragment : Fragment() {
                 val (count2, score2) = scoreCal(dateToday, "Squat")
                 val (count3, score3) = scoreCal(dateToday, "ShoulderPress")
 
-                val stringPU: String = { "팔굽혀펴기 " + count + "회 평균 " + score + "점" }.toString()
-                val stringSq: String = { "스쿼트 " + count2 + "회 평균 " + score2 + "점" }.toString()
-                val stringSP: String = { "숄더프레스 " + count3 + "회 평균 " + score3 + "점" }.toString()
+                val stringPU: CharSequence = ( "팔굽혀펴기 " + count + "회 평균 " + score + "점" )
+                val stringSq: CharSequence = ( "스쿼트 " + count2 + "회 평균 " + score2 + "점" )
+                val stringSP: CharSequence = ( "숄더프레스 " + count3 + "회 평균 " + score3 + "점" )
 
                 val countPU: Int = if (count == 0) 0 else 1
                 val countSq: Int = if (count2== 0) 0 else 1
                 val countSP: Int = if (count3== 0) 0 else 1
-                val totalExercise: Int = countPU + countSq + countSP
 
-                when(totalExercise){
+                when(countPU + countSq + countSP){
                     0 -> { text_1.setText("이 날 한 운동이 없습니다.") }
 
-                    1 -> { text_1.setText( if (countPU == 1)      stringPU
-                    else if (countSq == 1) stringSq
-                    else                   stringSP ) }
+                    1 -> { text_1.setText(
+                            if (countPU == 1)      stringPU
+                            else if (countSq == 1) stringSq
+                            else                   stringSP ) }
 
-                    2 -> { text_1.setText( if (countPU == 1)      stringPU
-                    else                   stringSq )
-                        text_2.setText( if (countSP == 0)      stringSq
-                        else                   stringSP ) }
+                    2 -> { text_1.setText(
+                            if (countPU == 1)      stringPU
+                            else                   stringSq )
+                        text_2.setText(
+                            if (countSP == 0)      stringSq
+                            else                   stringSP ) }
 
                     3 -> { text_1.setText(stringPU)
-                        text_2.setText(stringSq)
-                        text_3.setText(stringSP) }
+                           text_2.setText(stringSq)
+                           text_3.setText(stringSP) }
                 }
             }
         }
