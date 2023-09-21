@@ -82,26 +82,38 @@ class DailylogFragment : Fragment() {
                 val countSq: Int = if (count2== 0) 0 else 1
                 val countSP: Int = if (count3== 0) 0 else 1
 
+                // 운동 개수 추가 시 수정 필요
                 when(countPU + countSq + countSP){
-                    0 -> {  text_1.setText("오늘 날 한 운동이 없습니다.")
-                            text_2.text = ""
-                            text_3.text = ""                            }
+                    0 -> {
+                        text_1.setText("오늘 날 한 운동이 없습니다.")
+                        text_2.setText(" ")
+                        text_3.setText(" ")
+                    }
 
-                    1 -> { text_1.setText(
+                    1 -> {
+                        text_1.setText(
                             if (countPU == 1)      stringPU
                             else if (countSq == 1) stringSq
-                            else                   stringSP ) }
+                            else                   stringSP )
+                        text_2.setText(" ")
+                        text_3.setText(" ")
+                    }
 
-                    2 -> { text_1.setText(
+                    2 -> {
+                        text_1.setText(
                             if (countPU == 1)      stringPU
                             else                   stringSq )
                         text_2.setText(
                             if (countSP == 0)      stringSq
-                            else                   stringSP ) }
+                            else                   stringSP )
+                        text_3.setText(" ")
+                    }
 
-                    3 -> { text_1.setText(stringPU)
-                           text_2.setText(stringSq)
-                           text_3.setText(stringSP) }
+                    3 -> {
+                        text_1.setText(stringPU)
+                        text_2.setText(stringSq)
+                        text_3.setText(stringSP)
+                    }
                 }
             }
         }
