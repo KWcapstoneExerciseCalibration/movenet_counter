@@ -109,11 +109,12 @@ class MainActivity : AppCompatActivity() {
             QuestData.squatCount =  dao.getAllCount(date.format(today), "Squat")
             QuestData.shoulderPressCount =  dao.getAllCount(date.format(today), "ShoulderPress")
         }
-        if(QuestData.pushUpCount == 0 && QuestData.squatCount == 0 && QuestData.shoulderPressCount == 0)
+        if(QuestData.pushUpCount != 0 || QuestData.squatCount != 0 || QuestData.shoulderPressCount != 0)
             findViewById<ImageView>(R.id.questChanged).visibility = View.VISIBLE
 
         // 퀘스트 번호 확인 및 부여
         QuestData.todayQuest()
+        QuestData.access()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
