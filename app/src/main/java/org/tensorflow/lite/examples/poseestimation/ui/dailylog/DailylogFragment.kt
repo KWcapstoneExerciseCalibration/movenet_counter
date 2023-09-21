@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.CoroutineScope
@@ -82,7 +83,9 @@ class DailylogFragment : Fragment() {
                 val countSP: Int = if (count3== 0) 0 else 1
 
                 when(countPU + countSq + countSP){
-                    0 -> { text_1.setText("이 날 한 운동이 없습니다.") }
+                    0 -> {  text_1.setText("오늘 날 한 운동이 없습니다.")
+                            text_2.text = ""
+                            text_3.text = ""                            }
 
                     1 -> { text_1.setText(
                             if (countPU == 1)      stringPU
@@ -126,11 +129,9 @@ class DailylogFragment : Fragment() {
             }
             else if(calData[todayPos].note == "test") {
                 dateNote.text = "오늘은 아직 소감을 적지 않았습니다!"
-                // intensity 처리
             }
             else {
                 dateNote.text = calData[todayPos].note
-                // intensity 처리
             }
         }
 
@@ -260,12 +261,29 @@ class DailylogFragment : Fragment() {
                 val actualMonth = month + 1
                 val actualDate = "2023-" + "0$actualMonth-" + "$day"
 
+                if (date.parse(actualDate) != date.parse(date.format(today))) {
+                    btn_edit.isVisible = false
+                    btn_1.isClickable = false
+                    btn_2.isClickable = false
+                    btn_3.isClickable = false
+                    btn_4.isClickable = false
+                    btn_5.isClickable = false
+                }
+                else {
+                    btn_edit.isVisible = true
+                    btn_1.isClickable = true
+                    btn_2.isClickable = true
+                    btn_3.isClickable = true
+                    btn_4.isClickable = true
+                    btn_5.isClickable = true
+                }
+
                 showExercise(actualDate)
                 dateText.text = showDate
                 CoroutineScope(Dispatchers.Main).launch {
                     dateNote.text = cal_dao.getNote(actualDate)
                     if(dateNote.text.isBlank())  {
-                        dateNote.text = "오늘은 아직 소감을 적지 않았습니다!"
+                        dateNote.text = "소감을 적지 않았습니다!"
                     }
 
                     var intensity: Int? = cal_dao.getIntens(actualDate)

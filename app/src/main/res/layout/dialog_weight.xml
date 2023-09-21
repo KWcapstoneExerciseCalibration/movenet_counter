@@ -16,16 +16,6 @@
         android:background="@drawable/rounded_edge2"
         android:backgroundTint="@color/back_gray" >
 
-        <TextView
-            android:id="@+id/weight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
-            android:text="    체중"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"/>
-
         <LinearLayout
             android:id="@+id/linearlayout"
             android:layout_width="match_parent"
@@ -85,5 +75,15 @@
                     android:text="저장" />
             </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:text="    체중"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
