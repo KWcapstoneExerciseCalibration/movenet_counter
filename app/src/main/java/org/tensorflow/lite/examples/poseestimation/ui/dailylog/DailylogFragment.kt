@@ -2,6 +2,7 @@ package org.tensorflow.lite.examples.poseestimation.ui.dailylog
 
 import android.app.DatePickerDialog
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -136,14 +138,14 @@ class DailylogFragment : Fragment() {
             }
             if(todayPos == 2147483647) {
                 val initData = CalSchema(date.format(today), "test", 0)
-                dateNote.text = "오늘은 아직 소감을 적지 않았습니다!"
+                dateNote.setText("오늘은 아직 소감을 적지 않았습니다!")
                 cal_dao.create(initData)
             }
             else if(calData[todayPos].note == "test") {
-                dateNote.text = "오늘은 아직 소감을 적지 않았습니다!"
+                dateNote.setText("오늘은 아직 소감을 적지 않았습니다!")
             }
             else {
-                dateNote.text = calData[todayPos].note
+                dateNote.setText(calData[todayPos].note)
             }
         }
 
@@ -167,50 +169,63 @@ class DailylogFragment : Fragment() {
         }
 
         //운동 강도 관련
-        val btn_1 = root.findViewById<Button>(R.id.button1)
-        val btn_2 = root.findViewById<Button>(R.id.button2)
-        val btn_3 = root.findViewById<Button>(R.id.button3)
-        val btn_4 = root.findViewById<Button>(R.id.button4)
-        val btn_5 = root.findViewById<Button>(R.id.button5)
+        val btn_1: Button = root.findViewById(R.id.button1)
+        val btn_2: Button = root.findViewById(R.id.button2)
+        val btn_3: Button = root.findViewById(R.id.button3)
+        val btn_4: Button = root.findViewById(R.id.button4)
+        val btn_5: Button = root.findViewById(R.id.button5)
+        val btnList = listOf(btn_1, btn_2, btn_3, btn_4, btn_5)
+
+        // 버튼의 배경색, 텍스트 색 및 크기 초기화 함수
+        fun buttonInitialize (btn: Button) {
+            btn.setBackgroundColor(Color.parseColor("#222222"))
+            btn.setTextColor(Color.WHITE)
+            btn.setTextSize(12.0f)
+
+            val circle: Drawable? = this.context?.let { ContextCompat.getDrawable(it, R.drawable.white_circle) }
+            btn.setCompoundDrawablesWithIntrinsicBounds(null, circle, null, null)
+        }
 
         fun changeIntensityBox (intensity: Int?) {
-            //색&박스 크기 수정 필요
-            btn_1.setBackgroundColor(Color.BLACK)
-            btn_1.setTextColor(Color.WHITE)
-            btn_1.setTextSize(12.0f)
-            btn_2.setBackgroundColor(Color.BLACK)
-            btn_2.setTextColor(Color.WHITE)
-            btn_2.setTextSize(12.0f)
-            btn_3.setBackgroundColor(Color.BLACK)
-            btn_3.setTextColor(Color.WHITE)
-            btn_3.setTextSize(12.0f)
-            btn_4.setBackgroundColor(Color.BLACK)
-            btn_4.setTextColor(Color.WHITE)
-            btn_4.setTextSize(12.0f)
-            btn_5.setBackgroundColor(Color.BLACK)
-            btn_5.setTextColor(Color.WHITE)
-            btn_5.setTextSize(12.0f)
+            // 버튼 미선택 상태로 초기화
+            for(btn in btnList)
+                buttonInitialize(btn)
 
             when (intensity) {
-                1 -> {  btn_1.setBackgroundColor(Color.LTGRAY)
+                1 -> {
+                    btn_1.setBackgroundColor(Color.LTGRAY)
                     btn_1.setTextColor(Color.BLACK)
-                    btn_1.setTextSize(14.0f)
+                    btn_1.setTextSize(13.0f)
+                    val emoji: Drawable? = this.context?.let { ContextCompat.getDrawable(it, R.drawable.emoji1) }
+                    btn_1.setCompoundDrawablesWithIntrinsicBounds(null, emoji, null, null)
                 }
-                2 -> {  btn_2.setBackgroundColor(Color.LTGRAY)
+                2 -> {
+                    btn_2.setBackgroundColor(Color.LTGRAY)
                     btn_2.setTextColor(Color.BLACK)
-                    btn_2.setTextSize(14.0f)
+                    btn_2.setTextSize(13.0f)
+                    val emoji: Drawable? = this.context?.let { ContextCompat.getDrawable(it, R.drawable.emoji2) }
+                    btn_2.setCompoundDrawablesWithIntrinsicBounds(null, emoji, null, null)
                 }
-                3 -> {  btn_3.setBackgroundColor(Color.LTGRAY)
+                3 -> {
+                    btn_3.setBackgroundColor(Color.LTGRAY)
                     btn_3.setTextColor(Color.BLACK)
-                    btn_3.setTextSize(14.0f)
+                    btn_3.setTextSize(13.0f)
+                    val emoji: Drawable? = this.context?.let { ContextCompat.getDrawable(it, R.drawable.emoji3) }
+                    btn_3.setCompoundDrawablesWithIntrinsicBounds(null, emoji, null, null)
                 }
-                4 -> {  btn_4.setBackgroundColor(Color.LTGRAY)
+                4 -> {
+                    btn_4.setBackgroundColor(Color.LTGRAY)
                     btn_4.setTextColor(Color.BLACK)
-                    btn_4.setTextSize(14.0f)
+                    btn_4.setTextSize(13.0f)
+                    val emoji: Drawable? = this.context?.let { ContextCompat.getDrawable(it, R.drawable.emoji4) }
+                    btn_4.setCompoundDrawablesWithIntrinsicBounds(null, emoji, null, null)
                 }
-                5 -> {  btn_5.setBackgroundColor(Color.LTGRAY)
+                5 -> {
+                    btn_5.setBackgroundColor(Color.LTGRAY)
                     btn_5.setTextColor(Color.BLACK)
-                    btn_5.setTextSize(14.0f)
+                    btn_5.setTextSize(13.0f)
+                    val emoji: Drawable? = this.context?.let { ContextCompat.getDrawable(it, R.drawable.emoji5) }
+                    btn_5.setCompoundDrawablesWithIntrinsicBounds(null, emoji, null, null)
                 }
                 else -> {
                     //NULL 일 경우
