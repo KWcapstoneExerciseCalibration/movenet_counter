@@ -168,7 +168,7 @@ class LengthActivity : AppCompatActivity() {
         exitbtn_Listener = findViewById(R.id.exit_btn)
 
         // 첫 방문시 안내 문구
-        if(MainActivity.getInstance()!!.firstAccess){
+        if(MainActivity.getInstance()!!.firstAccess) {
             val daoUser = UserDataBase.getInstance(applicationContext).userDao()
             var builder = AlertDialog.Builder(this)
             builder
@@ -179,7 +179,7 @@ class LengthActivity : AppCompatActivity() {
                         val dialog = heightDialog(this)
 
                         dialog.setOnClickedListener(object : heightDialog.ButtonClickListener {
-                            override fun onClicked(height1 : Int, height2 : Int) {
+                            override fun onClicked(height1: Int, height2: Int) {
                                 val height = height1 + height2 / 10.0f
                                 CoroutineScope(Dispatchers.IO).launch {
                                     var userData = daoUser.readAll()
@@ -204,6 +204,20 @@ class LengthActivity : AppCompatActivity() {
                         })
                         dialog.firstAccess = true
                         dialog.show(150.0f)
+                    })
+            builder.create()
+            builder.show()
+        }
+
+        buttonListener.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder
+                .setTitle("주의 사항!")
+                .setMessage("최대한 카메라를 향하여 정면으로 서 주세요\n운동할 환경과 최대한 동일한 카메라 세팅이 필요합니다!")
+                .setPositiveButton("OK",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // OK 버튼 선택시 수행
+                        openCamera()
                     })
             builder.create()
             builder.show()

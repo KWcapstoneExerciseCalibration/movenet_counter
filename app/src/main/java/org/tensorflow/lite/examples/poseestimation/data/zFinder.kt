@@ -1,15 +1,20 @@
 package org.tensorflow.lite.examples.poseestimation.data
 
+import android.util.Log
 import org.tensorflow.lite.examples.poseestimation.ui.length.LengthActivity
 import kotlin.Triple
 import kotlin.math.*
 
 
 object zFinder {
-    //  (종아리/0, 1), (허벅지/ 2 ,3), (상체/ 4, 5), (윗팔/ 6 ,7), (아래팔/ 8, 9)
-    var shoulder = 56.8F
-    var lastKeypointLength = mutableListOf(47.8f, 47.8f, 57.7f, 57.7f, 66.2f, 66.2f, 37.9f, 37.9f, 38.0f, 38.0f)
+    data class BodyLen(var shoulder: Float, var arr: MutableList<Float>): Cloneable {
+        fun copy() : BodyLen {
+            return BodyLen(shoulder, arr.toMutableList())
+        }
+    }
 
+    //  (종아리/0, 1), (허벅지/ 2 ,3), (상체/ 4, 5), (윗팔/ 6 ,7), (아래팔/ 8, 9)
+    var origin = BodyLen(56.8F, mutableListOf(47.8f, 47.8f, 57.7f, 57.7f, 66.2f, 66.2f, 37.9f, 37.9f, 38.0f, 38.0f))
 
     private val bodyJoints = listOf(
         Pair(BodyPart.LEFT_ANKLE, BodyPart.LEFT_KNEE),
@@ -39,6 +44,10 @@ object zFinder {
     fun findZPerson(person: Person, poseNum: Int = 1): Person {
         var nowOrder: Int = 0
         var lenRate: Float = 0.0f
+        val copy = origin.copy()
+
+        val shoulder = copy.shoulder
+        val lastKeypointLength = copy.arr
 
         // 신체 비율 재조종
         when(poseNum) {
@@ -158,12 +167,10 @@ object zFinder {
         return person
     }
 
-
     // person class 입력시 길이를 z값에 입력해 return
     fun findLengthPerson(
         person: Person
     ): Person {
-        var shoulder:Float
         var arr:Array<Float> = emptyArray()
 
         bodyJoints.forEach {
@@ -175,7 +182,7 @@ object zFinder {
             arr += len
         }
 
-        shoulder = sqrt((person.keyPoints[BodyPart.LEFT_SHOULDER.position].coordinate.x - person.keyPoints[BodyPart.RIGHT_SHOULDER.position].coordinate.x).pow(2)
+        val shoulder:Float = sqrt((person.keyPoints[BodyPart.LEFT_SHOULDER.position].coordinate.x - person.keyPoints[BodyPart.RIGHT_SHOULDER.position].coordinate.x).pow(2)
                 + (person.keyPoints[BodyPart.LEFT_SHOULDER.position].coordinate.y - person.keyPoints[BodyPart.RIGHT_SHOULDER.position].coordinate.y).pow(2))
 
         LengthActivity.getInstance()?.lengthIntoDB(shoulder, arr)

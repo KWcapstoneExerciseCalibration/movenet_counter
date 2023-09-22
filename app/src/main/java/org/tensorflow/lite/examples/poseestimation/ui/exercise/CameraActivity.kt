@@ -228,12 +228,13 @@ class CameraActivity : AppCompatActivity() {
             if (userData.isEmpty()){
                 val initData = LengthSchema(0,  56.8F, 47.8f, 47.8f, 57.7f, 57.7f, 66.2f, 66.2f, 37.9f, 37.9f, 38.0f, 38.0f)
                 daoLen.create(initData)
+                zFinder.origin.shoulder = 56.8F
+                zFinder.origin.arr = mutableListOf(47.8f, 47.8f, 57.7f, 57.7f, 66.2f, 66.2f, 37.9f, 37.9f, 38.0f, 38.0f)
             }
             else {
-                val lastUserLen = userData[0]
-                zFinder.shoulder = lastUserLen.shoulder
-                zFinder.lastKeypointLength = mutableListOf(lastUserLen.calf_1, lastUserLen.calf_2, lastUserLen.thigh_1, lastUserLen.thigh_2, lastUserLen.body_1, lastUserLen.body_2,
-                    lastUserLen.upperarm_1, lastUserLen.upperarm_2, lastUserLen.lowerarm_1, lastUserLen.lowerarm_2)
+                zFinder.origin.shoulder = userData[0].shoulder
+                zFinder.origin.arr = mutableListOf(userData[0].calf_1, userData[0].calf_2, userData[0].thigh_1, userData[0].thigh_2, userData[0].body_1, userData[0].body_2,
+                    userData[0].upperarm_1, userData[0].upperarm_2, userData[0].lowerarm_1, userData[0].lowerarm_2)
             }
         }
 
