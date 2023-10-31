@@ -72,7 +72,7 @@ class StatisticFragment : Fragment() {
         }
          */
 
-        var monthList = listOf("7월", "8월", "9월", "10월")
+        var monthList = listOf("1월", "2월", "3월", "4월","5월", "6월","7월", "8월", "9월", "10월", "11월", "12월")
         var adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, monthList)
         val spinner = root.findViewById<Spinner>(R.id.spinner)
 
@@ -211,30 +211,86 @@ class StatisticFragment : Fragment() {
                     when (position) {
                         0 -> {
                             CoroutineScope(Dispatchers.Main).launch(){
+                                var dMonth = 1
+                                printGraph(dMonth)
+                                moAvg.text = dao.moAvg1().toString()
+                            }
+                        }
+                        1 -> {
+                            CoroutineScope(Dispatchers.Main).launch() {
+                                var dMonth = 2
+                                printGraph(dMonth)
+                                moAvg.text = dao.moAvg2().toString()
+                            }
+                        }
+                        2 -> {
+                            CoroutineScope(Dispatchers.Main).launch() {
+                                var dMonth = 3
+                                printGraph(dMonth)
+                                moAvg.text = dao.moAvg3().toString()
+                            }
+                        }
+                        3 -> {
+                            CoroutineScope(Dispatchers.Main).launch() {
+                                var dMonth = 4
+                                printGraph(dMonth)
+                                moAvg.text = dao.moAvg4().toString()
+                            }
+                        }
+                        4 -> {
+                            CoroutineScope(Dispatchers.Main).launch() {
+                                var dMonth = 5
+                                printGraph(dMonth)
+                                moAvg.text = dao.moAvg5().toString()
+                            }
+                        }
+                        5 -> {
+                            CoroutineScope(Dispatchers.Main).launch() {
+                                var dMonth = 6
+                                printGraph(dMonth)
+                                moAvg.text = dao.moAvg6().toString()
+                            }
+                        }
+                        6 -> {
+                            CoroutineScope(Dispatchers.Main).launch() {
                                 var dMonth = 7
                                 printGraph(dMonth)
                                 moAvg.text = dao.moAvg7().toString()
                             }
                         }
-                        1 -> {
+                        7 -> {
                             CoroutineScope(Dispatchers.Main).launch() {
                                 var dMonth = 8
                                 printGraph(dMonth)
                                 moAvg.text = dao.moAvg8().toString()
                             }
                         }
-                        2 -> {
+                        8 -> {
                             CoroutineScope(Dispatchers.Main).launch() {
                                 var dMonth = 9
                                 printGraph(dMonth)
                                 moAvg.text = dao.moAvg9().toString()
                             }
                         }
-                        3 -> {
+                        9 -> {
                             CoroutineScope(Dispatchers.Main).launch() {
                                 var dMonth = 10
                                 printGraph(dMonth)
                                 moAvg.text = dao.moAvg10().toString()
+                            }
+                        }
+                        10 -> {
+                            CoroutineScope(Dispatchers.Main).launch() {
+                                var dMonth = 11
+                                printGraph(dMonth)
+                                moAvg.text = dao.moAvg11().toString()
+                            }
+                        }
+                        11 -> {
+                            CoroutineScope(Dispatchers.Main).launch() {
+                                var dMonth = 12
+                                printGraph(dMonth)
+                                moAvg.text = dao.moAvg12().toString()
                             }
                         }
                         else -> {
