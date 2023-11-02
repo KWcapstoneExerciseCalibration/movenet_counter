@@ -84,19 +84,44 @@ class StatisticFragment : Fragment() {
             suspend fun printGraph(dMonth: Int) {
                 data class ExerData(val date: String, val score: Int)
                 var dateArray = arrayOf("2023-0$dMonth-01")
+                if (dMonth > 9){
+                    dateArray = arrayOf("2023-$dMonth-01")
+                }
                 var dataList: List<ExerData>
 
 
                 // 날짜 제어
                 fun putMonth (){
-                    for (i in 2..9){
-                        dateArray += "2023-0$dMonth-0$i"
+                    if (dMonth < 10){
+                        for (i in 2..9){
+                            dateArray += "2023-0$dMonth-0$i"
+                        }
+                        for (i in 10..28){
+                            dateArray += "2023-0$dMonth-$i"
+                        }
+                        if (dMonth == 2){
+
+                        }
+                        else if (dMonth == 4 or 6 or 9){
+                            dateArray += "2023-0$dMonth-29"
+                            dateArray += "2023-0$dMonth-30"
+                        }
+                        else{
+                            dateArray += "2023-0$dMonth-29"
+                            dateArray += "2023-0$dMonth-30"
+                            dateArray += "2023-0$dMonth-31"
+                        }
                     }
-                    for (i in 10..30){
-                        dateArray += "2023-0$dMonth-$i"
-                    }
-                    if (dMonth == 8){
-                        dateArray += "2023-0$dMonth-31"
+                    else{
+                        for (i in 2..9){
+                            dateArray += "2023-$dMonth-0$i"
+                        }
+                        for (i in 10..30){
+                            dateArray += "2023-$dMonth-$i"
+                        }
+                        if (dMonth == 12){
+                            dateArray += "2023-$dMonth-31"
+                        }
                     }
                 }
                 putMonth()
