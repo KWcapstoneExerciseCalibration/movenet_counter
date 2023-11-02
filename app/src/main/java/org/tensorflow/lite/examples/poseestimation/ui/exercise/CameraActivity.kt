@@ -20,7 +20,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -55,8 +54,6 @@ import org.tensorflow.lite.examples.poseestimation.database.ExerciseDB.ExerSchem
 import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthDao
 import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthDataBase
 import org.tensorflow.lite.examples.poseestimation.database.LengthDB.LengthSchema
-import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserDataBase
-import org.tensorflow.lite.examples.poseestimation.database.UserDB.UserSchema
 import org.tensorflow.lite.examples.poseestimation.ml.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -183,7 +180,7 @@ class CameraActivity : AppCompatActivity() {
         progress = findViewById(R.id.progressbar)
         // End
 
-        var exercise = intent.getStringExtra("exercise")
+        val exercise = intent.getStringExtra("exercise")
 
         spnModel = findViewById(R.id.spnModel)
         spnDevice = findViewById(R.id.spnDevice)
@@ -286,9 +283,9 @@ class CameraActivity : AppCompatActivity() {
                         ) {
                             // Start: 목표 count 보여주는 textView
                             var cnt = workoutCounter.count
-                            var goal = intent.getIntExtra("exercise_num", 0)
+                            val goal = intent.getIntExtra("exercise_num", 0)
 
-                            workoutCounter.set_goal(intent.getIntExtra("exercise_num", 0))
+                            workoutCounter.set_goal(goal)
                             count_text.text = "목표\n$cnt / $goal"
                             // End
 
@@ -296,20 +293,18 @@ class CameraActivity : AppCompatActivity() {
                             progress.progress = workoutCounter.now_progress
 
                             // 분기: 목표와 현재의 갯수가 같아지면, 나갈지 더할지 선택
-                            if(cnt == goal && alter == false && cameraSource != null) {
+                            if(cnt == goal && !alter && cameraSource != null) {
                                 alter = true
                                 ttsSpeak("빠밤")
-                                var builder = AlertDialog.Builder(this@CameraActivity)
+                                val builder = AlertDialog.Builder(this@CameraActivity)
                                 builder.setTitle("멋져요! 목표치에 도달하셨습니다!")
                                     .setMessage("운동을 더 하시겠습니까?")
-                                    .setPositiveButton("네",
-                                        DialogInterface.OnClickListener { dialog, id ->
-                                            // Do nothing
-                                        })
-                                    .setNegativeButton("아니오",
-                                        DialogInterface.OnClickListener { dialog, id ->
-                                            exitResultActivity(intent.getStringExtra("exercise"))
-                                        })
+                                    .setPositiveButton("네") { _, _ ->
+                                        // Do nothing
+                                    }
+                                    .setNegativeButton("아니오") { _, _ ->
+                                        exitResultActivity(intent.getStringExtra("exercise"))
+                                    }
                                 builder.show()
                             }
                         }
