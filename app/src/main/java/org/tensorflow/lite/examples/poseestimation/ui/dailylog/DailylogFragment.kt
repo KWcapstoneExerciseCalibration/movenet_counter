@@ -45,7 +45,7 @@ class DailylogFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         val dashboardViewModel = ViewModelProvider(this).get(
             DailylogViewModel::class.java
         )
@@ -87,31 +87,34 @@ class DailylogFragment : Fragment() {
                 // 운동 개수 추가 시 수정 필요
                 when(countPU + countSq + countSP){
                     0 -> {
-                        text_1.text = "오늘 날 한 운동이 없습니다."
-                        text_2.text = " "
-                        text_3.text = " "
+                        text_1.setText("오늘 날 한 운동이 없습니다.")
+                        text_2.setText(" ")
+                        text_3.setText(" ")
                     }
 
                     1 -> {
-                        text_1.text = if (countPU == 1)      stringPU
-                        else if (countSq == 1) stringSq
-                        else                   stringSP
-                        text_2.text = " "
-                        text_3.text = " "
+                        text_1.setText(
+                            if (countPU == 1)      stringPU
+                            else if (countSq == 1) stringSq
+                            else                   stringSP )
+                        text_2.setText(" ")
+                        text_3.setText(" ")
                     }
 
                     2 -> {
-                        text_1.text = if (countPU == 1)      stringPU
-                        else                   stringSq
-                        text_2.text = if (countSP == 0)      stringSq
-                        else                   stringSP
-                        text_3.text = " "
+                        text_1.setText(
+                            if (countPU == 1)      stringPU
+                            else                   stringSq )
+                        text_2.setText(
+                            if (countSP == 0)      stringSq
+                            else                   stringSP )
+                        text_3.setText(" ")
                     }
 
                     3 -> {
-                        text_1.text = stringPU
-                        text_2.text = stringSq
-                        text_3.text = stringSP
+                        text_1.setText(stringPU)
+                        text_2.setText(stringSq)
+                        text_3.setText(stringSP)
                     }
                 }
             }
@@ -135,14 +138,14 @@ class DailylogFragment : Fragment() {
             }
             if(todayPos == 2147483647) {
                 val initData = CalSchema(date.format(today), "test", 0)
-                dateNote.text = "오늘은 아직 소감을 적지 않았습니다!"
+                dateNote.setText("오늘은 아직 소감을 적지 않았습니다!")
                 cal_dao.create(initData)
             }
             else if(calData[todayPos].note == "test") {
-                dateNote.text = "오늘은 아직 소감을 적지 않았습니다!"
+                dateNote.setText("오늘은 아직 소감을 적지 않았습니다!")
             }
             else {
-                dateNote.text = calData[todayPos].note
+                dateNote.setText(calData[todayPos].note)
             }
         }
 
@@ -177,7 +180,7 @@ class DailylogFragment : Fragment() {
         fun buttonInitialize (btn: Button) {
             btn.setBackgroundColor(Color.parseColor("#222222"))
             btn.setTextColor(Color.WHITE)
-            btn.textSize = 12.0f
+            btn.setTextSize(12.0f)
 
             val circle: Drawable? = this.context?.let { ContextCompat.getDrawable(it, R.drawable.white_circle) }
             btn.setCompoundDrawablesWithIntrinsicBounds(null, circle, null, null)
@@ -192,35 +195,35 @@ class DailylogFragment : Fragment() {
                 1 -> {
                     btn_1.setBackgroundColor(Color.LTGRAY)
                     btn_1.setTextColor(Color.BLACK)
-                    btn_1.textSize = 13.0f
+                    btn_1.setTextSize(13.0f)
                     val emoji: Drawable? = this.context?.let { ContextCompat.getDrawable(it, R.drawable.emoji1) }
                     btn_1.setCompoundDrawablesWithIntrinsicBounds(null, emoji, null, null)
                 }
                 2 -> {
                     btn_2.setBackgroundColor(Color.LTGRAY)
                     btn_2.setTextColor(Color.BLACK)
-                    btn_2.textSize = 13.0f
+                    btn_2.setTextSize(13.0f)
                     val emoji: Drawable? = this.context?.let { ContextCompat.getDrawable(it, R.drawable.emoji2) }
                     btn_2.setCompoundDrawablesWithIntrinsicBounds(null, emoji, null, null)
                 }
                 3 -> {
                     btn_3.setBackgroundColor(Color.LTGRAY)
                     btn_3.setTextColor(Color.BLACK)
-                    btn_3.textSize = 13.0f
+                    btn_3.setTextSize(13.0f)
                     val emoji: Drawable? = this.context?.let { ContextCompat.getDrawable(it, R.drawable.emoji3) }
                     btn_3.setCompoundDrawablesWithIntrinsicBounds(null, emoji, null, null)
                 }
                 4 -> {
                     btn_4.setBackgroundColor(Color.LTGRAY)
                     btn_4.setTextColor(Color.BLACK)
-                    btn_4.textSize = 13.0f
+                    btn_4.setTextSize(13.0f)
                     val emoji: Drawable? = this.context?.let { ContextCompat.getDrawable(it, R.drawable.emoji4) }
                     btn_4.setCompoundDrawablesWithIntrinsicBounds(null, emoji, null, null)
                 }
                 5 -> {
                     btn_5.setBackgroundColor(Color.LTGRAY)
                     btn_5.setTextColor(Color.BLACK)
-                    btn_5.textSize = 13.0f
+                    btn_5.setTextSize(13.0f)
                     val emoji: Drawable? = this.context?.let { ContextCompat.getDrawable(it, R.drawable.emoji5) }
                     btn_5.setCompoundDrawablesWithIntrinsicBounds(null, emoji, null, null)
                 }
