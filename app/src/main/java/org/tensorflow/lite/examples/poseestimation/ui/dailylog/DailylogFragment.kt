@@ -158,7 +158,10 @@ class DailylogFragment : Fragment() {
                 // 다이얼로그의 interface를 통해 데이터를 받아옴
                 dialog.setOnClickedListener(object : ImpressionDialog.ButtonClickListener {
                     override fun onClicked(note: String) {
-                        if(note.isBlank())  dateNote.text = "오늘은 아직 소감을 적지 않았습니다!"
+                        if(note.isBlank()){
+                            dateNote.text = "오늘은 아직 소감을 적지 않았습니다!"
+                            updateDBNote("오늘은 아직 소감을 적지 않았습니다!")
+                        }
                         else {
                             dateNote.text = note
                             updateDBNote(note)
@@ -286,7 +289,22 @@ class DailylogFragment : Fragment() {
 
                 val showDate = (month+1).toString() + "월 " + day + "일"
                 val actualMonth = month + 1
-                val actualDate = "2023-" + "0$actualMonth-" + "$day"
+
+                var actualDate: String
+                if (actualMonth < 10){
+                    actualDate = if(day < 10){
+                        "2023-" + "0$actualMonth-" + "0$day"
+                    } else{
+                        "2023-" + "0$actualMonth-" + "$day"
+                    }
+                }
+                else{
+                    actualDate = if(day < 10){
+                        "2023-" + "$actualMonth-" + "0$day"
+                    } else{
+                        "2023-" + "$actualMonth-" + "$day"
+                    }
+                }
 
                 if (date.parse(actualDate) != date.parse(date.format(today))) {
                     btn_edit.isVisible = false
@@ -304,6 +322,7 @@ class DailylogFragment : Fragment() {
                     btn_4.isClickable = true
                     btn_5.isClickable = true
                 }
+
 
                 showExercise(actualDate)
                 dateText.text = showDate
@@ -345,7 +364,7 @@ class DailylogFragment : Fragment() {
         return Pair(count, score)
     }
 
-    private fun updateDBNote(note: String){
+    private fun updateDBNote(note: String?){
         val today : Long = System.currentTimeMillis()
         val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         cal_dao = CalDataBase.getInstance(requireActivity()).calDao()

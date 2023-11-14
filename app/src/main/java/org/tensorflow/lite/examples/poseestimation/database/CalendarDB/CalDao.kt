@@ -30,5 +30,5 @@ interface CalDao {
     suspend fun getNote(date: String): String
 
     @Query("UPDATE table_calender SET note=:note WHERE date=:date")
-    suspend fun upNote(date: String, note: String)
+    suspend fun upNote(date: String, note: String?)
 }
