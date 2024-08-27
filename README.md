@@ -3,9 +3,6 @@
 소개: 집에서 운동을 할 때, 올바른 자세인지 판단하기 어렵다는 점과 동기 부여가 지속되기 어렵다는 점에 주목하여 만든 애플리케이션
 기간: 2023년 4월 5일 → 2023년 9월 25일
 인원: 4명
-발표 자료: https://www.canva.com/design/DAFlxSqKiGk/6p66mCwmTHX8qbCModLc2A/view?utm_content=DAFlxSqKiGk&utm_campaign=designshare&utm_medium=link&utm_source=editor
-시연영상: https://www.youtube.com/watch?v=9zBfltULnG8
-코드: https://github.com/KWcapstoneExerciseCalibration/movenet_counter
 
 # Summary
 
